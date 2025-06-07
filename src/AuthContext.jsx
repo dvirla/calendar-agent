@@ -69,6 +69,9 @@ export const AuthProvider = ({ children }) => {
 
   // Start Google OAuth flow
   const loginWithGoogle = async () => {
+    console.log('Raw env var:', import.meta.env.VITE_API_BASE_URL);
+    console.log('API_BASE_URL after fallback:', API_BASE_URL);
+    console.log('Full URL will be:', `${API_BASE_URL}/auth/google`);
     try {
       const response = await fetch(`${API_BASE_URL}/auth/google`);
       const data = await response.json();
