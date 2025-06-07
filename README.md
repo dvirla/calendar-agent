@@ -1,26 +1,35 @@
 # Calendar Agent Frontend
 
-A modern, responsive React application that provides an intelligent calendar assistant interface with AI-powered conversation capabilities and daily reflection features.
+A modern, responsive React application that provides an intelligent calendar assistant interface with AI-powered conversation capabilities, secure authentication, and real backend integration.
 
 ## 🚀 Features
 
+### 🔐 Authentication & Security
+- **Google OAuth Integration**: Secure login via Google accounts
+- **JWT Token Management**: Automatic session handling with 30-minute expiry
+- **Session Persistence**: Login state maintained across browser refreshes
+- **Auto-Logout**: Automatic logout when tokens expire for enhanced security
+- **Protected Routes**: All calendar data secured behind authentication
+
 ### 🤖 AI Chat Assistant
+- **Real Backend Integration**: Connected to FastAPI backend with live AI responses
 - **Natural Language Processing**: Conversational interface for calendar management
-- **Voice Input Support**: Toggle voice recording for hands-free interaction
-- **Smart Responses**: AI-generated contextual responses based on calendar data
-- **Real-time Messaging**: Instant chat experience with timestamp tracking
+- **Pending Action Approval**: Review and approve/reject calendar modifications
+- **Smart Responses**: AI-generated contextual responses based on real calendar data
+- **Conversation History**: Persistent chat history stored in backend database
 
 ### 📅 Calendar Management
-- **Today's Schedule**: Clean, organized view of daily events
+- **Live Google Calendar Integration**: Real-time sync with user's Google Calendar
 - **Event Status Tracking**: Visual indicators for completed and upcoming events
-- **Quick Event Creation**: One-click "Add New Event" functionality
+- **AI-Powered Scheduling**: Let AI assistant create, modify, and manage events
 - **Time & Duration Display**: Clear formatting of event times and durations
+- **Multi-User Support**: Per-user calendar isolation and data security
 
 ### 🧘 Daily Reflection
-- **Guided Reflection**: AI-powered prompts based on completed activities
-- **Meeting Analysis**: Contextual questions about completed meetings and tasks
-- **Insight Tracking**: Structured reflection on project outcomes and learnings
+- **Contextual Reflection**: AI prompts based on actual completed activities
+- **Meeting Analysis**: Intelligent questions about real meetings and outcomes
 - **Seamless Chat Integration**: Direct transition from reflection to conversation
+- **Personalized Insights**: Tailored reflection based on user's actual schedule
 
 ### 📱 Responsive Design
 - **Mobile-First**: Optimized for mobile devices with touch-friendly interface
@@ -31,16 +40,20 @@ A modern, responsive React application that provides an intelligent calendar ass
 ## 🛠️ Technology Stack
 
 - **Frontend Framework**: React 19.1.0 with JSX
+- **Authentication**: JWT tokens with Google OAuth2 integration
+- **Backend Integration**: RESTful API calls to FastAPI backend
 - **Styling**: Tailwind CSS for utility-first styling
 - **Icons**: Lucide React for consistent iconography
 - **Build Tool**: Vite for fast development and building
-- **State Management**: React Hooks (useState, useEffect)
+- **State Management**: React Context API for auth state, React Hooks for component state
 
 ## 📦 Installation & Setup
 
 ### Prerequisites
 - Node.js 16+ and npm/yarn
 - Modern web browser
+- **Backend Service**: Calendar Agent FastAPI backend running on `http://localhost:8000`
+- **Google OAuth**: Configured Google Cloud project with Calendar API enabled
 
 ### Quick Start
 
@@ -54,12 +67,18 @@ A modern, responsive React application that provides an intelligent calendar ass
    npm install
    ```
 
-3. **Start development server**:
+3. **Ensure backend is running**:
+   ```bash
+   # The frontend expects the backend to be running at http://localhost:8000
+   # See backend_README.md for backend setup instructions
+   ```
+
+4. **Start development server**:
    ```bash
    npm run dev
    ```
 
-4. **Open in browser**:
+5. **Open in browser**:
    Navigate to `http://localhost:5173`
 
 ### Available Scripts
@@ -81,205 +100,259 @@ npm run preview
 
 ```
 src/
-├── CalendarAgentApp.jsx    # Main application component
-├── main.jsx               # React application entry point
+├── AuthContext.jsx         # Authentication context and JWT management
+├── LoginPage.jsx          # Google OAuth login interface
+├── CalendarAgentApp.jsx   # Main authenticated application
+├── main.jsx              # React application entry point with auth routing
 ├── index.css             # Tailwind CSS imports
 └── style.css             # Additional styling
 ```
 
+### Authentication Flow
+
+```
+User Access → Check Token → Valid? → Main App
+                        ↓
+                    Invalid/Missing
+                        ↓
+                   LoginPage → Google OAuth → Backend Callback → JWT Token → Main App
+```
+
 ### Key Components
 
-#### CalendarAgentApp (Main Component)
-- **State Management**: Manages application state including current view, messages, and calendar events
-- **View Routing**: Handles navigation between Chat, Calendar, and Reflection views
-- **Message Handling**: Processes user input and simulates AI responses
-- **Event Management**: Displays and manages calendar events
+#### AuthContext (Authentication Management)
+- **JWT Token Handling**: Secure token storage and automatic expiry management
+- **Google OAuth Integration**: Handles OAuth flow with backend API
+- **API Request Wrapper**: Automatically includes auth headers in all API calls
+- **Session Management**: Persistent login state across browser sessions
+- **Auto-Logout**: Monitors token expiry and logs out users automatically
 
-#### ChatView
-- **Message Display**: Renders conversation history with user/agent distinction
-- **Input Interface**: Text input with voice recording toggle
-- **Real-time Updates**: Live message timestamps and status
-- **Responsive Layout**: Optimized for both mobile and desktop
+#### LoginPage (Authentication UI)
+- **Google OAuth Button**: Initiates authentication flow with backend
+- **OAuth Callback Handling**: Processes JWT tokens returned from backend
+- **Feature Preview**: Shows users what they'll access after authentication
+- **Error Handling**: Clear error messages for authentication failures
+- **Security Features**: Displays security benefits and data protection info
 
-#### CalendarView
-- **Event List**: Displays today's schedule with status indicators
-- **Event Cards**: Detailed event information with time and duration
-- **Quick Actions**: Add new event functionality
-- **Status Visualization**: Color-coded event status (completed/upcoming)
+#### CalendarAgentApp (Main Application)
+- **Real Backend Integration**: All features use actual API calls to FastAPI backend
+- **Live Data Management**: Real calendar events, conversations, and pending actions
+- **User Profile Display**: Shows authenticated user information with logout
+- **Error Handling**: Graceful handling of API failures and token expiry
+- **Multi-View Navigation**: Chat, Calendar, and Reflection views with real data
 
-#### ReflectionView
-- **Guided Prompts**: AI-generated reflection questions
-- **Context Awareness**: Questions based on completed activities
-- **Chat Integration**: Direct transition to conversational reflection
+#### ChatView (AI Conversation Interface)
+- **Live AI Integration**: Real conversations with backend AI agent
+- **Pending Actions UI**: Visual approval/rejection interface for calendar modifications
+- **Message Persistence**: Messages stored in backend database
+- **Real-time Updates**: Live calendar updates after AI actions
+- **Error Recovery**: Graceful error handling with retry mechanisms
+
+#### CalendarView (Live Calendar Display)
+- **Google Calendar Sync**: Real events from user's Google Calendar
+- **Event Status**: Live status based on actual event times
+- **AI Integration**: Events created and modified by AI assistant
+- **Refresh Capability**: Manual and automatic calendar refresh
+
+#### ReflectionView (Contextual Daily Reflection)
+- **Real Activity Analysis**: Reflection prompts based on actual calendar events
+- **Intelligent Questions**: AI-generated questions about real meetings and tasks
+- **Chat Integration**: Seamless transition to AI conversation
+- **Personalized Content**: Tailored reflection based on user's actual day
 
 ### State Management
 
-The application uses React's built-in state management:
-
+#### Authentication State (AuthContext)
 ```javascript
-// Main application state
-const [currentView, setCurrentView] = useState('chat')
-const [messages, setMessages] = useState([...])
-const [inputMessage, setInputMessage] = useState('')
-const [isListening, setIsListening] = useState(false)
-const [calendarEvents, setCalendarEvents] = useState([...])
+// Global authentication state
+const [user, setUser] = useState(null)           // User profile data
+const [token, setToken] = useState(null)         // JWT token
+const [loading, setLoading] = useState(true)     // Auth loading state
+const [isAuthenticated, setIsAuthenticated] = useState(false)
 ```
 
-### Navigation System
+#### Application State (CalendarAgentApp)
+```javascript
+// Main application state with real backend data
+const [messages, setMessages] = useState([])          // Chat messages from backend
+const [calendarEvents, setCalendarEvents] = useState([])  // Live Google Calendar events
+const [pendingActions, setPendingActions] = useState([])  // Actions awaiting approval
+const [currentView, setCurrentView] = useState('chat')    // Active view
+```
 
-#### Desktop Navigation
-- **Sidebar Layout**: Fixed sidebar with navigation buttons
-- **Visual Indicators**: Active view highlighting with blue accent
-- **Icon Integration**: Lucide icons for intuitive navigation
+### API Integration
 
-#### Mobile Navigation
-- **Bottom Tab Bar**: Mobile-optimized navigation at screen bottom
-- **Touch-Friendly**: Large tap targets for mobile interaction
-- **Responsive Header**: Collapsible header on mobile devices
+#### Authentication Endpoints
+```javascript
+// Google OAuth flow
+GET /auth/google          // Get OAuth URL
+GET /auth/callback        // Handle OAuth callback (returns JWT)
+GET /user/profile         // Get authenticated user data
+```
+
+#### Application Endpoints
+```javascript
+// Chat and AI features
+POST /chat                        // Send message to AI agent
+GET /actions/pending              // Get pending calendar actions
+POST /actions/approve/{action_id} // Approve calendar action
+POST /actions/reject/{action_id}  // Reject calendar action
+
+// Calendar features  
+GET /calendar/events             // Get user's calendar events
+POST /calendar/events            // Create new calendar event
+
+// Conversation features
+GET /user/conversations          // Get conversation history
+GET /user/conversations/{id}/messages // Get specific conversation messages
+```
+
+### Security Features
+
+#### Token Management
+- **Automatic Expiry Checking**: Monitors JWT expiration every minute
+- **Secure Storage**: Tokens stored in localStorage (consider httpOnly cookies for production)
+- **Automatic Cleanup**: Tokens removed on logout or expiry
+- **URL Security**: OAuth tokens removed from URL after processing
+
+#### API Security
+- **Authentication Headers**: All API calls include `Authorization: Bearer <token>`
+- **401 Handling**: Automatic logout on authentication failures
+- **Error Handling**: Secure error messages without exposing sensitive data
+- **CORS Protection**: Backend CORS configuration for secure communication
 
 ## 🎨 UI/UX Design
 
 ### Design Principles
-- **Clean & Modern**: Minimalist interface focusing on functionality
-- **Consistent Spacing**: Tailwind spacing utilities for uniform layout
-- **Accessible Colors**: High contrast text and intuitive color coding
-- **Mobile-First**: Designed primarily for mobile with desktop enhancement
+- **Security First**: Clear authentication states and secure data handling
+- **Real-Time Feedback**: Live updates for calendar changes and AI responses
+- **Error Resilience**: Graceful error handling with clear user messaging
+- **Accessibility**: High contrast and keyboard navigation support
+
+### Authentication UX
+- **Clear Login Flow**: Prominent Google OAuth button with feature preview
+- **Loading States**: Clear indicators during authentication process
+- **Error Messages**: Helpful error messages for authentication failures
+- **Security Indicators**: Visual confirmation of secure, encrypted connection
 
 ### Color Scheme
-- **Primary Blue**: `#3B82F6` (blue-500) for active states and primary actions
-- **Gray Scale**: Various gray shades for text hierarchy and backgrounds
-- **Status Colors**: Green for completed items, blue for upcoming events
-- **Background**: Light gray (`#F9FAFB`) for clean, modern appearance
-
-### Typography
-- **System Fonts**: `system-ui, Avenir, Helvetica, Arial, sans-serif`
-- **Responsive Sizing**: Fluid typography scaling across devices
-- **Font Weights**: Strategic use of font weights for information hierarchy
+- **Primary Blue**: `#3B82F6` for active states and primary actions
+- **Security Green**: `#10B981` for successful authentication and security indicators
+- **Warning Orange**: `#F59E0B` for pending actions requiring attention
+- **Error Red**: `#EF4444` for authentication errors and failures
 
 ## 🔧 Configuration
 
-### Vite Configuration
+### Backend Integration
 ```javascript
-// vite.config.js
-export default defineConfig({
-  plugins: [react()],
-  css: {
-    postcss: './postcss.config.js',
-  },
-})
+// AuthContext.jsx
+const API_BASE_URL = 'http://localhost:8000'  // FastAPI backend URL
 ```
 
-### Tailwind Configuration
-```javascript
-// tailwind.config.js
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  theme: { extend: {} },
-  plugins: [],
-}
-```
-
-### PostCSS Setup
-```javascript
-// postcss.config.js
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
-```
+### Environment Setup
+The frontend automatically connects to the backend at `http://localhost:8000`. Ensure your backend is properly configured with:
+- Google OAuth credentials
+- Database connection
+- Encryption keys for calendar credentials
+- JWT secret keys
 
 ## 📱 Features Deep Dive
 
-### Chat Interface
+### Authentication System
 
-#### Message System
-- **Bidirectional Chat**: User and AI assistant messages
-- **Timestamp Display**: Real-time message timestamps
-- **Message Styling**: Distinct styling for user vs. AI messages
-- **Responsive Bubbles**: Adaptive message bubble sizing
+#### Google OAuth Flow
+1. User clicks "Continue with Google"
+2. Frontend calls `/auth/google` to get OAuth URL
+3. User redirected to Google for authentication
+4. Google redirects back with authorization code
+5. Backend processes code and returns JWT token
+6. Frontend stores token and fetches user profile
+7. User gains access to calendar features
 
-#### Voice Integration
-- **Voice Toggle**: Microphone button for voice input
-- **Visual Feedback**: Color change when voice recording is active
-- **Cross-Platform**: Designed for future voice recognition integration
+#### Session Management
+- **Token Persistence**: Stored in localStorage for session continuity
+- **Automatic Refresh**: Token expiry checked every minute
+- **Secure Logout**: Complete cleanup of authentication data
+- **Cross-Tab Sync**: Login state synchronized across browser tabs
 
-#### Smart Responses
-The AI assistant provides contextual responses based on:
-- Current calendar events
-- Time of day
-- User interaction patterns
-- Reflection opportunities
+### Live AI Integration
 
-### Calendar Features
+#### Real Conversations
+- **Backend AI Agent**: Conversations powered by Azure AI through FastAPI backend
+- **Context Awareness**: AI has access to real calendar data and user history
+- **Action Approval**: AI can propose calendar changes that require user approval
+- **Persistent History**: All conversations stored in backend database
 
-#### Event Display
-```javascript
-// Example event structure
-{
-  id: 1,
-  title: "Team Meeting",
-  time: "9:00 AM",
-  duration: "1h",
-  status: "upcoming" // or "completed"
-}
-```
+#### Pending Actions System
+- **Visual Approval UI**: Clear approve/reject buttons for proposed calendar changes
+- **Action Details**: Full description of what the AI wants to do
+- **Real-Time Updates**: Calendar automatically refreshes after action approval
+- **Auto-Expiry**: Actions automatically expire after 30 minutes
 
-#### Event Management
-- **Status Tracking**: Visual indicators for event completion
-- **Time Formatting**: Clean, readable time display
-- **Duration Display**: Clear duration information
-- **Hover Effects**: Interactive event cards
+### Google Calendar Integration
 
-### Reflection System
+#### Live Data Sync
+- **Real Events**: Displays actual events from user's Google Calendar
+- **Bi-Directional Sync**: View and create events through the AI interface
+- **Event Status**: Real-time status based on actual event times
+- **Secure Credentials**: Google Calendar credentials encrypted in backend
 
-#### Contextual Prompts
-- **Meeting Follow-ups**: Questions about completed meetings
-- **Project Reviews**: Insights on project outcomes
-- **Daily Summary**: Overall day reflection opportunities
-- **Growth Tracking**: Learning and improvement focus
-
-#### Integration Features
-- **Chat Transition**: Seamless move from reflection to conversation
-- **Context Preservation**: Maintains conversation context
-- **Personalized Questions**: AI-generated based on user activities
+#### AI Calendar Management
+- **Natural Language**: "Schedule a meeting for tomorrow at 2 PM"
+- **Conflict Detection**: AI checks for scheduling conflicts
+- **Smart Suggestions**: AI suggests optimal meeting times
+- **Bulk Operations**: AI can manage multiple calendar events
 
 ## 🔮 Future Enhancements
 
-### Planned Features
-- **Backend Integration**: Connect to FastAPI backend service
-- **Real Calendar Sync**: Google Calendar API integration
-- **Advanced AI**: Enhanced conversational AI capabilities
-- **User Authentication**: Multi-user support with secure login
-- **Data Persistence**: Cloud storage for conversations and preferences
-- **Voice Recognition**: Full voice input implementation
-- **Push Notifications**: Event reminders and AI suggestions
-- **Dark Mode**: Theme switching capability
-- **Accessibility**: Enhanced screen reader and keyboard navigation support
+### Authentication Improvements
+- **Multi-Factor Authentication**: Additional security layer
+- **Refresh Tokens**: Longer-lived sessions with secure refresh
+- **SSO Integration**: Additional OAuth providers (Microsoft, Apple)
+- **Session Management**: Advanced session control and monitoring
+
+### AI & Calendar Features
+- **Advanced Scheduling**: AI-powered meeting optimization
+- **Calendar Analytics**: Insights into time usage and productivity
+- **Integration Expansion**: Slack, Teams, and other calendar services
+- **Offline Support**: Local storage with sync capabilities
 
 ### Technical Improvements
-- **Type Safety**: Migration to TypeScript
-- **Testing**: Comprehensive unit and integration tests
-- **Performance**: Code splitting and lazy loading
-- **PWA**: Progressive Web App capabilities
-- **Offline Support**: Local storage and sync capabilities
+- **Type Safety**: Full TypeScript migration
+- **Progressive Web App**: PWA capabilities for mobile installation
+- **Real-Time Updates**: WebSocket integration for live updates
+- **Advanced Caching**: Optimistic updates and smart caching strategies
+
+## 🔒 Security Considerations
+
+### Production Deployment
+- **HTTPS Only**: All communication over encrypted connections
+- **HttpOnly Cookies**: Consider httpOnly cookies instead of localStorage for tokens
+- **CSP Headers**: Content Security Policy for XSS protection
+- **CORS Configuration**: Proper CORS setup for production domains
+
+### Data Protection
+- **Encryption**: All sensitive data encrypted in backend
+- **Per-User Isolation**: Complete data isolation between users
+- **Audit Logging**: Security event logging and monitoring
+- **Regular Updates**: Keep dependencies updated for security patches
 
 ## 🤝 Contributing
 
 ### Development Guidelines
-1. Follow React best practices and hooks patterns
-2. Use Tailwind CSS utilities for styling
-3. Maintain responsive design principles
-4. Ensure accessibility standards compliance
-5. Test across multiple devices and browsers
+1. **Authentication First**: Always test with real authentication flow
+2. **Backend Integration**: Ensure all features work with live backend data
+3. **Error Handling**: Implement comprehensive error handling for API failures
+4. **Security Testing**: Test authentication edge cases and token expiry
+5. **Mobile Testing**: Verify authentication flow works on mobile devices
 
-### Code Style
-- Use functional components with hooks
-- Implement proper prop validation
-- Follow consistent naming conventions
-- Maintain component modularity
-- Document complex functionality
+### Testing Checklist
+- [ ] Google OAuth login flow works end-to-end
+- [ ] Token expiry triggers automatic logout
+- [ ] All API calls include proper authentication headers
+- [ ] Error states display helpful messages to users
+- [ ] Mobile authentication experience is smooth
+- [ ] Backend integration works across all features
 
 ## 📄 License
 
@@ -287,8 +360,11 @@ This project is licensed under the ISC License.
 
 ## 🙋‍♂️ Support
 
-For questions, issues, or contributions, please refer to the project repository or contact the development team.
+For questions, issues, or contributions:
+- **Frontend Issues**: Check browser console for authentication errors
+- **Backend Integration**: Refer to `backend_README.md` for API documentation
+- **Authentication Issues**: Verify Google OAuth configuration in backend
 
 ---
 
-**Calendar Agent Frontend** - Intelligent calendar management through conversational AI
+**Calendar Agent Frontend** - Secure, intelligent calendar management through conversational AI with real Google Calendar integration
