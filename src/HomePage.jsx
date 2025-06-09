@@ -6,6 +6,7 @@ import {
   initializeAnalytics as initAnalytics, 
   clearTrackingCookies 
 } from './utils/cookieConsent.js';
+import logoSvg from './logo.svg';
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -150,9 +151,9 @@ const Homepage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-                <Brain className="h-6 w-6 text-white" />
-              </div>
+              {/* <div className="bg-white p-0 rounded-lg"> */}
+                <img src={logoSvg} alt="MemoMind AI" className="h-16 w-16" />
+              {/* </div> */}
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 MemoMind AI
               </span>
@@ -278,7 +279,7 @@ const Homepage = () => {
           </div>
 
           {/* Feature Highlights */}
-          <div className="mt-16 bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-8 md:p-12">
+          {/* <div className="mt-16 bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-8 md:p-12">
             <div className="grid md:grid-cols-3 gap-8 text-center">
               <div>
                 <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -302,7 +303,7 @@ const Homepage = () => {
                 <p className="text-gray-600">Gets smarter with every interaction, building better habits and insights over time.</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -423,9 +424,9 @@ const Homepage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-                <Brain className="h-6 w-6 text-white" />
-              </div>
+              {/* <div className="bg-white p-0 rounded-lg"> */}
+                <img src={logoSvg} alt="MemoMind AI" className="h-16 w-16" />
+              {/* </div> */}
               <span className="text-xl font-bold">MemoMind AI</span>
             </div>
             
