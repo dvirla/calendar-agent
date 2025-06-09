@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { Calendar, Shield, Clock, CheckCircle } from 'lucide-react';
+import { Calendar, Shield, Clock, CheckCircle, ArrowLeft } from 'lucide-react';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const { loginWithGoogle, handleAuthCallback, loading } = useAuth();
   const [authLoading, setAuthLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -19,6 +21,8 @@ const LoginPage = () => {
           await handleAuthCallback(token);
           // Remove token from URL for security
           window.history.replaceState({}, document.title, window.location.pathname);
+          // Navigate to app after successful authentication
+          navigate('/app');
         } catch (error) {
           setError('Authentication failed. Please try again.');
           console.error('Callback error:', error);
@@ -58,6 +62,17 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
+        {/* Back Button */}
+        <div className="flex justify-start">
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
+          >
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            <span>Back to Home</span>
+          </button>
+        </div>
+        
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center mb-6">
