@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, MessageCircle, Plus, Settings, User, Send, Mic, MicOff, LogOut, Trash2 } from 'lucide-react';
 import { useAuth } from './AuthContext';
 
@@ -241,6 +242,7 @@ const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => 
 );
 
 const CalendarAgentApp = () => {
+  const navigate = useNavigate();
   const { user, logout, apiRequest, isAuthenticated } = useAuth();
   const [currentView, setCurrentView] = useState('chat');
   const [messages, setMessages] = useState([]);
@@ -390,6 +392,12 @@ const CalendarAgentApp = () => {
   const toggleVoice = () => {
     setIsListening(!isListening);
     // Voice recognition would be implemented here
+  };
+
+  // Handle logout with navigation
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   const formatTime = (dateString) => {
@@ -579,7 +587,7 @@ const CalendarAgentApp = () => {
         <p className="text-xs text-gray-500">{user?.email}</p>
       </div>
       <button
-        onClick={logout}
+        onClick={handleLogout}
         className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
         title="Logout"
       >
