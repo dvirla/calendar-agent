@@ -18,25 +18,48 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Initialize auth state from localStorage
+  // Handle URL parameters on app load
   useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const storedToken = localStorage.getItem('auth_token');
-        if (storedToken) {
-          setToken(storedToken);
-          await fetchUserProfile(storedToken);
-        }
-      } catch (error) {
-        console.error('Auth initialization error:', error);
-        logout();
-      } finally {
+    const handleUrlParams = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tokenFromUrl = urlParams.get('token');
+      const error = urlParams.get('error');
+      
+      if (error) {
+        console.error('OAuth error:', error);
         setLoading(false);
+        return;
       }
+      
+      if (tokenFromUrl) {
+        // Clean URL and handle auth
+        window.history.replaceState({}, document.title, window.location.pathname);
+        handleAuthCallback(tokenFromUrl);
+        return;
+      }
+      
+      // No URL params, check localStorage
+      initializeAuth();
     };
 
-    initializeAuth();
+    handleUrlParams();
   }, []);
+
+  // Initialize auth state from localStorage
+  const initializeAuth = async () => {
+    try {
+      const storedToken = localStorage.getItem('auth_token');
+      if (storedToken) {
+        setToken(storedToken);
+        await fetchUserProfile(storedToken);
+      }
+    } catch (error) {
+      console.error('Auth initialization error:', error);
+      logout();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Fetch user profile with token
   const fetchUserProfile = async (authToken) => {
