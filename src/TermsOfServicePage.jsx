@@ -336,7 +336,6 @@ const TermsOfServicePage = () => {
                 If you have any questions about these Terms of Service, please contact us:
               </p>
               <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-700"><strong>Email:</strong> legal@memomindai.com</p>
                 <p className="text-gray-700"><strong>Support:</strong> support@memomindai.com</p>
                 <p className="text-gray-700"><strong>Response Time:</strong> We will respond within 5 business days.</p>
               </div>
