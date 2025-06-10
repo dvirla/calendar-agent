@@ -281,7 +281,7 @@ const PrivacyPolicyPage = () => {
                 If you have questions about this Privacy Policy, want to exercise your privacy rights, or need to report a privacy concern, please contact us:
               </p>
               <div className="p-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-700"><strong>General Support:</strong> support@memomind.ai</p>
+                <p className="text-gray-700"><strong>General Support:</strong> support@memomindai.com</p>
                 <p className="text-gray-700"><strong>Response Time:</strong> We will respond to privacy requests within 30 days.</p>
               </div>
             </section>
