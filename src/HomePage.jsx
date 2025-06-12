@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Brain, Clock, Sparkles, CheckCircle, Menu, X, ArrowRight, Star, Shield, Zap } from 'lucide-react';
-import { 
-  hasCookieConsent, 
-  initializeAnalytics as initAnalytics, 
-  clearTrackingCookies 
+import {
+  hasCookieConsentBeenSet,
+  hasGivenConsent,
+  grantAnalyticsConsent,
+  denyAnalyticsConsent,
+  trackPageView,
+  COOKIE_CONSENT_KEY,
+  COOKIE_CONSENT_DATE_KEY
 } from './utils/cookieConsent.js';
 import logoSvg from './logo.svg';
 
@@ -16,9 +20,14 @@ const Homepage = () => {
 
   // Check if user has already made a cookie choice
   React.useEffect(() => {
-    if (!hasCookieConsent()) {
+    if (!hasCookieConsentBeenSet()) {
       setShowCookieConsent(true);
+    } else if (hasGivenConsent()) {
+      // If consent was already given on a previous visit, track page view for the current page
+      trackPageView('Homepage', window.location.href);
     }
+    // If consent has been set but not given (i.e., rejected), or not set at all,
+    // analytics will not run until/unless consent is explicitly granted.
   }, []);
 
   const features = [
@@ -65,7 +74,7 @@ const Homepage = () => {
     },
     {
       name: "Pro",
-      price: "$12",
+      price: "$9",
       period: "per month",
       description: "For productivity enthusiasts",
       features: [
@@ -79,7 +88,7 @@ const Homepage = () => {
     },
     {
       name: "Premium",
-      price: "$17",
+      price: "$13",
       period: "per month",
       description: "For reflection masters",
       features: [
@@ -124,22 +133,22 @@ const Homepage = () => {
 
   const handleAcceptCookies = () => {
     // Store acceptance in localStorage
-    localStorage.setItem('cookieConsent', 'accepted');
-    localStorage.setItem('cookieConsentDate', new Date().toISOString());
+    localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
+    localStorage.setItem(COOKIE_CONSENT_DATE_KEY, new Date().toISOString());
     
-    // Initialize analytics/tracking
-    initAnalytics();
+    // Grant consent and initialize GA (which includes the first pageview)
+    grantAnalyticsConsent();
     
     setShowCookieConsent(false);
   };
 
   const handleRejectCookies = () => {
     // Store rejection in localStorage
-    localStorage.setItem('cookieConsent', 'rejected');
-    localStorage.setItem('cookieConsentDate', new Date().toISOString());
+    localStorage.setItem(COOKIE_CONSENT_KEY, 'rejected');
+    localStorage.setItem(COOKIE_CONSENT_DATE_KEY, new Date().toISOString());
     
-    // Clear any existing tracking cookies
-    clearTrackingCookies();
+    // Deny consent for analytics
+    denyAnalyticsConsent();
     
     setShowCookieConsent(false);
   };
@@ -233,11 +242,12 @@ const Homepage = () => {
                 <span>Start Your Journey</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <p className="text-sm text-gray-500">Free forever • No credit card required</p>
+              <p className="text-sm text-gray-500">No credit card required • Setup in under 2 minutes</p>
+              {/* <p className="text-sm text-gray-500">Free forever • No credit card required</p> */}
             </div>
 
             {/* Social Proof */}
-            <div className="flex items-center justify-center space-x-6 text-sm text-gray-500">
+            {/* <div className="flex items-center justify-center space-x-6 text-sm text-gray-500">
               <div className="flex items-center space-x-1">
                 <div className="flex space-x-1">
                   {[...Array(5)].map((_, i) => (
@@ -246,7 +256,7 @@ const Homepage = () => {
                 </div>
                 <span>4.9/5 from 2,500+ users</span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

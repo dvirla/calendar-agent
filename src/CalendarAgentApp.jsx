@@ -259,6 +259,14 @@ const CalendarAgentApp = () => {
     if (isAuthenticated) {
       loadInitialData();
     }
+    
+    // Track page view
+    if (typeof gtag !== 'undefined') {
+      gtag('config', 'G-57CNRN5B5M', {
+        page_title: 'Calendar Agent App',
+        page_location: window.location.href
+      });
+    }
   }, [isAuthenticated]);
 
   const loadInitialData = async () => {

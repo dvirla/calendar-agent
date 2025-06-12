@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { Calendar, Shield, Clock, CheckCircle, ArrowLeft } from 'lucide-react';
+import { hasGivenConsent, trackPageView } from './utils/cookieConsent.js';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -32,9 +33,16 @@ const LoginPage = () => {
       }
     };
 
-    handleCallback();
-  }, [handleAuthCallback]);
+    handleCallback().then(() => {
+      // After handling the callback, track page view if consent has been given
+      if (hasGivenConsent()) {
+        trackPageView('Login Page', window.location.href);
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleAuthCallback]); // Assuming handleAuthCallback is stable or correctly memoized
 
+  
   const handleGoogleLogin = async () => {
     try {
       setError(null);

@@ -5,6 +5,22 @@
     <!-- <link rel="icon" type="image/svg+xml" href="/src/logo.svg" sizes=`"16x16"/> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MemoMind AI</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-57CNRN5B5M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Set default consent to 'denied' before gtag.js loads or any hits are sent.
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied', // Controls storage like cookies related to advertising
+        'ad_user_data': 'denied', // Controls if user data can be sent to Google for advertising
+        'ad_personalization': 'denied', // Controls personalized advertising (e.g. remarketing)
+        'wait_for_update': 500 // Optional: Milliseconds to wait for consent update before sending hits.
+      });
+      gtag('js', new Date());
+      // The initial gtag('config', 'G-57CNRN5B5M') will be called after consent is granted.
+    </script>
   </head>
   <body>
     <div id="root"></div>

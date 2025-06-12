@@ -33,8 +33,8 @@ const PrivacyPolicyPage = () => {
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
               <div className="flex space-x-4 text-sm text-gray-500">
-                <p><strong>Effective Date:</strong> June 10, 2025</p>
-                <p><strong>Last Updated:</strong> June 10, 2025</p>
+                <p><strong>Effective Date:</strong> June 12, 2025</p>
+                <p><strong>Last Updated:</strong> June 12, 2025</p>
               </div>
             </div>
 
@@ -61,8 +61,16 @@ const PrivacyPolicyPage = () => {
               <h3 className="text-xl font-medium text-gray-900 mb-3">2.2 Information We Collect Automatically</h3>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
                 <li><strong>Google Calendar Data:</strong> With your explicit consent, we access your Google Calendar events to provide scheduling assistance</li>
-                <li><strong>Usage Information:</strong> We collect information about how you interact with our service, including timestamps and conversation patterns</li>
-                <li><strong>Technical Data:</strong> IP addresses, browser information, and device identifiers for security and service optimization</li>
+                <li>
+                  <strong>Usage Information:</strong> We collect information about how you interact with our service. This includes:
+                  <ul className="list-disc list-inside text-gray-700 ml-6 mt-1 space-y-1">
+                      <li>Timestamps and conversation patterns related to your direct use of our AI features.</li>
+                      <li>
+                          If you consent to analytics cookies, additional usage data such as pages visited, features used, time spent on the service, and interaction events may be collected via Google Analytics to help us improve the service. This is detailed further in our "Cookies and Tracking" section.
+                      </li>
+                  </ul>
+                </li>
+                <li><strong>Technical Data:</strong> IP addresses, browser information, and device identifiers for security, service optimization, and, if consent is given for analytics, as part of the data collected by Google Analytics.</li>
               </ul>
 
               <h3 className="text-xl font-medium text-gray-900 mb-3">2.3 OAuth Credentials</h3>
@@ -124,6 +132,9 @@ const PrivacyPolicyPage = () => {
                 <li><strong>Azure OpenAI:</strong> Chat messages are processed by Azure OpenAI for AI responses</li>
                 <li><strong>Google APIs:</strong> Calendar data is accessed through Google Calendar API</li>
                 <li><strong>Logfire:</strong> Anonymous usage analytics for service improvement</li>
+                <li>
+                  <strong>Google Analytics:</strong> We use Google Analytics to understand service usage, subject to your consent. Google Analytics may collect and process data as described in their privacy policy and our "Cookies and Tracking" section.
+                </li>
               </ul>
             </section>
 
@@ -210,10 +221,26 @@ const PrivacyPolicyPage = () => {
               </ul>
 
               <h3 className="text-xl font-medium text-gray-900 mb-3">8.2 Analytics</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-2">
+              <p className="text-gray-700 leading-relaxed mb-4">
+                To understand how users interact with our Service and to improve its functionality and user experience, we use analytics technologies. Our primary analytics tool is Google Analytics.
+              </p>
+              <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
                 <li>We use Logfire for anonymous usage analytics to improve our service</li>
-                <li>No personally identifiable information is included in analytics data</li>
-                <li>Analytics help us understand usage patterns and improve AI responses</li>
+                <li>
+                  <strong>Google Analytics:</strong> We use Google Analytics to collect information about your use of the Service, such as pages visited, time spent on pages, links clicked, and other interaction data. This information is used to compile reports and to help us improve the Service.
+                </li>
+                <li>
+                  <strong>Consent-Based Tracking:</strong> The use of Google Analytics for collecting data linked to your device via cookies is strictly based on your explicit consent. When you first visit our Service, or if your consent status is unknown, analytics cookies are disabled by default (consent is 'denied'). You will be presented with a cookie consent banner where you can choose to accept or reject the use of analytics cookies.
+                </li>
+                <li>
+                  <strong>Data Collected with Consent:</strong> If you accept analytics cookies, Google Analytics may collect data including your IP address (which may be anonymized by Google), browser type, operating system, referring URLs, and interaction patterns.
+                </li>
+                <li>
+                  <strong>Cookieless Pings (If Consent Denied):</strong> If you do not consent to analytics cookies, Google Analytics will not store or read cookies on your device for tracking purposes. However, to help us model data and understand overall traffic trends in an aggregated and anonymized way, Google Analytics may still send cookieless pings. These pings do not identify you personally and are used for aggregated statistical modeling.
+                </li>
+                <li>
+                  <strong>Opting Out and More Information:</strong> You can manage your cookie preferences at any time through our cookie consent banner. You can also typically configure your browser settings to refuse cookies or to alert you when cookies are being sent. For more information on how Google uses data when you use our partners' sites or apps, please visit <a href="https://www.google.com/policies/privacy/partners/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.google.com/policies/privacy/partners/</a>.
+                </li>
               </ul>
             </section>
 
@@ -288,7 +315,7 @@ const PrivacyPolicyPage = () => {
 
             <div className="mt-12 pt-8 border-t border-gray-200">
               <p className="text-sm text-gray-500">
-                <strong>Last Updated:</strong> June 10, 2025 | This Privacy Policy describes how MemoMind AI collects, uses, and protects your personal information. 
+                <strong>Last Updated:</strong> June 12, 2025 | This Privacy Policy describes how MemoMind AI collects, uses, and protects your personal information. 
                 By using our service, you agree to the practices described in this policy.
               </p>
             </div>
