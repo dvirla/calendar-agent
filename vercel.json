@@ -1,0 +1,15 @@
+{
+  "rewrites": [
+    {
+      "source": "/auth/google",
+      "destination": "https://h850yhwl.up.railway.app/auth/google"
+    },    {
+      "source": "/auth/callback",
+      "destination": "https://h850yhwl.up.railway.app/auth/callback"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://h850yhwl.up.railway.app/api/:path*"
+    }
+  ]
+}
