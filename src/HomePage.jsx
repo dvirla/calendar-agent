@@ -10,7 +10,8 @@ import {
   COOKIE_CONSENT_KEY,
   COOKIE_CONSENT_DATE_KEY
 } from './utils/cookieConsent.js';
-import logoSvg from '/logo_4x.png';
+import mainLogo from '/simplified_logo.png';
+import whiteLogo from '/white_version_logo.png';
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -209,7 +210,7 @@ const Homepage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-0">
-              <img src={logoSvg} alt="MemoMind AI" className="h-16 w-16" />
+              <img src={mainLogo} alt="MemoMind AI" className="h-16 w-16" />
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 MemoMind AI
               </span>
@@ -265,9 +266,9 @@ const Homepage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex justify-center mb-8">
-              <div className="bg-gradient-to-r from-blue-100 to-purple-100 p-4 rounded-full">
-                <Brain className="h-12 w-12 text-blue-600" />
-              </div>
+              {/* <div className="bg-gradient-to-r from-blue-100 to-purple-100 p-4 rounded-full">
+                <img src={mainLogo} alt="MemoMind AI" className="h-17 w-17" />
+              </div> */}
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
@@ -575,7 +576,7 @@ const Homepage = () => {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-0 mb-0">
-                <img src={logoSvg} alt="MemoMind AI" className="h-16 w-16" />
+                <img src={whiteLogo} alt="MemoMind AI" className="h-16 w-16" />
                 <span className="text-xl font-bold">MemoMind AI</span>
               </div>
               <p className="text-gray-400 text-sm">
