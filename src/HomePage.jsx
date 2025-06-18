@@ -177,7 +177,7 @@ const Homepage = () => {
   ];
 
   const handleGetStarted = () => {
-    navigate('/login');
+    navigate('/early-access');
   };
 
   const handleAcceptCookies = () => {

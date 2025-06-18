@@ -8,6 +8,7 @@ import HomePage from './HomePage.jsx'
 import LoginPage from './LoginPage.jsx'
 import PrivacyPolicyPage from './PrivacyPolicyPage.jsx'
 import TermsOfServicePage from './TermsOfServicePage.jsx'
+import WaitlistPage from './WaitlistPage';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -62,6 +63,14 @@ const App = () => {
           element={
             <PublicRoute>
               <LoginPage />
+            </PublicRoute>
+          } 
+        />
+        <Route 
+          path="/early-access" 
+          element={
+            <PublicRoute>
+              <WaitlistPage />
             </PublicRoute>
           } 
         />
