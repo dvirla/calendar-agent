@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Brain, Check, Users, Zap, Shield, X, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { trackPageView } from './utils/cookieConsent.js';
-import mainLogo from '/main_logo.png';
+import mainLogo from '/simplified_logo.png';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
