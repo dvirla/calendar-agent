@@ -10,6 +10,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://h850yhwl.up.railway.app/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
