@@ -67,9 +67,6 @@ const WaitlistPage = () => {
       newErrors.primaryUsage = 'Please select your primary usage';
     }
     
-    if (!formData.schedulingFrustration.trim()) {
-      newErrors.schedulingFrustration = 'Please describe your scheduling frustration';
-    }
     
     if (!formData.currentCalendar) {
       newErrors.currentCalendar = 'Please select your current calendar system';
@@ -200,10 +197,6 @@ const WaitlistPage = () => {
                 <li className="flex items-start">
                   <Check className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                   <span>Check your email for a welcome message with early insights</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>We'll send weekly productivity tips while you wait</span>
                 </li>
                 <li className="flex items-start">
                   <Check className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
@@ -338,7 +331,7 @@ const WaitlistPage = () => {
                     What feature are you interested in? *
                   </label>
                   <div className="space-y-2">
-                    {['AI Scheduler', 'Reflections', 'Both'].map((feature) => (
+                    {['AI Scheduler', 'Reflections'].map((feature) => (
                       <label key={feature} className="flex items-center">
                         <input
                           type="checkbox"
@@ -429,7 +422,7 @@ const WaitlistPage = () => {
 
                 <div>
                   <label htmlFor="schedulingFrustration" className="block text-sm font-medium text-gray-700 mb-1">
-                    What's your biggest scheduling frustration right now? *
+                    What's your biggest scheduling frustration right now?
                   </label>
                   <textarea
                     id="schedulingFrustration"
