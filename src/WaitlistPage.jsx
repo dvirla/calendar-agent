@@ -170,7 +170,7 @@ const WaitlistPage = () => {
   const faqs = [
     {
       q: "When will MemoMind AI launch?",
-      a: "We're planning to launch in Q2 2025. Early access members will get exclusive access 2 weeks before public launch."
+      a: "We're planning to launch in Q3 2025. Early access members will get exclusive access 2 weeks before public launch."
     },
     {
       q: "What's included in early access?",
