@@ -9,6 +9,7 @@ import LoginPage from './LoginPage.jsx'
 import PrivacyPolicyPage from './PrivacyPolicyPage.jsx'
 import TermsOfServicePage from './TermsOfServicePage.jsx'
 import WaitlistPage from './WaitlistPage';
+import NotFoundPage from './NotFoundPage.jsx';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -90,7 +91,7 @@ const App = () => {
           path="/terms" 
           element={<TermsOfServicePage />} 
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
