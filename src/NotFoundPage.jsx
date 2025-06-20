@@ -72,7 +72,8 @@ const NotFoundPage = () => {
           <p>
             If you believe this is an error, please{' '}
             <a 
-              href="mailto:hello@memomind.ai" 
+              href="mailto:support@memomindai.com"
+              target="_blank" 
               className="text-blue-600 hover:text-blue-700 underline"
             >
               contact support
