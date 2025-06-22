@@ -115,7 +115,7 @@ const ChatView = ({
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-          placeholder="Ask about your patterns, schedule optimization, or share how your day went..."
+          placeholder="Ask about your patterns, productivity insights, or share how your day went..."
           disabled={loading}
           className="flex-1 px-4 py-3 border border-purple-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm lg:text-base disabled:opacity-50 bg-white"
           autoComplete="off"
@@ -130,7 +130,7 @@ const ChatView = ({
       </div>
       <div className="text-center mt-3">
         <p className="text-xs text-gray-500">
-          💡 Try: "What patterns do you notice in my schedule?" or "Help me reflect on today"
+          💡 Try: "What patterns do you notice in my schedule?" or "Help me reflect on my energy today"
         </p>
       </div>
     </div>
@@ -232,7 +232,7 @@ const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => 
               </h3>
               <p className="text-sm lg:text-base text-purple-800 mb-3">
                 I noticed you had {recentPastEvents.length} event{recentPastEvents.length > 1 ? 's' : ''} recently. 
-                {recentPastEvents.length >= 3 ? " That was a busy period!" : ""} How did those go?
+                {recentPastEvents.length >= 3 ? " That was a busy period!" : ""} How did those affect your energy and focus?
               </p>
               <div className="space-y-2">
                 {recentPastEvents.slice(0, 2).map((event, index) => (
@@ -254,7 +254,7 @@ const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => 
                  todayEvents.length >= 2 ? " A moderately busy day." : " A lighter schedule today."}
               </p>
               <p className="text-sm lg:text-base text-blue-700">
-                How are you feeling about today's energy level and focus time?
+                How are you feeling about today's energy level and productivity rhythm?
               </p>
             </div>
           ) : upcomingEvents.length > 0 ? (
@@ -268,7 +268,7 @@ const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => 
                 Let's set some intentions for how you want to approach them.
               </p>
               <p className="text-sm lg:text-base text-green-700">
-                What would make your upcoming schedule feel more manageable and energizing?
+                What would make your upcoming schedule feel more energizing and manageable?
               </p>
             </div>
           ) : (
@@ -288,11 +288,11 @@ const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => 
 
           {/* Pattern insights if available */}
           <div className="p-4 lg:p-6 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-100">
-            <h3 className="font-medium text-yellow-900 mb-2 lg:text-lg">💡 Quick Pattern Check</h3>
+            <h3 className="font-medium text-yellow-900 mb-2 lg:text-lg">💡 Quick Self-Reflection Check</h3>
             <div className="space-y-2 text-sm lg:text-base text-yellow-800">
-              <p>• When do you typically feel most productive during the day?</p>
+              <p>• When do you typically feel most energized and focused during the day?</p>
               <p>• Are there any meeting types that consistently drain your energy?</p>
-              <p>• What time of day do you find yourself procrastinating most?</p>
+              <p>• What time patterns have you noticed affect your mood?</p>
             </div>
           </div>
           
@@ -307,9 +307,9 @@ const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => 
           <div className="bg-gray-50 p-4 rounded-lg border">
             <h4 className="font-medium text-gray-900 mb-2 text-sm lg:text-base">💭 Reflection Tips:</h4>
             <ul className="text-xs lg:text-sm text-gray-600 space-y-1">
-              <li>• Be honest about what worked and what didn't</li>
-              <li>• Focus on patterns rather than perfect days</li>
-              <li>• Ask the AI to help you connect dots between events and energy</li>
+              <li>• Be honest about what energized vs drained you</li>
+              <li>• Focus on patterns rather than individual events</li>
+              <li>• Ask the AI to help you connect your schedule to your mood</li>
               <li>• Use insights to make small, sustainable changes</li>
             </ul>
           </div>
@@ -374,7 +374,7 @@ const CalendarAgentApp = () => {
         setMessages([{
           id: 1,
           role: 'assistant',
-          content: `Hi ${user?.full_name || 'there'}! 👋 I'm your AI reflection assistant. I analyze your calendar patterns and ask smart questions to help you build self-awareness. Ready to discover insights about your productivity and habits?`,
+          content: `Hi ${user?.full_name || 'there'}! 👋 I'm your AI reflection assistant. I analyze your calendar patterns and ask smart questions to help you understand what makes you productive. Ready to discover insights about your habits and energy patterns?`,
           timestamp: new Date().toISOString()
         }]);
       }
@@ -635,7 +635,7 @@ const CalendarAgentApp = () => {
       setMessages([{
         id: Date.now(),
         role: 'assistant',
-        content: `Fresh start! 🌟 I'm ready to help you reflect on your patterns and optimize your schedule. What would you like to explore about your productivity or habits?`,
+        content: `Fresh start! 🌟 I'm ready to help you reflect on your patterns and understand what makes you productive. What would you like to explore about your schedule or habits?`,
         timestamp: new Date().toISOString()
       }]);
       
@@ -702,7 +702,7 @@ const CalendarAgentApp = () => {
             }`}
           >
             <Brain size={20} className="mr-3" />
-            <span>AI Assistant</span>
+            <span>AI Chat</span>
             {pendingActions.length > 0 && (
               <span className="absolute right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {pendingActions.length}
@@ -717,7 +717,7 @@ const CalendarAgentApp = () => {
             }`}
           >
             <Calendar size={20} className="mr-3" />
-            <span>Schedule View</span>
+            <span>Calendar View</span>
           </button>
         </div>
         
@@ -797,7 +797,7 @@ const CalendarAgentApp = () => {
             }`}
           >
             <Calendar size={20} />
-            <span className="text-xs mt-1">Schedule</span>
+            <span className="text-xs mt-1">Calendar</span>
           </button>
         </div>
       </nav>

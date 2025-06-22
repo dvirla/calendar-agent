@@ -10,15 +10,11 @@ const WaitlistPage = () => {
   const [formData, setFormData] = useState({
     email: '',
     name: '',
-    featureInterest: [],
-    featureOther: '',
-    primaryUsage: '',
-    primaryUsageOther: '',
-    schedulingFrustration: '',
+    role: '',
+    schedulingChallenge: '',
+    journalingExperience: '',
     currentCalendar: '',
-    currentCalendarOther: '',
-    roleProfession: '',
-    roleProfessionOther: ''
+    currentCalendarOther: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -59,21 +55,20 @@ const WaitlistPage = () => {
       newErrors.email = 'Please enter a valid email';
     }
     
-    if (formData.featureInterest.length === 0) {
-      newErrors.featureInterest = 'Please select at least one feature';
+    if (!formData.role) {
+      newErrors.role = 'Please select your role';
     }
     
-    if (!formData.primaryUsage) {
-      newErrors.primaryUsage = 'Please select your primary usage';
+    if (!formData.schedulingChallenge) {
+      newErrors.schedulingChallenge = 'Please select your biggest scheduling challenge';
     }
     
+    if (!formData.journalingExperience) {
+      newErrors.journalingExperience = 'Please select your journaling experience';
+    }
     
     if (!formData.currentCalendar) {
-      newErrors.currentCalendar = 'Please select your current calendar system';
-    }
-    
-    if (!formData.roleProfession) {
-      newErrors.roleProfession = 'Please select your role/profession';
+      newErrors.currentCalendar = 'Please select your current calendar tool';
     }
     
     setErrors(newErrors);
@@ -95,19 +90,14 @@ const WaitlistPage = () => {
       const submitData = {
         email: formData.email,
         name: formData.name,
-        interestedFeatures: formData.featureInterest.includes('other') && formData.featureOther
-          ? `${formData.featureInterest.filter(f => f !== 'other').join(', ')}${formData.featureInterest.length > 1 ? ', ' : ''}other (${formData.featureOther})`
-          : formData.featureInterest.join(', '),
-        primaryUsage: formData.primaryUsage === 'other' && formData.primaryUsageOther
-          ? `other (${formData.primaryUsageOther})`
-          : formData.primaryUsage,
-        schedulingFrustration: formData.schedulingFrustration,
+        roleProfession: formData.role,
+        schedulingFrustration: formData.schedulingChallenge,
+        journalingExperience: formData.journalingExperience,
         currentCalendarTool: formData.currentCalendar === 'other' && formData.currentCalendarOther
           ? `other (${formData.currentCalendarOther})`
           : formData.currentCalendar,
-        roleProfession: formData.roleProfession === 'other' && formData.roleProfessionOther
-          ? `other (${formData.roleProfessionOther})`
-          : formData.roleProfession,
+        interestedFeatures: 'Context-aware reflection',
+        primaryUsage: 'Work-Life Balance',
         company: '',
         referralSource: '',
         utmSource: new URLSearchParams(window.location.search).get('utm_source') || 'direct',
@@ -158,24 +148,24 @@ const WaitlistPage = () => {
   };
 
   const benefits = [
-    { icon: Brain, text: "AI that learns your unique productivity patterns" },
-    { icon: Zap, text: "Save 10+ hours weekly through intelligent automation" },
-    { icon: Users, text: "Join executives & founders optimizing their performance" },
-    { icon: Shield, text: "Enterprise-grade security for your calendar data" }
+    { icon: Check, text: "50% off forever (lock in $3.50/month)" },
+    { icon: Check, text: "2 weeks early access before public launch" },
+    { icon: Check, text: "Direct feedback line to founders" },
+    { icon: Check, text: "Shape the product roadmap" }
   ];
 
   const faqs = [
     {
-      q: "When will MemoMind AI launch?",
-      a: "We're planning to launch in Q3 2025. Early access members will get exclusive access 2 weeks before public launch."
+      q: "When do you launch?",
+      a: "March 2025. Early access starts 2 weeks before public launch."
     },
     {
-      q: "What's included in early access?",
-      a: "50% off for life, exclusive features, direct access to founders, and the ability to shape our product roadmap."
+      q: "How is this different from other journal apps?",
+      a: "We read your calendar first, then ask intelligent questions. No more 'How was your day?' - we know exactly how your day went."
     },
     {
-      q: "How is this different from Reclaim.ai or Motion?",
-      a: "We're the only tool combining AI scheduling with performance analytics and guided reflections for continuous improvement."
+      q: "What's the lifetime discount?",
+      a: "50% off our Pro plan forever. Instead of $7/month, you pay $3.50/month for life."
     }
   ];
 
@@ -250,22 +240,20 @@ const WaitlistPage = () => {
       <section className="pt-20 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <Users className="w-4 h-4" />
-              <span>{waitlistCount} professionals already joined</span>
+            <div className="inline-flex items-center space-x-2 bg-orange-100 text-orange-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+              <span>⏰ Launching August 2025 | Early Access Gets 50% Off Forever</span>
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Be First to Experience{' '}
+              Join {waitlistCount}+ Professionals Getting Early Access to{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                AI-Powered Productivity
+                Context-Aware Reflection
               </span>
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Join the waitlist for exclusive early access to MemoMind AI. 
-              Get 50% off for life, shape our product roadmap, and transform 
-              how you manage time before everyone else.
+              Be first to try the AI that makes journaling effortless. No more blank pages, 
+              just smart questions based on your actual schedule.
             </p>
 
             {/* Value Props */}
@@ -328,121 +316,76 @@ const WaitlistPage = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    What feature are you interested in? *
+                    Role *
                   </label>
-                  <div className="space-y-2">
-                    {['AI Scheduler', 'Reflections'].map((feature) => (
-                      <label key={feature} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={formData.featureInterest.includes(feature)}
-                          onChange={(e) => {
-                            const updatedFeatures = e.target.checked
-                              ? [...formData.featureInterest, feature]
-                              : formData.featureInterest.filter(f => f !== feature);
-                            setFormData({...formData, featureInterest: updatedFeatures});
-                          }}
-                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">{feature}</span>
-                      </label>
-                    ))}
-                    <label className="flex items-start">
-                      <input
-                        type="checkbox"
-                        checked={formData.featureInterest.includes('other')}
-                        onChange={(e) => {
-                          const updatedFeatures = e.target.checked
-                            ? [...formData.featureInterest, 'other']
-                            : formData.featureInterest.filter(f => f !== 'other');
-                          setFormData({...formData, featureInterest: updatedFeatures});
-                        }}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-0.5"
-                      />
-                      <div className="ml-2 flex-1">
-                        <span className="text-sm text-gray-700">Other (explain)</span>
-                        {formData.featureInterest.includes('other') && (
-                          <input
-                            type="text"
-                            value={formData.featureOther}
-                            onChange={(e) => setFormData({...formData, featureOther: e.target.value})}
-                            className="mt-1 w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Please explain..."
-                          />
-                        )}
-                      </div>
-                    </label>
-                  </div>
-                  {errors.featureInterest && <p className="text-red-500 text-xs mt-1">{errors.featureInterest}</p>}
+                  <select
+                    value={formData.role}
+                    onChange={(e) => setFormData({...formData, role: e.target.value})}
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                      errors.role ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                  >
+                    <option value="">Select your role</option>
+                    <option value="Executive">Executive</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Founder">Founder</option>
+                    <option value="Consultant">Consultant</option>
+                    <option value="Developer">Developer</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  {errors.role && <p className="text-red-500 text-xs mt-1">{errors.role}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    What is your primary usage for scheduling? *
+                    What's your biggest scheduling challenge? *
                   </label>
                   <div className="space-y-2">
-                    {['Work', 'Private Life', 'Work-Life Balance'].map((usage) => (
-                      <label key={usage} className="flex items-center">
+                    {['Too many meetings', 'No focus time', 'Poor work-life balance', 'Constant context switching'].map((challenge) => (
+                      <label key={challenge} className="flex items-center">
                         <input
                           type="radio"
-                          name="primaryUsage"
-                          value={usage}
-                          checked={formData.primaryUsage === usage}
-                          onChange={(e) => setFormData({...formData, primaryUsage: e.target.value})}
+                          name="schedulingChallenge"
+                          value={challenge}
+                          checked={formData.schedulingChallenge === challenge}
+                          onChange={(e) => setFormData({...formData, schedulingChallenge: e.target.value})}
                           className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                         />
-                        <span className="ml-2 text-sm text-gray-700">{usage}</span>
+                        <span className="ml-2 text-sm text-gray-700">{challenge}</span>
                       </label>
                     ))}
-                    <label className="flex items-start">
-                      <input
-                        type="radio"
-                        name="primaryUsage"
-                        value="other"
-                        checked={formData.primaryUsage === 'other'}
-                        onChange={(e) => setFormData({...formData, primaryUsage: e.target.value})}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 mt-0.5"
-                      />
-                      <div className="ml-2 flex-1">
-                        <span className="text-sm text-gray-700">Other (explain)</span>
-                        {formData.primaryUsage === 'other' && (
-                          <input
-                            type="text"
-                            value={formData.primaryUsageOther}
-                            onChange={(e) => setFormData({...formData, primaryUsageOther: e.target.value})}
-                            className="mt-1 w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Please explain..."
-                          />
-                        )}
-                      </div>
-                    </label>
                   </div>
-                  {errors.primaryUsage && <p className="text-red-500 text-xs mt-1">{errors.primaryUsage}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="schedulingFrustration" className="block text-sm font-medium text-gray-700 mb-1">
-                    What's your biggest scheduling frustration right now?
-                  </label>
-                  <textarea
-                    id="schedulingFrustration"
-                    rows="3"
-                    value={formData.schedulingFrustration}
-                    onChange={(e) => setFormData({...formData, schedulingFrustration: e.target.value})}
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                      errors.schedulingFrustration ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="Describe your biggest scheduling challenge..."
-                  />
-                  {errors.schedulingFrustration && <p className="text-red-500 text-xs mt-1">{errors.schedulingFrustration}</p>}
+                  {errors.schedulingChallenge && <p className="text-red-500 text-xs mt-1">{errors.schedulingChallenge}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    How do you currently manage your calendar? *
+                    Have you tried journaling before? *
                   </label>
                   <div className="space-y-2">
-                    {['Google Calendar', 'Outlook', 'Apple Calendar', 'Notion', 'Pen and Paper'].map((calendar) => (
+                    {['Yes, but quit after a few days', 'Yes, still do it sometimes', 'No, seems too time-consuming', 'No, don\'t know what to write'].map((experience) => (
+                      <label key={experience} className="flex items-center">
+                        <input
+                          type="radio"
+                          name="journalingExperience"
+                          value={experience}
+                          checked={formData.journalingExperience === experience}
+                          onChange={(e) => setFormData({...formData, journalingExperience: e.target.value})}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">{experience}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {errors.journalingExperience && <p className="text-red-500 text-xs mt-1">{errors.journalingExperience}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Current calendar tool *
+                  </label>
+                  <div className="space-y-2">
+                    {['Google Calendar', 'Outlook', 'Apple Calendar'].map((calendar) => (
                       <label key={calendar} className="flex items-center">
                         <input
                           type="radio"
@@ -465,14 +408,14 @@ const WaitlistPage = () => {
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 mt-0.5"
                       />
                       <div className="ml-2 flex-1">
-                        <span className="text-sm text-gray-700">Other (explain)</span>
+                        <span className="text-sm text-gray-700">Other</span>
                         {formData.currentCalendar === 'other' && (
                           <input
                             type="text"
                             value={formData.currentCalendarOther}
                             onChange={(e) => setFormData({...formData, currentCalendarOther: e.target.value})}
                             className="mt-1 w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Please explain..."
+                            placeholder="Please specify..."
                           />
                         )}
                       </div>
@@ -481,49 +424,6 @@ const WaitlistPage = () => {
                   {errors.currentCalendar && <p className="text-red-500 text-xs mt-1">{errors.currentCalendar}</p>}
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    What's your role/profession? *
-                  </label>
-                  <div className="space-y-2">
-                    {['Entrepreneur/Founder', 'Manager/Executive', 'Consultant/Freelancer', 'Developer/Designer', 'Sales/Marketing', 'Student'].map((role) => (
-                      <label key={role} className="flex items-center">
-                        <input
-                          type="radio"
-                          name="roleProfession"
-                          value={role}
-                          checked={formData.roleProfession === role}
-                          onChange={(e) => setFormData({...formData, roleProfession: e.target.value})}
-                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">{role}</span>
-                      </label>
-                    ))}
-                    <label className="flex items-start">
-                      <input
-                        type="radio"
-                        name="roleProfession"
-                        value="other"
-                        checked={formData.roleProfession === 'other'}
-                        onChange={(e) => setFormData({...formData, roleProfession: e.target.value})}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 mt-0.5"
-                      />
-                      <div className="ml-2 flex-1">
-                        <span className="text-sm text-gray-700">Other (explain)</span>
-                        {formData.roleProfession === 'other' && (
-                          <input
-                            type="text"
-                            value={formData.roleProfessionOther}
-                            onChange={(e) => setFormData({...formData, roleProfessionOther: e.target.value})}
-                            className="mt-1 w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Please explain..."
-                          />
-                        )}
-                      </div>
-                    </label>
-                  </div>
-                  {errors.roleProfession && <p className="text-red-500 text-xs mt-1">{errors.roleProfession}</p>}
-                </div>
 
                 {submitStatus === 'error' && !errors.email && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start space-x-3">
@@ -548,7 +448,7 @@ const WaitlistPage = () => {
                     </>
                   ) : (
                     <>
-                      <span>Join Early Access</span>
+                      <span>Reserve My Spot - 50% Off Forever</span>
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}
@@ -565,50 +465,52 @@ const WaitlistPage = () => {
             <div className="space-y-8">
               {/* Early Access Benefits */}
               <div className="bg-white rounded-2xl p-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Early Access Benefits</h3>
-                <ul className="space-y-4">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">🎯 What You Get:</h3>
+                <ul className="space-y-3 mb-6">
                   <li className="flex items-start space-x-3">
                     <div className="bg-green-100 rounded-full p-1 mt-0.5">
                       <Check className="w-4 h-4 text-green-600" />
                     </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">50% Off Forever</p>
-                      <p className="text-sm text-gray-600">Lock in founder pricing for life</p>
-                    </div>
+                    <span className="text-gray-700">50% off forever (lock in $3.50/month)</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <div className="bg-green-100 rounded-full p-1 mt-0.5">
                       <Check className="w-4 h-4 text-green-600" />
                     </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Shape the Product</p>
-                      <p className="text-sm text-gray-600">Direct access to founders & influence roadmap</p>
-                    </div>
+                    <span className="text-gray-700">2 weeks early access before public launch</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <div className="bg-green-100 rounded-full p-1 mt-0.5">
                       <Check className="w-4 h-4 text-green-600" />
                     </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Exclusive Features</p>
-                      <p className="text-sm text-gray-600">Access to beta features before anyone else</p>
-                    </div>
+                    <span className="text-gray-700">Direct feedback line to founders</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <div className="bg-green-100 rounded-full p-1 mt-0.5">
                       <Check className="w-4 h-4 text-green-600" />
                     </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Priority Support</p>
-                      <p className="text-sm text-gray-600">Skip the queue with dedicated support</p>
+                    <span className="text-gray-700">Shape the product roadmap</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                      <Check className="w-4 h-4 text-green-600" />
                     </div>
+                    <span className="text-gray-700">Exclusive beta features</span>
                   </li>
                 </ul>
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 mb-2">📊 Who's Joining:</h4>
+                  <div className="text-sm text-gray-700 space-y-1">
+                    <div>47% Executives & Managers</div>
+                    <div>31% Founders & Entrepreneurs</div>
+                    <div>22% Consultants & Professionals</div>
+                  </div>
+                </div>
               </div>
 
               {/* Mini FAQ */}
               <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Questions</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-6">Mini FAQ</h3>
                 <div className="space-y-4">
                   {faqs.map((faq, index) => (
                     <div key={index}>
@@ -617,6 +519,16 @@ const WaitlistPage = () => {
                     </div>
                   ))}
                 </div>
+                <div className="mt-6 p-4 bg-white rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-2">The Journaling Problem:</h4>
+                  <p className="text-sm text-gray-600 mb-3">
+                    92% of people abandon journaling within a week. Not because they lack discipline, but because staring at blank pages is terrible UX.
+                  </p>
+                  <h4 className="font-semibold text-gray-900 mb-2">Our Solution:</h4>
+                  <p className="text-sm text-gray-600">
+                    AI that knows your schedule and asks contextual questions like "You blocked 2 hours for deep work but took calls instead. What made that time feel less protected?"
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -624,43 +536,57 @@ const WaitlistPage = () => {
       </section>
 
       {/* Social Proof */}
-      <section className="pb-20">
+      {/* <section className="pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gray-900 text-white rounded-2xl p-8 md:p-12">
-            <h3 className="text-2xl font-bold mb-8 text-center">Who's Joining MemoMind AI</h3>
+            <h3 className="text-2xl font-bold mb-8 text-center">What People Are Saying</h3>
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div className="bg-gray-800 rounded-lg p-6">
+                <p className="text-gray-300 mb-4 italic">
+                  "I've been waiting for this exact solution. Finally, someone who gets that context matters for reflection."
+                </p>
+                <p className="text-blue-400 font-semibold">- Sarah K., Product Manager</p>
+              </div>
+              <div className="bg-gray-800 rounded-lg p-6">
+                <p className="text-gray-300 mb-4 italic">
+                  "The demo blew my mind. It knew I had 5 meetings and asked why the 3pm one felt different. Game changer."
+                </p>
+                <p className="text-blue-400 font-semibold">- Mike R., Startup Founder</p>
+              </div>
+            </div>
             <div className="grid md:grid-cols-3 gap-6 text-center">
               <div>
-                <div className="text-3xl font-bold mb-2">42%</div>
-                <div className="text-gray-400">Executives & C-Suite</div>
+                <div className="text-3xl font-bold mb-2">47%</div>
+                <div className="text-gray-400">Executives & Managers</div>
               </div>
               <div>
                 <div className="text-3xl font-bold mb-2">31%</div>
                 <div className="text-gray-400">Founders & Entrepreneurs</div>
               </div>
               <div>
-                <div className="text-3xl font-bold mb-2">27%</div>
-                <div className="text-gray-400">Managers & Consultants</div>
+                <div className="text-3xl font-bold mb-2">22%</div>
+                <div className="text-gray-400">Consultants & Professionals</div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* SEO Content */}
       <section className="pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="prose prose-lg max-w-none">
-            <h2>Join the AI Calendar Revolution</h2>
+            <h2>Join the AI Reflection Revolution</h2>
             <p>
-              MemoMind AI is building the future of productivity tools by combining intelligent calendar management 
-              with performance analytics and guided self-reflection. Unlike traditional calendar apps or basic 
-              scheduling tools like Reclaim.ai or Motion, we help you understand and improve how you work.
+              MemoMind AI is transforming how professionals reflect on their workday by combining calendar intelligence 
+              with context-aware journaling. Unlike generic journal apps that ask "How was your day?", we know exactly 
+              how your day went and ask the right questions to drive meaningful insights.
             </p>
             <h3>Why Join the Waitlist?</h3>
             <p>
-              Early access members will be the first to experience our AI-powered productivity system. You'll get 
-              exclusive features, lifetime discounts, and direct input into our product development. Join executives, 
-              entrepreneurs, and professionals who are ready to transform their productivity.
+              Early access members launching in August 2025 will be the first to experience AI-powered reflection that actually works. 
+              You'll get 50% off for life, exclusive beta features, and direct input into our product development. 
+              Join executives, entrepreneurs, and professionals who are ready to make journaling effortless.
             </p>
           </div>
         </div>

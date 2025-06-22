@@ -41,7 +41,7 @@ const PrivacyPolicyPage = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Overview</h2>
               <p className="text-gray-700 leading-relaxed mb-4">
-                MemoMind AI ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, process, and safeguard your information when you use our AI-powered calendar and reflection service.
+                MemoMind AI ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, process, and safeguard your information when you use our AI-powered reflection assistant that generates intelligent daily prompts based on your calendar data.
               </p>
               <p className="text-gray-700 leading-relaxed">
                 By using our Service, you agree to the collection and use of information in accordance with this Privacy Policy.
@@ -54,13 +54,13 @@ const PrivacyPolicyPage = () => {
               <h3 className="text-xl font-medium text-gray-900 mb-3">2.1 Information You Provide Directly</h3>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
                 <li><strong>Account Information:</strong> When you authenticate with Google, we collect your email address, full name, and Google user ID</li>
-                <li><strong>Chat Messages:</strong> All conversations you have with our AI assistant are stored to provide personalized service and conversation history</li>
-                <li><strong>Calendar Events:</strong> When you create events through our service, we temporarily store event details for processing</li>
+                <li><strong>Reflection Conversations:</strong> All conversations you have with our AI reflection assistant are stored to provide personalized prompts and conversation history</li>
+                <li><strong>Calendar Events:</strong> When our AI creates reflection prompts through our service, we temporarily process event details</li>
               </ul>
 
               <h3 className="text-xl font-medium text-gray-900 mb-3">2.2 Information We Collect Automatically</h3>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li><strong>Google Calendar Data:</strong> With your explicit consent, we access your Google Calendar events to provide scheduling assistance</li>
+                <li><strong>Google Calendar Data:</strong> With your explicit consent, we access your Google Calendar events to provide context-aware reflection prompts</li>
                 <li>
                   <strong>Usage Information:</strong> We collect information about how you interact with our service. This includes:
                   <ul className="list-disc list-inside text-gray-700 ml-6 mt-1 space-y-1">
@@ -86,18 +86,18 @@ const PrivacyPolicyPage = () => {
               
               <h3 className="text-xl font-medium text-gray-900 mb-3">3.1 Service Provision</h3>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>Provide AI-powered calendar scheduling and management</li>
-                <li>Generate personalized productivity insights and recommendations</li>
-                <li>Maintain conversation history for context-aware assistance</li>
-                <li>Synchronize and manage your Google Calendar events</li>
+                <li>Provide AI-powered reflection assistance with context-aware daily prompts</li>
+                <li>Generate personalized questions based on your calendar patterns and activities</li>
+                <li>Maintain conversation history for context-aware reflection guidance</li>
+                <li>Analyze your schedule to create intelligent, relevant reflection questions</li>
               </ul>
 
               <h3 className="text-xl font-medium text-gray-900 mb-3">3.2 AI Processing</h3>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>Process your messages using Azure OpenAI services for natural language understanding</li>
-                <li>Analyze your calendar patterns to provide scheduling suggestions</li>
-                <li>Generate daily reflection prompts based on your completed activities</li>
-                <li>Create contextual responses based on your conversation history</li>
+                <li>Process your messages using Azure OpenAI services for natural language understanding and reflection guidance</li>
+                <li>Analyze your calendar patterns to generate context-aware reflection prompts</li>
+                <li>Generate daily reflection questions based on your completed activities and schedule patterns</li>
+                <li>Create contextual responses based on your conversation history and productivity insights</li>
               </ul>
 
               <h3 className="text-xl font-medium text-gray-900 mb-3">3.3 Security and Authentication</h3>

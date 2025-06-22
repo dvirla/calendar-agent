@@ -31,26 +31,26 @@ const Homepage = () => {
   const features = [
     {
       icon: MessageCircle,
-      title: "Context-Aware Reflection",
-      description: "No more blank pages. AI analyzes your calendar and asks intelligent questions like 'You had 3 back-to-back meetings - how did that affect your energy?'",
+      title: "Context-Aware Questions",
+      description: "AI analyzes your schedule to ask relevant prompts",
       color: "text-purple-600"
     },
     {
-      icon: Brain,
-      title: "Smart Scheduling Assistant",
-      description: "AI that learns your patterns and helps optimize your calendar around your natural productivity rhythms and energy levels",
-      color: "text-blue-600"
-    },
-    {
       icon: BarChart3,
-      title: "Pattern Recognition",
-      description: "Discover hidden insights: which meeting types drain you, when you're most creative, and what schedule changes boost performance",
+      title: "Pattern Discovery",
+      description: "Spot what meeting types drain vs energize you",
       color: "text-green-600"
     },
     {
+      icon: Brain,
+      title: "Smart Scheduling Insights",
+      description: "Learn your optimal productivity rhythms",
+      color: "text-blue-600"
+    },
+    {
       icon: Target,
-      title: "Effortless Habit Building",
-      description: "Turn insights into action with AI-guided habit formation that connects your daily choices to long-term goals",
+      title: "90-Second Habit",
+      description: "Quick daily reflection that actually sticks",
       color: "text-orange-600"
     }
   ];
@@ -148,16 +148,16 @@ const Homepage = () => {
 
   const testimonials = [
     {
-      quote: "I've been searching for a tool that combines intelligent scheduling with personal growth tracking. MemoMind's approach to AI-driven reflections is exactly what the market needs.",
+      quote: "Finally, an AI that asks better questions than 'how was your day?' Based on my actual schedule.",
       author: "Beta Tester",
-      role: "Product Manager at Tech Company",
+      role: "Product Manager",
       metric: "Early Access User"
     },
     {
-      quote: "The concept of connecting calendar data to performance insights is brilliant. Can't wait to see how this transforms my daily workflow and helps me achieve better work-life balance.",
-      author: "Waitlist Member",
+      quote: "I've tried 6 journal apps. This is the first one I'm still using after 30 days.",
+      author: "Early Access User",
       role: "Startup Founder",
-      metric: "Joining at Launch"
+      metric: "Using for 30+ days"
     },
     {
       quote: "Finally, someone is building what Reclaim and Akiflow are missing - the self-improvement layer. This could be a game-changer for productivity-focused professionals.",
@@ -169,28 +169,24 @@ const Homepage = () => {
 
   const faqs = [
     {
-      question: "How is this different from regular journaling apps?",
-      answer: "Traditional journaling shows you a blank page and asks 'How was your day?' Our AI knows you had 4 meetings, worked late, and skipped lunch. It asks specific questions like 'That 2-hour deep work block was productive - what made it work?' No more blank page paralysis."
+      question: "How is this different from journaling apps?",
+      answer: "We know you had 4 meetings and skipped lunch. Instead of 'How was your day?' we ask 'That back-to-back schedule looked draining - what would help you protect energy better?'"
     },
     {
-      question: "I already use Motion/Reclaim for scheduling. Why do I need this?",
-      answer: "Motion optimizes your schedule, but MemoMind helps you understand WHY certain schedules work better. We're the reflection layer that turns your calendar data into self-awareness and lasting behavior change. Many users actually use both tools together."
+      question: "I already use Motion/Reclaim for scheduling. Why this?",
+      answer: "They optimize your schedule. We help you understand WHY certain schedules work better through reflection and self-awareness."
     },
     {
-      question: "What kind of questions does the AI ask?",
-      answer: "Context-aware questions based on your actual schedule: 'You seem to procrastinate on Friday afternoons - what would make those tasks more appealing?' or 'You were most energized during that brainstorming session - how can you design more moments like this?' The AI learns your patterns and gets more insightful over time."
+      question: "What if I've failed at journaling before?",
+      answer: "You quit because of blank pages, not lack of discipline. We remove the 'what to write about' problem completely."
     },
     {
-      question: "I tried journaling before and quit after a week. Will this be different?",
-      answer: "Absolutely. You quit because journaling is hard - staring at blank pages, forcing yourself to write, no clear benefit. Our AI does the thinking for you. You just answer 2-3 smart questions daily (takes 90 seconds), and the insights compound over time into real behavior change."
+      question: "How much time does this take?",
+      answer: "90 seconds daily. Our AI does the thinking - you just answer smart questions."
     },
     {
-      question: "Is my calendar and reflection data secure?",
-      answer: "Yes. We use enterprise-grade encryption and never store your calendar credentials. Data is processed in real-time using secure OAuth protocols. Your reflections remain private and are never used to train AI models or shared with anyone."
-    },
-    {
-      question: "Can I use this alongside my existing productivity tools?",
-      answer: "Definitely! MemoMind integrates with Google Calendar (Outlook coming soon) and complements tools like Notion, Motion, or Todoist. Think of us as your productivity intelligence layer that makes all your other tools more effective through insights."
+      question: "Is my calendar data secure?",
+      answer: "Yes. Enterprise-grade encryption, no data selling, easy export. Your reflections stay private."
     }
   ];
 
@@ -228,13 +224,13 @@ const Homepage = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
-              <a href="#how-different" className="text-gray-600 hover:text-gray-900 transition-colors">Why Different</a>
+              <a href="#how-different" className="text-gray-600 hover:text-gray-900 transition-colors">What's Different</a>
               <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
               <button
                 onClick={handleGetStarted}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105"
               >
-                Join Waitlist
+                Join 127+ Professionals
               </button>
             </div>
 
@@ -261,7 +257,7 @@ const Homepage = () => {
                 onClick={handleGetStarted}
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all"
               >
-                Join Waitlist
+                Join 127+ Professionals
               </button>
             </div>
           </div>
@@ -273,21 +269,20 @@ const Homepage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              The AI That Makes{' '}
+              AI Reflection Assistant That Actually{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Reflection Effortless
+                Knows Your Schedule
               </span>
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Finally, an AI that asks the right questions at the right time. No more blank page paralysis—just intelligent prompts based on your actual schedule and patterns.
+              Stop staring at blank pages. Get intelligent daily prompts based on your actual calendar events.
             </p>
 
             {/* Problem Statement */}
             <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 mb-8 max-w-2xl mx-auto border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">You know reflection is valuable. You've tried journaling.</h3>
-              <p className="text-gray-600 mb-3">It lasted 3 days.</p>
-              <p className="text-sm text-gray-500">The problem isn't discipline. It's bad UX.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">You know reflection helps. You've tried journaling apps. They lasted 3 days.</h3>
+              <p className="text-gray-600 mb-3">The issue isn't discipline—it's bad UX.</p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -295,7 +290,7 @@ const Homepage = () => {
                 onClick={handleGetStarted}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 flex items-center space-x-2"
               >
-                <span>Join the Waitlist</span>
+                <span>Join 127+ Professionals</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
               <p className="text-sm text-gray-500">Be among the first • Launching Q2 2025</p>
@@ -304,19 +299,18 @@ const Homepage = () => {
             {/* Value Props */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
-                <div className="text-2xl font-bold text-blue-600 mb-1">92%</div>
-                <div className="text-sm text-gray-600">Journal abandonment rate*</div>
+                <div className="text-lg font-bold text-blue-600 mb-2">✅ 90-second daily habit</div>
+                <div className="text-sm text-gray-600">No more blank page paralysis</div>
               </div>
               <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
-                <div className="text-2xl font-bold text-purple-600 mb-1">90 seconds</div>
-                <div className="text-sm text-gray-600">Daily reflection time needed</div>
+                <div className="text-lg font-bold text-purple-600 mb-2">📅 Calendar-aware questions</div>
+                <div className="text-sm text-gray-600">"You had 3 meetings today - how's your energy?"</div>
               </div>
               <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
-                <div className="text-2xl font-bold text-green-600 mb-1">Context-aware</div>
-                <div className="text-sm text-gray-600">Questions based on your actual day</div>
+                <div className="text-lg font-bold text-green-600 mb-2">📈 Pattern recognition</div>
+                <div className="text-sm text-gray-600">Discover what schedule types boost vs drain you</div>
               </div>
             </div>
-            <p className="text-xs text-gray-500 mt-4">*Based on behavior research studies</p>
           </div>
         </div>
       </section>
@@ -356,7 +350,35 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* How It's Different Section */}
+      {/* Features Section */}
+      <section id="features" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Smart Features for{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Effortless Growth
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Reflection shouldn't feel like work. Our AI makes it as easy as answering a text message.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200">
+                <div className={`${feature.color} mb-4`}>
+                  <feature.icon className="h-10 w-10" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        
+
+          {/* How It's Different Section */}
       <section id="how-different" className="py-16 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -397,36 +419,9 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Smart Features for{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Effortless Growth
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Reflection shouldn't feel like work. Our AI makes it as easy as answering a text message.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200">
-                <div className={`${feature.color} mb-4`}>
-                  <feature.icon className="h-10 w-10" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-
+      
           {/* How It Works */}
-          <div className="mt-20">
+          {/* <div className="mt-20">
             <h3 className="text-3xl font-bold text-gray-900 text-center mb-12">
               How MemoMind AI Works
             </h3>
@@ -453,11 +448,11 @@ const Homepage = () => {
                 <p className="text-gray-600">90-second daily reflections compound into powerful insights and lasting behavior changes.</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
-      {/* Use Cases Section */}
+      {/* Use Cases Section
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -485,10 +480,10 @@ const Homepage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-white">
+      {/* <section id="testimonials" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -518,7 +513,7 @@ const Homepage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Pricing Section */}
       <section id="pricing" className="py-20 bg-gradient-to-br from-gray-50 to-white">
@@ -624,14 +619,14 @@ const Homepage = () => {
             Ready to Make Reflection Effortless?
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join ambitious professionals who want to build self-awareness without the hassle of traditional journaling.
+            Join 127+ professionals using context-aware reflection to build self-awareness without blank page paralysis.
           </p>
           
           <button
             onClick={handleGetStarted}
             className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 inline-flex items-center space-x-2"
           >
-            <span>Join the Waitlist</span>
+            <span>Join 127+ Professionals</span>
             <ArrowRight className="h-5 w-5" />
           </button>
           
