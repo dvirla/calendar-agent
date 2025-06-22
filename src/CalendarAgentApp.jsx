@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock, MessageCircle, Plus, Settings, User, Send, Mic, MicOff, LogOut, Trash2 } from 'lucide-react';
+import { Calendar, Clock, MessageCircle, Plus, Settings, User, Send, Mic, MicOff, LogOut, Trash2, Brain, Lightbulb, TrendingUp } from 'lucide-react';
 import { useAuth } from './AuthContext';
 
 // Move component definitions outside to prevent recreation on every render
@@ -23,43 +23,44 @@ const ChatView = ({
     <div className="bg-white border-b p-4 lg:p-6">
       <div className="flex items-center justify-between">
         <h2 className="text-lg lg:text-xl font-semibold text-gray-900 flex items-center">
-          <MessageCircle className="mr-2" size={20} />
-          Chat Assistant
+          <Brain className="mr-2 text-purple-600" size={20} />
+          AI Reflection Assistant
         </h2>
         <button
           onClick={clearConversation}
           disabled={loading || messages.length <= 1}
           className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          title="Clear conversation"
+          title="Start fresh conversation"
         >
           <Trash2 size={16} />
-          <span className="hidden sm:inline">Clear</span>
+          <span className="hidden sm:inline">New Chat</span>
         </button>
       </div>
     </div>
 
     {/* Pending Actions Banner */}
     {pendingActions.length > 0 && (
-      <div className="bg-yellow-50 border-b border-yellow-200 p-4">
+      <div className="bg-blue-50 border-b border-blue-200 p-4">
         <div className="space-y-2">
+          <h3 className="text-sm font-medium text-blue-900 mb-2">AI Suggestions Ready for Approval:</h3>
           {pendingActions.map((action) => (
-            <div key={action.action_id} className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm">
+            <div key={action.action_id} className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-blue-100">
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">{action.description}</p>
-                <p className="text-xs text-gray-500">{action.action_type}</p>
+                <p className="text-xs text-blue-600 font-medium">{action.action_type}</p>
               </div>
               <div className="flex space-x-2">
                 <button
                   onClick={() => handleActionApproval(action.action_id, true)}
-                  className="px-3 py-1 bg-green-600 text-white text-xs rounded-md hover:bg-green-700"
+                  className="px-3 py-1 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 transition-colors"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleActionApproval(action.action_id, false)}
-                  className="px-3 py-1 bg-red-600 text-white text-xs rounded-md hover:bg-red-700"
+                  className="px-3 py-1 bg-gray-500 text-white text-xs rounded-md hover:bg-gray-600 transition-colors"
                 >
-                  Reject
+                  Skip
                 </button>
               </div>
             </div>
@@ -75,14 +76,14 @@ const ChatView = ({
           className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
         >
           <div
-            className={`max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-3xl px-4 py-2 rounded-2xl ${
+            className={`max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-3xl px-4 py-3 rounded-2xl ${
               message.role === 'user'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 text-gray-800'
+                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
+                : 'bg-gradient-to-r from-gray-50 to-white text-gray-800 border border-gray-100 shadow-sm'
             }`}
           >
-            <p className="text-sm lg:text-base">{message.content}</p>
-            <p className="text-xs opacity-70 mt-1">
+            <p className="text-sm lg:text-base leading-relaxed">{message.content}</p>
+            <p className="text-xs opacity-70 mt-2">
               {formatTime(message.timestamp)}
             </p>
           </div>
@@ -90,17 +91,17 @@ const ChatView = ({
       ))}
       {loading && (
         <div className="flex justify-start">
-          <div className="bg-gray-100 text-gray-800 px-4 py-2 rounded-2xl">
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100 text-gray-800 px-4 py-3 rounded-2xl">
             <div className="flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-              <span className="text-sm">AI is thinking...</span>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div>
+              <span className="text-sm">AI is analyzing your patterns...</span>
             </div>
           </div>
         </div>
       )}
     </div>
     
-    <div className="p-4 lg:p-6 border-t bg-white">
+    <div className="p-4 lg:p-6 border-t bg-gradient-to-r from-blue-50 to-purple-50">
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
           {error}
@@ -114,29 +115,23 @@ const ChatView = ({
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-          placeholder="Type your message..."
+          placeholder="Ask about your patterns, schedule optimization, or share how your day went..."
           disabled={loading}
-          className="flex-1 px-4 py-2 lg:py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base disabled:opacity-50"
+          className="flex-1 px-4 py-3 border border-purple-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm lg:text-base disabled:opacity-50 bg-white"
           autoComplete="off"
         />
-        {/* Voice recognition button commented out - not available at the moment
-        <button
-          onClick={toggleVoice}
-          className={`p-2 lg:p-3 rounded-full ${
-            isListening ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-600'
-          }`}
-          disabled={loading}
-        >
-          {isListening ? <MicOff size={20} /> : <Mic size={20} />}
-        </button>
-        */}
         <button
           onClick={sendMessage}
           disabled={loading || !inputMessage.trim()}
-          className="p-2 lg:p-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105"
         >
           <Send size={20} />
         </button>
+      </div>
+      <div className="text-center mt-3">
+        <p className="text-xs text-gray-500">
+          💡 Try: "What patterns do you notice in my schedule?" or "Help me reflect on today"
+        </p>
       </div>
     </div>
   </div>
@@ -146,8 +141,8 @@ const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime
   <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
     <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
       <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6 flex items-center">
-        <Calendar className="mr-2" size={20} />
-        Your Calendar
+        <Calendar className="mr-2 text-blue-600" size={20} />
+        Your Schedule Insights
       </h2>
       {loading ? (
         <div className="flex items-center justify-center py-8">
@@ -158,14 +153,14 @@ const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime
           {calendarEvents.map((event) => {
             const eventStatus = getEventStatus(event);
             const statusColors = {
-              upcoming: 'bg-blue-100 text-blue-800',
-              ongoing: 'bg-green-100 text-green-800',
-              completed: 'bg-gray-100 text-gray-600',
-              unknown: 'bg-red-100 text-red-800'
+              upcoming: 'bg-blue-100 text-blue-800 border-blue-200',
+              ongoing: 'bg-green-100 text-green-800 border-green-200',
+              completed: 'bg-gray-100 text-gray-600 border-gray-200',
+              unknown: 'bg-purple-100 text-purple-800 border-purple-200'
             };
             
             return (
-              <div key={event.id} className="flex items-center justify-between p-3 lg:p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div key={event.id} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-lg hover:from-blue-50 hover:to-purple-50 transition-all border border-gray-100 hover:border-blue-200">
                 <div className="flex-1">
                   <h3 className="font-medium text-gray-900 lg:text-lg">{event.summary || event.title}</h3>
                   <p className="text-sm lg:text-base text-gray-600 flex items-center mt-1">
@@ -177,7 +172,7 @@ const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime
                     <p className="text-xs lg:text-sm text-gray-500 mt-1">{event.description}</p>
                   )}
                 </div>
-                <div className={`px-3 py-1 lg:px-4 lg:py-2 rounded-full text-xs lg:text-sm font-medium ${statusColors[eventStatus] || statusColors.unknown}`}>
+                <div className={`px-3 py-1 lg:px-4 lg:py-2 rounded-full text-xs lg:text-sm font-medium border ${statusColors[eventStatus] || statusColors.unknown}`}>
                   {eventStatus}
                 </div>
               </div>
@@ -187,64 +182,147 @@ const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime
       ) : (
         <div className="text-center py-8 text-gray-500">
           <Calendar size={48} className="mx-auto mb-4 opacity-50" />
-          <p>No events found. Ask your AI assistant to help schedule something!</p>
+          <p className="text-lg font-medium mb-2">No events found</p>
+          <p className="text-sm">Connect your calendar or ask the AI to help you plan your schedule!</p>
         </div>
       )}
     </div>
   </div>
 );
 
-const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => (
-  <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
-    <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
-      <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6 flex items-center">
-        <User className="mr-2" size={20} />
-        Daily Reflection
-      </h2>
-      <div className="space-y-4 lg:space-y-6">
-        {calendarEvents.filter(event => {
-          const eventDate = formatEventDate(event.start_time || event.start);
-          return eventDate && eventDate < new Date();
-        }).length > 0 ? (
-          <>
-            <div className="p-4 lg:p-6 bg-blue-50 rounded-lg">
-              <h3 className="font-medium text-blue-900 mb-2 lg:text-lg">How did your meetings go today?</h3>
-              <p className="text-sm lg:text-base text-blue-800">
-                I see you had some meetings today. How did they go? What were the key outcomes?
-              </p>
-            </div>
-            
-            <div className="p-4 lg:p-6 bg-green-50 rounded-lg">
-              <h3 className="font-medium text-green-900 mb-2 lg:text-lg">What went well today?</h3>
-              <p className="text-sm lg:text-base text-green-800">
-                Reflect on your accomplishments and positive moments from today.
-              </p>
-            </div>
-          </>
-        ) : (
-          <div className="p-4 lg:p-6 bg-purple-50 rounded-lg">
-            <h3 className="font-medium text-purple-900 mb-2 lg:text-lg">How are you planning your day?</h3>
-            <p className="text-sm lg:text-base text-purple-800">
-              Let's plan your schedule and set intentions for a productive day.
-            </p>
-          </div>
-        )}
+const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => {
+  const todayEvents = calendarEvents.filter(event => {
+    const eventDate = formatEventDate(event.start_time || event.start);
+    if (!eventDate) return false;
+    const today = new Date();
+    return eventDate.toDateString() === today.toDateString();
+  });
+
+  const recentPastEvents = calendarEvents.filter(event => {
+    const eventDate = formatEventDate(event.start_time || event.start);
+    if (!eventDate) return false;
+    const now = new Date();
+    const yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+    return eventDate < now && eventDate >= yesterday;
+  });
+
+  const upcomingEvents = calendarEvents.filter(event => {
+    const eventDate = formatEventDate(event.start_time || event.start);
+    if (!eventDate) return false;
+    const now = new Date();
+    return eventDate > now;
+  });
+
+  return (
+    <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
+      <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
+        <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6 flex items-center">
+          <Lightbulb className="mr-2 text-purple-600" size={20} />
+          Smart Reflection Prompts
+        </h2>
         
-        <button 
-          onClick={() => setCurrentView('chat')}
-          className="w-full bg-purple-500 text-white py-3 lg:py-4 rounded-lg hover:bg-purple-600 transition-colors text-sm lg:text-base"
-        >
-          Start Reflection Chat
-        </button>
+        <div className="space-y-4 lg:space-y-6">
+          {/* Context-aware reflection based on actual calendar data */}
+          {recentPastEvents.length > 0 ? (
+            <div className="p-4 lg:p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-100">
+              <h3 className="font-medium text-purple-900 mb-3 flex items-center lg:text-lg">
+                <TrendingUp className="mr-2" size={18} />
+                Reflect on Recent Activities
+              </h3>
+              <p className="text-sm lg:text-base text-purple-800 mb-3">
+                I noticed you had {recentPastEvents.length} event{recentPastEvents.length > 1 ? 's' : ''} recently. 
+                {recentPastEvents.length >= 3 ? " That was a busy period!" : ""} How did those go?
+              </p>
+              <div className="space-y-2">
+                {recentPastEvents.slice(0, 2).map((event, index) => (
+                  <div key={index} className="text-xs lg:text-sm text-purple-700 bg-white/50 p-2 rounded">
+                    • {event.summary || event.title}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : todayEvents.length > 0 ? (
+            <div className="p-4 lg:p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-100">
+              <h3 className="font-medium text-blue-900 mb-3 flex items-center lg:text-lg">
+                <Clock className="mr-2" size={18} />
+                Today's Schedule Analysis
+              </h3>
+              <p className="text-sm lg:text-base text-blue-800 mb-3">
+                You have {todayEvents.length} event{todayEvents.length > 1 ? 's' : ''} today. 
+                {todayEvents.length >= 4 ? " That's quite packed!" : 
+                 todayEvents.length >= 2 ? " A moderately busy day." : " A lighter schedule today."}
+              </p>
+              <p className="text-sm lg:text-base text-blue-700">
+                How are you feeling about today's energy level and focus time?
+              </p>
+            </div>
+          ) : upcomingEvents.length > 0 ? (
+            <div className="p-4 lg:p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-100">
+              <h3 className="font-medium text-green-900 mb-3 flex items-center lg:text-lg">
+                <Calendar className="mr-2" size={18} />
+                Planning & Intention Setting
+              </h3>
+              <p className="text-sm lg:text-base text-green-800 mb-3">
+                I see you have {upcomingEvents.length} upcoming event{upcomingEvents.length > 1 ? 's' : ''}. 
+                Let's set some intentions for how you want to approach them.
+              </p>
+              <p className="text-sm lg:text-base text-green-700">
+                What would make your upcoming schedule feel more manageable and energizing?
+              </p>
+            </div>
+          ) : (
+            <div className="p-4 lg:p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-100">
+              <h3 className="font-medium text-purple-900 mb-3 flex items-center lg:text-lg">
+                <Brain className="mr-2" size={18} />
+                General Reflection & Planning
+              </h3>
+              <p className="text-sm lg:text-base text-purple-800 mb-3">
+                Your calendar looks pretty open right now. This is a great time for reflection and intentional planning.
+              </p>
+              <p className="text-sm lg:text-base text-purple-700">
+                How are you feeling about your current productivity patterns and work-life balance?
+              </p>
+            </div>
+          )}
+
+          {/* Pattern insights if available */}
+          <div className="p-4 lg:p-6 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-100">
+            <h3 className="font-medium text-yellow-900 mb-2 lg:text-lg">💡 Quick Pattern Check</h3>
+            <div className="space-y-2 text-sm lg:text-base text-yellow-800">
+              <p>• When do you typically feel most productive during the day?</p>
+              <p>• Are there any meeting types that consistently drain your energy?</p>
+              <p>• What time of day do you find yourself procrastinating most?</p>
+            </div>
+          </div>
+          
+          <button 
+            onClick={() => setCurrentView('chat')}
+            className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white py-3 lg:py-4 rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all text-sm lg:text-base font-medium transform hover:scale-[1.02]"
+          >
+            Start AI-Guided Reflection Chat
+          </button>
+
+          {/* Helpful tips */}
+          <div className="bg-gray-50 p-4 rounded-lg border">
+            <h4 className="font-medium text-gray-900 mb-2 text-sm lg:text-base">💭 Reflection Tips:</h4>
+            <ul className="text-xs lg:text-sm text-gray-600 space-y-1">
+              <li>• Be honest about what worked and what didn't</li>
+              <li>• Focus on patterns rather than perfect days</li>
+              <li>• Ask the AI to help you connect dots between events and energy</li>
+              <li>• Use insights to make small, sustainable changes</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const CalendarAgentApp = () => {
   const navigate = useNavigate();
   const { user, logout, apiRequest, isAuthenticated } = useAuth();
-  const [currentView, setCurrentView] = useState('chat');
+  const [currentView, setCurrentView] = useState('reflection'); // Start with reflection view
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isListening, setIsListening] = useState(false);
@@ -263,7 +341,7 @@ const CalendarAgentApp = () => {
     // Track page view
     if (typeof gtag !== 'undefined') {
       gtag('config', 'G-57CNRN5B5M', {
-        page_title: 'Calendar Agent App',
+        page_title: 'MemoMind AI App',
         page_location: window.location.href
       });
     }
@@ -296,7 +374,7 @@ const CalendarAgentApp = () => {
         setMessages([{
           id: 1,
           role: 'assistant',
-          content: `Hi ${user?.full_name || 'there'}! I'm your calendar assistant. I can help you plan your schedule and reflect on your day. What would you like to do?`,
+          content: `Hi ${user?.full_name || 'there'}! 👋 I'm your AI reflection assistant. I analyze your calendar patterns and ask smart questions to help you build self-awareness. Ready to discover insights about your productivity and habits?`,
           timestamp: new Date().toISOString()
         }]);
       }
@@ -325,7 +403,7 @@ const CalendarAgentApp = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
-    const currentInput = inputMessage; // Store the input before clearing
+    const currentInput = inputMessage;
     setInputMessage('');
     setLoading(true);
 
@@ -360,7 +438,7 @@ const CalendarAgentApp = () => {
       const errorMessage = {
         id: Date.now() + 1,
         role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.',
+        content: 'Sorry, I encountered an error while analyzing your patterns. Please try again, or try asking a different question about your schedule.',
         timestamp: new Date().toISOString()
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -386,7 +464,7 @@ const CalendarAgentApp = () => {
       const confirmationMessage = {
         id: Date.now(),
         role: 'assistant',
-        content: approve ? 'Action approved and completed!' : 'Action has been cancelled.',
+        content: approve ? '✅ Great! I\'ve applied that suggestion to your calendar.' : '👍 No problem, I\'ve noted your preference for future recommendations.',
         timestamp: new Date().toISOString()
       };
       setMessages(prev => [...prev, confirmationMessage]);
@@ -421,13 +499,10 @@ const CalendarAgentApp = () => {
       let dateToFormat;
       
       if (typeof startTime === 'string') {
-        // Backend sends ISO datetime strings
         dateToFormat = new Date(startTime);
       } else if (startTime && startTime.dateTime) {
-        // Google Calendar API format: { dateTime: "2024-01-15T10:00:00-05:00" }
         dateToFormat = new Date(startTime.dateTime);
       } else if (startTime && startTime.date) {
-        // All-day event format: { date: "2024-01-15" }
         const date = new Date(startTime.date + 'T00:00:00');
         return date.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }) + ' - All day';
       } else {
@@ -435,7 +510,6 @@ const CalendarAgentApp = () => {
         return 'Date/time not available';
       }
       
-      // Check if the date is valid
       if (isNaN(dateToFormat.getTime())) {
         console.warn('Invalid date detected:', startTime);
         return 'Date/time not available';
@@ -445,7 +519,6 @@ const CalendarAgentApp = () => {
       const tomorrow = new Date(today);
       tomorrow.setDate(today.getDate() + 1);
       
-      // Format date part
       let dateStr;
       if (dateToFormat.toDateString() === today.toDateString()) {
         dateStr = 'Today';
@@ -455,7 +528,6 @@ const CalendarAgentApp = () => {
         dateStr = dateToFormat.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
       }
       
-      // Format time part
       const timeStr = dateToFormat.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
       
       return `${dateStr} at ${timeStr}`;
@@ -474,20 +546,16 @@ const CalendarAgentApp = () => {
       let dateToFormat;
       
       if (typeof startTime === 'string') {
-        // Backend sends ISO datetime strings
         dateToFormat = new Date(startTime);
       } else if (startTime && startTime.dateTime) {
-        // Google Calendar API format: { dateTime: "2024-01-15T10:00:00-05:00" }
         dateToFormat = new Date(startTime.dateTime);
       } else if (startTime && startTime.date) {
-        // All-day event format: { date: "2024-01-15" }
         return 'All day';
       } else {
         console.warn('Unrecognized start time format:', startTime);
         return 'Time not available';
       }
       
-      // Check if the date is valid
       if (isNaN(dateToFormat.getTime())) {
         console.warn('Invalid date detected:', startTime);
         return 'Time not available';
@@ -509,12 +577,10 @@ const CalendarAgentApp = () => {
       let dateToFormat;
       
       if (typeof startTime === 'string') {
-        // Backend sends ISO datetime strings
         dateToFormat = new Date(startTime);
       } else if (startTime && startTime.dateTime) {
         dateToFormat = new Date(startTime.dateTime);
       } else if (startTime && startTime.date) {
-        // For all-day events, create date at midnight local time
         dateToFormat = new Date(startTime.date + 'T00:00:00');
       } else {
         console.warn('Unrecognized date format:', startTime);
@@ -562,32 +628,29 @@ const CalendarAgentApp = () => {
     try {
       setLoading(true);
       
-      // Call backend to clear conversation
       await apiRequest('/chat/clear', {
         method: 'POST'
       });
       
-      // Clear local messages and show welcome message
       setMessages([{
         id: Date.now(),
         role: 'assistant',
-        content: `Hi ${user?.full_name || 'there'}! I'm your calendar assistant. I can help you plan your schedule and reflect on your day. What would you like to do?`,
+        content: `Fresh start! 🌟 I'm ready to help you reflect on your patterns and optimize your schedule. What would you like to explore about your productivity or habits?`,
         timestamp: new Date().toISOString()
       }]);
       
       setError(null);
     } catch (error) {
       console.error('Error clearing conversation:', error);
-      setError('Failed to clear conversation. Please try again.');
+      setError('Failed to start new conversation. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-
   const UserProfile = () => (
     <div className="flex items-center space-x-3">
-      <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+      <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
         {user?.full_name?.charAt(0) || user?.email?.charAt(0) || 'U'}
       </div>
       <div className="hidden lg:block">
@@ -609,7 +672,7 @@ const CalendarAgentApp = () => {
       {/* Header - visible on mobile, hidden on desktop */}
       <header className="lg:hidden bg-white shadow-sm border-b p-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-900">Calendar Agent</h1>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">MemoMind AI</h1>
           <UserProfile />
         </div>
       </header>
@@ -617,18 +680,29 @@ const CalendarAgentApp = () => {
       {/* Desktop Sidebar Navigation */}
       <nav className="hidden lg:flex lg:flex-col lg:w-64 bg-white border-r">
         <div className="p-6">
-          <h1 className="text-2xl font-bold text-gray-900">Calendar Agent</h1>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">MemoMind AI</h1>
+          <p className="text-xs text-gray-500 mt-1">AI-Powered Reflection</p>
         </div>
         
         <div className="flex-1 px-4 space-y-2">
           <button
-            onClick={() => setCurrentView('chat')}
-            className={`w-full flex items-center px-4 py-3 rounded-lg text-left relative ${
-              currentView === 'chat' ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'
+            onClick={() => setCurrentView('reflection')}
+            className={`w-full flex items-center px-4 py-3 rounded-lg text-left ${
+              currentView === 'reflection' ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            <MessageCircle size={20} className="mr-3" />
-            <span>Chat Assistant</span>
+            <Lightbulb size={20} className="mr-3" />
+            <span>Smart Reflection</span>
+          </button>
+          
+          <button
+            onClick={() => setCurrentView('chat')}
+            className={`w-full flex items-center px-4 py-3 rounded-lg text-left relative ${
+              currentView === 'chat' ? 'bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            <Brain size={20} className="mr-3" />
+            <span>AI Assistant</span>
             {pendingActions.length > 0 && (
               <span className="absolute right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {pendingActions.length}
@@ -639,21 +713,11 @@ const CalendarAgentApp = () => {
           <button
             onClick={() => setCurrentView('calendar')}
             className={`w-full flex items-center px-4 py-3 rounded-lg text-left ${
-              currentView === 'calendar' ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'
+              currentView === 'calendar' ? 'bg-gradient-to-r from-green-100 to-blue-100 text-green-700' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             <Calendar size={20} className="mr-3" />
-            <span>Calendar</span>
-          </button>
-          
-          <button
-            onClick={() => setCurrentView('reflection')}
-            className={`w-full flex items-center px-4 py-3 rounded-lg text-left ${
-              currentView === 'reflection' ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            <User size={20} className="mr-3" />
-            <span>Reflection</span>
+            <span>Schedule View</span>
           </button>
         </div>
         
@@ -664,6 +728,13 @@ const CalendarAgentApp = () => {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col lg:min-h-screen">
+        {currentView === 'reflection' && (
+          <ReflectionView 
+            calendarEvents={calendarEvents}
+            formatEventDate={formatEventDate}
+            setCurrentView={setCurrentView}
+          />
+        )}
         {currentView === 'chat' && (
           <ChatView 
             messages={messages}
@@ -689,26 +760,29 @@ const CalendarAgentApp = () => {
             formatEventDateTime={formatEventDateTime}
           />
         )}
-        {currentView === 'reflection' && (
-          <ReflectionView 
-            calendarEvents={calendarEvents}
-            formatEventDate={formatEventDate}
-            setCurrentView={setCurrentView}
-          />
-        )}
       </main>
 
       {/* Bottom Navigation - only visible on mobile */}
       <nav className="lg:hidden bg-white border-t p-2">
         <div className="flex justify-around">
           <button
+            onClick={() => setCurrentView('reflection')}
+            className={`flex flex-col items-center p-2 rounded-lg ${
+              currentView === 'reflection' ? 'bg-purple-100 text-purple-600' : 'text-gray-600'
+            }`}
+          >
+            <Lightbulb size={20} />
+            <span className="text-xs mt-1">Reflect</span>
+          </button>
+          
+          <button
             onClick={() => setCurrentView('chat')}
             className={`flex flex-col items-center p-2 rounded-lg relative ${
               currentView === 'chat' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'
             }`}
           >
-            <MessageCircle size={20} />
-            <span className="text-xs mt-1">Chat</span>
+            <Brain size={20} />
+            <span className="text-xs mt-1">AI Chat</span>
             {pendingActions.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                 {pendingActions.length}
@@ -719,21 +793,11 @@ const CalendarAgentApp = () => {
           <button
             onClick={() => setCurrentView('calendar')}
             className={`flex flex-col items-center p-2 rounded-lg ${
-              currentView === 'calendar' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'
+              currentView === 'calendar' ? 'bg-green-100 text-green-600' : 'text-gray-600'
             }`}
           >
             <Calendar size={20} />
-            <span className="text-xs mt-1">Calendar</span>
-          </button>
-          
-          <button
-            onClick={() => setCurrentView('reflection')}
-            className={`flex flex-col items-center p-2 rounded-lg ${
-              currentView === 'reflection' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'
-            }`}
-          >
-            <User size={20} />
-            <span className="text-xs mt-1">Reflect</span>
+            <span className="text-xs mt-1">Schedule</span>
           </button>
         </div>
       </nav>
