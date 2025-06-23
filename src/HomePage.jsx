@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Brain, Clock, Sparkles, CheckCircle, Menu, X, ArrowRight, Star, Shield, Zap, TrendingUp, BarChart3, Target, Users } from 'lucide-react';
+import { Calendar, Brain, Clock, Sparkles, CheckCircle, Menu, X, ArrowRight, Star, Shield, Zap, TrendingUp, BarChart3, Target, Users, MessageCircle, Lightbulb } from 'lucide-react';
 import {
   hasCookieConsentBeenSet,
   hasGivenConsent,
@@ -24,55 +24,73 @@ const Homepage = () => {
     if (!hasCookieConsentBeenSet()) {
       setShowCookieConsent(true);
     } else if (hasGivenConsent()) {
-      // If consent was already given on a previous visit, track page view for the current page
       trackPageView('Homepage', window.location.href);
     }
-    // If consent has been set but not given (i.e., rejected), or not set at all,
-    // analytics will not run until/unless consent is explicitly granted.
   }, []);
 
   const features = [
     {
-      icon: Brain,
-      title: "AI-Powered Time Blocking",
-      description: "Intelligent calendar optimization that learns your work patterns and automatically schedules focus time, meetings, and breaks for peak performance",
-      color: "text-blue-600"
-    },
-    {
-      icon: TrendingUp,
-      title: "Performance Analytics & Insights",
-      description: "Transform your calendar data into actionable insights. Discover when you're most productive, which meetings drain energy, and how to optimize your schedule",
+      icon: MessageCircle,
+      title: "Context-Aware Questions",
+      description: "AI analyzes your schedule to ask relevant prompts",
       color: "text-purple-600"
     },
     {
-      icon: Target,
-      title: "Daily Reflection & Goal Tracking",
-      description: "AI-guided reflections that connect your daily activities to long-term goals. Build better habits with personalized prompts based on your actual behavior",
+      icon: BarChart3,
+      title: "Pattern Discovery",
+      description: "Spot what meeting types drain vs energize you",
       color: "text-green-600"
     },
     {
-      icon: BarChart3,
-      title: "Work-Life Balance Optimization",
-      description: "Track time across life domains - work, health, relationships, growth. Get AI recommendations to maintain balance and prevent burnout",
+      icon: Brain,
+      title: "Smart Scheduling Insights",
+      description: "Learn your optimal productivity rhythms",
+      color: "text-blue-600"
+    },
+    {
+      icon: Target,
+      title: "90-Second Habit",
+      description: "Quick daily reflection that actually sticks",
       color: "text-orange-600"
+    }
+  ];
+
+  const differentiators = [
+    {
+      category: "Motion/Reclaim",
+      description: "Schedules your time",
+      color: "bg-gray-100 text-gray-600"
+    },
+    {
+      category: "Journal Apps",
+      description: "Ask generic questions",
+      color: "bg-gray-100 text-gray-600"
+    },
+    {
+      category: "MemoMind AI",
+      description: "Learns your patterns and asks intelligent, contextual questions",
+      color: "bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 border-2 border-blue-200"
     }
   ];
 
   const useCases = [
     {
-      title: "For High-Performing Executives",
-      description: "Optimize meeting efficiency, protect deep work time, and get weekly insights on team productivity patterns",
-      icon: Users
+      title: "For Busy Executives",
+      description: "Finally understand which meetings energize vs drain you. Get AI insights on optimal scheduling patterns and team productivity",
+      icon: Users,
+      example: "'You seem most decisive in Tuesday morning meetings - what makes those different?'"
     },
     {
-      title: "For Ambitious Entrepreneurs",
-      description: "Balance multiple projects, track time allocation across ventures, and ensure personal health doesn't get sacrificed",
-      icon: Zap
+      title: "For Overwhelmed Entrepreneurs",
+      description: "Balance multiple projects without burning out. Track energy patterns and get personalized questions about your work habits",
+      icon: Zap,
+      example: "'You skipped lunch 3 times this week and felt tired at 3pm - see the pattern?'"
     },
     {
       title: "For Growth-Minded Professionals",
-      description: "Build better work habits, identify productivity patterns, and make data-driven decisions about your time",
-      icon: TrendingUp
+      description: "Turn your calendar into a learning tool. Discover productivity patterns you never noticed and build better habits",
+      icon: TrendingUp,
+      example: "'Your best ideas seem to come during unscheduled time - how can you protect more of it?'"
     }
   ];
 
@@ -81,39 +99,39 @@ const Homepage = () => {
       name: "Free",
       price: "$0",
       period: "forever",
-      description: "Perfect for getting started",
+      description: "Perfect for getting started with AI reflection",
       features: [
-        "Basic AI scheduling assistant",
+        "Basic AI reflection prompts",
         "Google Calendar sync",
-        "3 daily reflection prompts",
-        "Weekly productivity summary",
-        "Up to 20 events/month"
+        "3 personalized questions daily",
+        "Weekly pattern insights",
+        "Up to 20 calendar events/month"
       ],
       cta: "Start Free",
       popular: false
     },
     {
       name: "Pro",
-      price: "$12",
+      price: "$7",
       period: "per month",
-      description: "For serious productivity optimization",
+      description: "For serious self-improvement enthusiasts",
       features: [
-        "Advanced AI time blocking",
-        "Unlimited smart scheduling",
+        "Advanced AI reflection engine",
+        "Unlimited smart questions",
         "Custom reflection templates",
-        "Detailed analytics dashboard",
-        "Meeting efficiency scores",
+        "Detailed pattern analytics",
         "Energy level tracking",
-        "Priority email support"
+        "Meeting efficiency insights",
+        "Priority support"
       ],
       cta: "Start 14-Day Trial",
       popular: true
     },
     {
       name: "Premium",
-      price: "$24",
+      price: "$15",
       period: "per month",
-      description: "For performance maximization",
+      description: "For performance optimization power users",
       features: [
         "Everything in Pro",
         "AI coaching recommendations",
@@ -121,8 +139,7 @@ const Homepage = () => {
         "Quarterly performance reviews",
         "Work-life balance scoring",
         "Team productivity insights",
-        "Custom integrations",
-        "Dedicated success manager"
+        "Custom integrations"
       ],
       cta: "Start Premium",
       popular: false
@@ -131,16 +148,16 @@ const Homepage = () => {
 
   const testimonials = [
     {
-      quote: "I've been searching for a tool that combines intelligent scheduling with personal growth tracking. MemoMind's approach to AI-driven reflections is exactly what the market needs.",
+      quote: "Finally, an AI that asks better questions than 'how was your day?' Based on my actual schedule.",
       author: "Beta Tester",
-      role: "Product Manager at Tech Company",
+      role: "Product Manager",
       metric: "Early Access User"
     },
     {
-      quote: "The concept of connecting calendar data to performance insights is brilliant. Can't wait to see how this transforms my daily workflow and helps me achieve better work-life balance.",
-      author: "Waitlist Member",
+      quote: "I've tried 6 journal apps. This is the first one I'm still using after 30 days.",
+      author: "Early Access User",
       role: "Startup Founder",
-      metric: "Joining at Launch"
+      metric: "Using for 30+ days"
     },
     {
       quote: "Finally, someone is building what Reclaim and Akiflow are missing - the self-improvement layer. This could be a game-changer for productivity-focused professionals.",
@@ -152,28 +169,24 @@ const Homepage = () => {
 
   const faqs = [
     {
-      question: "How is MemoMind different from other calendar apps like Reclaim.ai or Akiflow?",
-      answer: "While other tools focus solely on scheduling, MemoMind combines intelligent time blocking with performance analytics and guided self-reflection. Our AI doesn't just organize your calendar—it helps you understand your productivity patterns, build better habits, and achieve work-life balance through data-driven insights."
+      question: "How is this different from journaling apps?",
+      answer: "We know you had 4 meetings and skipped lunch. Instead of 'How was your day?' we ask 'That back-to-back schedule looked draining - what would help you protect energy better?'"
     },
     {
-      question: "I'm currently using Motion/Calendly/other tools. Why should I switch?",
-      answer: "MemoMind isn't just another scheduling tool—it's your performance optimization system. While Motion focuses on task management and Calendly on booking, we analyze your entire calendar to provide insights like peak productivity hours, meeting efficiency scores, and personalized recommendations. Plus, our daily reflection feature turns these insights into lasting behavior change."
+      question: "I already use Motion/Reclaim for scheduling. Why this?",
+      answer: "They optimize your schedule. We help you understand WHY certain schedules work better through reflection and self-awareness."
     },
     {
-      question: "What kind of insights will I get from the AI analytics?",
-      answer: "You'll discover your peak productivity hours, meeting efficiency scores, time allocation across life domains, energy patterns throughout the day, and personalized recommendations for schedule optimization. For example, you might learn that your focus peaks at 10 AM or that Friday meetings tend to run 40% longer than necessary."
+      question: "What if I've failed at journaling before?",
+      answer: "You quit because of blank pages, not lack of discipline. We remove the 'what to write about' problem completely."
     },
     {
-      question: "How does the daily reflection feature work?",
-      answer: "Each day, our AI generates personalized reflection prompts based on your calendar data and goals. You'll spend 2-3 minutes answering questions like 'What made today's deep work session effective?' or 'How did that meeting align with your quarterly objectives?' Over time, these micro-reflections compound into powerful behavior changes."
+      question: "How much time does this take?",
+      answer: "90 seconds daily. Our AI does the thinking - you just answer smart questions."
     },
     {
-      question: "Is my calendar and reflection data secure?",
-      answer: "Absolutely. We use enterprise-grade encryption and never store your calendar credentials. Your data is processed in real-time using secure OAuth protocols through Vercel and Railway's infrastructure. Your reflections and insights remain private and are never shared or used to train our AI models."
-    },
-    {
-      question: "Can I use MemoMind with my existing productivity workflow?",
-      answer: "Yes! MemoMind integrates seamlessly with Google Calendar (Outlook coming soon) and complements tools like Notion, Todoist, or Asana. Think of it as your productivity intelligence layer that makes all your other tools more effective through insights and optimization."
+      question: "Is my calendar data secure?",
+      answer: "Yes. Enterprise-grade encryption, no data selling, easy export. Your reflections stay private."
     }
   ];
 
@@ -182,24 +195,16 @@ const Homepage = () => {
   };
 
   const handleAcceptCookies = () => {
-    // Store acceptance in localStorage
     localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
     localStorage.setItem(COOKIE_CONSENT_DATE_KEY, new Date().toISOString());
-    
-    // Grant consent and initialize GA (which includes the first pageview)
     grantAnalyticsConsent();
-    
     setShowCookieConsent(false);
   };
 
   const handleRejectCookies = () => {
-    // Store rejection in localStorage
     localStorage.setItem(COOKIE_CONSENT_KEY, 'rejected');
     localStorage.setItem(COOKIE_CONSENT_DATE_KEY, new Date().toISOString());
-    
-    // Deny consent for analytics
     denyAnalyticsConsent();
-    
     setShowCookieConsent(false);
   };
 
@@ -219,14 +224,13 @@ const Homepage = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
-              <a href="#use-cases" className="text-gray-600 hover:text-gray-900 transition-colors">Use Cases</a>
+              <a href="#how-different" className="text-gray-600 hover:text-gray-900 transition-colors">What's Different</a>
               <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
-              {/* <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">Testimonials</a> */}
               <button
                 onClick={handleGetStarted}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105"
               >
-                Get Early Access
+                Join 127+ Professionals
               </button>
             </div>
 
@@ -247,14 +251,13 @@ const Homepage = () => {
           <div className="md:hidden bg-white border-t border-gray-100">
             <div className="px-4 py-4 space-y-4">
               <a href="#features" className="block text-gray-600 hover:text-gray-900">Features</a>
-              <a href="#use-cases" className="block text-gray-600 hover:text-gray-900">Use Cases</a>
+              <a href="#how-different" className="block text-gray-600 hover:text-gray-900">Why Different</a>
               <a href="#pricing" className="block text-gray-600 hover:text-gray-900">Pricing</a>
-              {/* <a href="#testimonials" className="block text-gray-600 hover:text-gray-900">Testimonials</a> */}
               <button
                 onClick={handleGetStarted}
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all"
               >
-                Get Early Access
+                Join 127+ Professionals
               </button>
             </div>
           </div>
@@ -265,85 +268,100 @@ const Homepage = () => {
       <section className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="flex justify-center mb-8">
-              {/* <div className="bg-gradient-to-r from-blue-100 to-purple-100 p-4 rounded-full">
-                <img src={mainLogo} alt="MemoMind AI" className="h-17 w-17" />
-              </div> */}
-            </div>
-            
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              The AI Calendar Assistant That{' '}
+              AI Reflection Assistant That Actually{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Optimizes Your Performance
+                Knows Your Schedule
               </span>
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Go beyond time management. MemoMind AI analyzes your calendar patterns, provides performance insights, 
-              and guides daily reflections to help you work smarter, achieve goals faster, and maintain work-life balance.
+              Stop staring at blank pages. Get intelligent daily prompts based on your actual calendar events.
             </p>
+
+            {/* Problem Statement */}
+            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 mb-8 max-w-2xl mx-auto border border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">You know reflection helps. You've tried journaling apps. They lasted 3 days.</h3>
+              <p className="text-gray-600 mb-3">The issue isn't discipline—it's bad UX.</p>
+            </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <button
                 onClick={handleGetStarted}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 flex items-center space-x-2"
               >
-                <span>Join the Waitlist</span>
+                <span>Join 127+ Professionals</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <p className="text-sm text-gray-500">Get early access • No credit card required</p>
+              <p className="text-sm text-gray-500">Be among the first • Launching Q2 2025</p>
             </div>
 
-            {/* Value Props - Based on Research */}
+            {/* Value Props */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
-                <div className="text-2xl font-bold text-blue-600 mb-1">40%</div>
-                <div className="text-sm text-gray-600">Of work time lost to poor scheduling*</div>
+                <div className="text-lg font-bold text-blue-600 mb-2">✅ 90-second daily habit</div>
+                <div className="text-sm text-gray-600">No more blank page paralysis</div>
               </div>
               <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
-                <div className="text-2xl font-bold text-purple-600 mb-1">2-3 hours</div>
-                <div className="text-sm text-gray-600">Daily deep work needed for peak performance*</div>
+                <div className="text-lg font-bold text-purple-600 mb-2">📅 Calendar-aware questions</div>
+                <div className="text-sm text-gray-600">"You had 3 meetings today - how's your energy?"</div>
               </div>
               <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-gray-200">
-                <div className="text-2xl font-bold text-green-600 mb-1">71%</div>
-                <div className="text-sm text-gray-600">Of professionals struggle with work-life balance*</div>
+                <div className="text-lg font-bold text-green-600 mb-2">📈 Pattern recognition</div>
+                <div className="text-sm text-gray-600">Discover what schedule types boost vs drain you</div>
               </div>
             </div>
-            <p className="text-xs text-gray-500 mt-4">*Based on productivity research studies</p>
           </div>
         </div>
       </section>
 
-      {/* Problem/Solution Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Your Calendar Shows What You Do.{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                We Show You How to Do It Better.
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Most professionals lose 40% of their productive time to poor scheduling and lack insight into their work patterns. 
-              MemoMind AI transforms your calendar from a scheduling tool into a performance optimization system.
+      {/* Founder Story Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Born from Personal Frustration</h2>
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 border border-blue-100">
+            <p className="text-lg text-gray-700 mb-4 italic">
+              "As a data scientist, I knew reflection was valuable—but traditional journaling felt impossible. 
+              Blank pages, forced prompts, no insights over time. So I built an AI that knows my schedule 
+              and asks smarter questions."
             </p>
+            <p className="text-gray-600 font-medium">— Founder, MemoMind AI</p>
+          </div>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+            <div className="bg-red-50 p-6 rounded-lg border border-red-100">
+              <h4 className="font-semibold text-red-900 mb-2">❌ Traditional Journaling</h4>
+              <ul className="text-sm text-red-700 space-y-1">
+                <li>• Blank page paralysis</li>
+                <li>• Generic daily prompts</li>
+                <li>• No pattern recognition</li>
+                <li>• Hard to maintain consistency</li>
+              </ul>
+            </div>
+            <div className="bg-green-50 p-6 rounded-lg border border-green-100">
+              <h4 className="font-semibold text-green-900 mb-2">✅ MemoMind AI</h4>
+              <ul className="text-sm text-green-700 space-y-1">
+                <li>• Context-aware questions</li>
+                <li>• Based on your actual schedule</li>
+                <li>• Discovers hidden patterns</li>
+                <li>• 90-second daily habit</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      <section id="features" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Intelligent Features for{' '}
+              Smart Features for{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Peak Performance
+                Effortless Growth
               </span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Combine AI-powered scheduling with performance analytics and guided self-improvement.
+              Reflection shouldn't feel like work. Our AI makes it as easy as answering a text message.
             </p>
           </div>
 
@@ -358,9 +376,52 @@ const Homepage = () => {
               </div>
             ))}
           </div>
+        
 
+          {/* How It's Different Section */}
+      <section id="how-different" className="py-16 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              How We're{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Different
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600">We're not another scheduling tool or journal app</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {differentiators.map((item, index) => (
+              <div
+                key={index}
+                className={`text-center p-6 rounded-xl ${item.color}`}
+              >
+                <h3 className="font-bold text-lg mb-2">{item.category}</h3>
+                <p className="text-sm">{item.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Example Questions */}
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 border border-blue-100">
+            <h3 className="text-xl font-semibold text-center mb-6">What Context-Aware Reflection Looks Like:</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white p-4 rounded-lg shadow-sm">
+                <h4 className="font-medium text-gray-900 mb-2">❌ Generic Journal Prompt:</h4>
+                <p className="text-gray-600 text-sm">"How was your day today?"</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                <h4 className="font-medium text-blue-900 mb-2">✅ MemoMind AI Question:</h4>
+                <p className="text-blue-700 text-sm">"You had 3 back-to-back meetings this morning, then felt most productive during your 2pm focus block. What made that afternoon session work so well?"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
           {/* How It Works */}
-          <div className="mt-20">
+          {/* <div className="mt-20">
             <h3 className="text-3xl font-bold text-gray-900 text-center mb-12">
               How MemoMind AI Works
             </h3>
@@ -370,56 +431,59 @@ const Homepage = () => {
                   <span className="text-2xl font-bold text-blue-600">1</span>
                 </div>
                 <h4 className="text-lg font-semibold mb-2">Connect Your Calendar</h4>
-                <p className="text-gray-600">Securely sync with Google Calendar. Our AI begins learning your patterns immediately.</p>
+                <p className="text-gray-600">Secure Google Calendar sync. Our AI immediately starts learning your patterns and productivity rhythms.</p>
               </div>
               <div className="text-center">
                 <div className="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold text-purple-600">2</span>
                 </div>
-                <h4 className="text-lg font-semibold mb-2">Get AI Insights</h4>
-                <p className="text-gray-600">Receive daily analytics on productivity, meeting efficiency, and time allocation.</p>
+                <h4 className="text-lg font-semibold mb-2">Get Smart Questions</h4>
+                <p className="text-gray-600">Receive 2-3 personalized reflection prompts daily, based on your actual schedule and behavior patterns.</p>
               </div>
               <div className="text-center">
                 <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold text-green-600">3</span>
                 </div>
-                <h4 className="text-lg font-semibold mb-2">Reflect & Improve</h4>
-                <p className="text-gray-600">Complete guided reflections that turn insights into lasting behavior change.</p>
+                <h4 className="text-lg font-semibold mb-2">Build Better Habits</h4>
+                <p className="text-gray-600">90-second daily reflections compound into powerful insights and lasting behavior changes.</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
-      {/* Use Cases Section */}
-      <section id="use-cases" className="py-20 bg-white">
+      {/* Use Cases Section
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Built for{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                High Performers
+                Busy Professionals
               </span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Whether you're leading teams, building companies, or advancing your career, MemoMind AI adapts to your needs.
+              Whether you're leading teams, building companies, or optimizing your career, MemoMind adapts to your unique challenges.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {useCases.map((useCase, index) => (
-              <div key={index} className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 hover:shadow-lg transition-all">
+              <div key={index} className="bg-white rounded-2xl p-8 hover:shadow-lg transition-all border border-gray-100">
                 <useCase.icon className="h-12 w-12 text-blue-600 mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{useCase.title}</h3>
-                <p className="text-gray-600">{useCase.description}</p>
+                <p className="text-gray-600 mb-4">{useCase.description}</p>
+                <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                  <p className="text-sm text-blue-700 italic">Example: {useCase.example}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials Section */}
-      {/* <section id="testimonials" className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      {/* <section id="testimonials" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -452,16 +516,16 @@ const Homepage = () => {
       </section> */}
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-white">
+      <section id="pricing" className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Simple Pricing for{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Exceptional ROI
+                Powerful Insights
               </span>
             </h2>
-            <p className="text-xl text-gray-600">Start free, upgrade when you see the value</p>
+            <p className="text-xl text-gray-600">Start free, upgrade when you see the value of effortless reflection</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -515,17 +579,17 @@ const Homepage = () => {
             ))}
           </div>
 
-          {/* <div className="mt-12 text-center">
+          <div className="mt-12 text-center">
             <p className="text-gray-600">
               <Shield className="h-5 w-5 inline mr-2" />
               30-day money-back guarantee • Cancel anytime • No hidden fees
             </p>
-          </div> */}
+          </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      <section id="faq" className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -534,12 +598,12 @@ const Homepage = () => {
                 Questions
               </span>
             </h2>
-            <p className="text-xl text-gray-600">Everything you need to know about optimizing your performance with MemoMind AI</p>
+            <p className="text-xl text-gray-600">Everything you need to know about making reflection effortless</p>
           </div>
 
           <div className="space-y-6">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-gradient-to-r from-gray-50 to-white rounded-xl p-6 border border-gray-100">
+              <div key={index} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{faq.question}</h3>
                 <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
               </div>
@@ -552,21 +616,21 @@ const Homepage = () => {
       <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to 10x Your Productivity?
+            Ready to Make Reflection Effortless?
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join ambitious professionals using AI-powered insights to work smarter, achieve more, and live better.
+            Join 127+ professionals using context-aware reflection to build self-awareness without blank page paralysis.
           </p>
           
           <button
             onClick={handleGetStarted}
             className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 inline-flex items-center space-x-2"
           >
-            <span>Get Early Access</span>
+            <span>Join 127+ Professionals</span>
             <ArrowRight className="h-5 w-5" />
           </button>
           
-          <p className="text-blue-100 mt-4 text-sm">Be among the first 1,000 users to get exclusive early access • Launching Q2 2025</p>
+          <p className="text-blue-100 mt-4 text-sm">Be among the first 1,000 users • Launching Q2 2025</p>
         </div>
       </section>
 
@@ -580,29 +644,29 @@ const Homepage = () => {
                 <span className="text-xl font-bold">MemoMind AI</span>
               </div>
               <p className="text-gray-400 text-sm">
-                AI-powered calendar optimization and performance insights for ambitious professionals.
+                AI-powered reflection made effortless for busy professionals who want to grow.
               </p>
             </div>
             
-            {/* <div>
+            <div>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
                 <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#use-cases" className="hover:text-white transition-colors">Use Cases</a></li>
+                <li><a href="#how-different" className="hover:text-white transition-colors">Why Different</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Roadmap</a></li>
               </ul>
-            </div> */}
+            </div>
             
-            {/* <div>
+            <div>
               <h4 className="font-semibold mb-4">Resources</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Productivity Guide</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Reflection Guide</a></li>
                 <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">API Docs</a></li>
               </ul>
-            </div> */}
+            </div>
             
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
@@ -610,13 +674,13 @@ const Homepage = () => {
                 <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
                 <li><button onClick={() => navigate('/privacy')} className="hover:text-white transition-colors">Privacy Policy</button></li>
                 <li><button onClick={() => navigate('/terms')} className="hover:text-white transition-colors">Terms of Service</button></li>
-                <li><a href="mailto:hello@memomind.ai" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="mailto:hello@memomindai.com" className="hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2025 MemoMind AI. All rights reserved. Built with ❤️ for productivity enthusiasts.</p>
+            <p>&copy; 2025 MemoMind AI. All rights reserved. Built with ❤️ for productivity enthusiasts who struggle with journaling.</p>
           </div>
         </div>
       </footer>

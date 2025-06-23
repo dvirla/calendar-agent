@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { Home, ArrowLeft, Brain, Lightbulb } from 'lucide-react';
 import mainLogo from '/simplified_logo.png';
 
 const NotFoundPage = () => {
@@ -37,15 +37,15 @@ const NotFoundPage = () => {
             Page Not Found
           </h2>
           <p className="text-lg text-gray-600 mb-6">
-            Oops! The page you're looking for seems to have disappeared into the digital void. 
-            Don't worry, even the best calendars have missing dates sometimes.
+            Oops! The page you're looking for seems to have disappeared. 
+            Even our AI reflection assistant can't find this one! Let's get you back on track with some better navigation.
           </p>
         </div>
 
         {/* Decorative Elements */}
         <div className="flex justify-center space-x-4 mb-8 opacity-50">
-          <Calendar className="h-8 w-8 text-blue-600" />
-          <Clock className="h-8 w-8 text-purple-600" />
+          <Brain className="h-8 w-8 text-blue-600" />
+          <Lightbulb className="h-8 w-8 text-purple-600" />
         </div>
 
         {/* Action Buttons */}
@@ -55,7 +55,7 @@ const NotFoundPage = () => {
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 flex items-center justify-center space-x-2"
           >
             <Home className="h-5 w-5" />
-            <span>Go to Homepage</span>
+            <span>Back to Reflection Hub</span>
           </button>
           
           <button
@@ -79,6 +79,14 @@ const NotFoundPage = () => {
               contact support
             </a>
             .
+          </p>
+        </div>
+
+        {/* Additional Reflection-themed Message */}
+        <div className="mt-6 p-4 bg-white/70 backdrop-blur-sm rounded-lg border border-gray-100">
+          <p className="text-sm text-gray-600">
+            💡 <strong>Reflection moment:</strong> Getting lost sometimes leads to the best discoveries. 
+            Ready to discover insights about your productivity patterns?
           </p>
         </div>
       </div>
