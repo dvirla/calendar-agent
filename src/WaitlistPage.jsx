@@ -157,7 +157,7 @@ const WaitlistPage = () => {
   const faqs = [
     {
       q: "When do you launch?",
-      a: "March 2025. Early access starts 2 weeks before public launch."
+      a: "August 2025. Early access starts 2 weeks before public launch."
     },
     {
       q: "How is this different from other journal apps?",

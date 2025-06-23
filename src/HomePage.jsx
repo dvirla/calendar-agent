@@ -293,7 +293,7 @@ const Homepage = () => {
                 <span>Join 127+ Professionals</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <p className="text-sm text-gray-500">Be among the first • Launching Q2 2025</p>
+              <p className="text-sm text-gray-500">Be among the first • Launching Q4 2025</p>
             </div>
 
             {/* Value Props */}
@@ -630,7 +630,7 @@ const Homepage = () => {
             <ArrowRight className="h-5 w-5" />
           </button>
           
-          <p className="text-blue-100 mt-4 text-sm">Be among the first 1,000 users • Launching Q2 2025</p>
+          <p className="text-blue-100 mt-4 text-sm">Be among the first 1,000 users • Launching Q4 2025</p>
         </div>
       </section>
 
