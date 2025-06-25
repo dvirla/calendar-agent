@@ -194,7 +194,7 @@ const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime
   </div>
 );
 
-const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => (
+const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView, apiRequest, setLoading, setError }) => (
   <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
     <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
       <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6 flex items-center">
@@ -231,7 +231,20 @@ const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => 
         )}
         
         <button 
-          onClick={() => setCurrentView('chat')}
+          onClick={async () => {
+            try {
+              setLoading(true);
+              await apiRequest('/reflection/prompt', {
+                method: 'GET',
+              });
+              setCurrentView('chat');
+            } catch (error) {
+              console.error('Error starting reflection:', error);
+              setError('Failed to start reflection. Please try again.');
+            } finally {
+              setLoading(false);
+            }
+          }}
           className="w-full bg-purple-500 text-white py-3 lg:py-4 rounded-lg hover:bg-purple-600 transition-colors text-sm lg:text-base"
         >
           Start Reflection Chat
@@ -694,6 +707,9 @@ const CalendarAgentApp = () => {
             calendarEvents={calendarEvents}
             formatEventDate={formatEventDate}
             setCurrentView={setCurrentView}
+            apiRequest={apiRequest}
+            setLoading={setLoading}
+            setError={setError}
           />
         )}
       </main>
