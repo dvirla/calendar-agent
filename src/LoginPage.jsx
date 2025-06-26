@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { Calendar, Shield, Clock, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Brain, Shield, Lightbulb, ArrowLeft, Zap } from 'lucide-react';
 import { hasGivenConsent, trackPageView } from './utils/cookieConsent.js';
 
 const LoginPage = () => {
@@ -60,7 +60,7 @@ const LoginPage = () => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">
-            {authLoading ? 'Completing authentication...' : 'Loading...'}
+            {authLoading ? 'Connecting your calendar...' : 'Loading...'}
           </p>
         </div>
       </div>
@@ -84,35 +84,35 @@ const LoginPage = () => {
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center mb-6">
-            <div className="bg-blue-600 p-3 rounded-full">
-              <Calendar className="h-8 w-8 text-white" />
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-full">
+              <Brain className="h-8 w-8 text-white" />
             </div>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
-            Welcome to Calendar Agent
+            Welcome to MemoMind AI
           </h2>
           <p className="text-gray-600">
-            Your AI-powered calendar assistant with intelligent scheduling and daily reflection
+            Your AI reflection assistant that makes self-awareness effortless
           </p>
         </div>
 
-        {/* Features Preview */}
+        {/* What You Get Preview */}
         <div className="space-y-4">
           <div className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm">
-            <Calendar className="h-5 w-5 text-blue-600 flex-shrink-0" />
-            <span className="text-sm text-gray-700">Smart calendar management and scheduling</span>
+            <Brain className="h-5 w-5 text-blue-600 flex-shrink-0" />
+            <span className="text-sm text-gray-700">Smart daily questions based on your actual calendar</span>
           </div>
           <div className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm">
-            <Shield className="h-5 w-5 text-green-600 flex-shrink-0" />
+            <Lightbulb className="h-5 w-5 text-purple-600 flex-shrink-0" />
+            <span className="text-sm text-gray-700">Pattern recognition to discover what makes you productive</span>
+          </div>
+          <div className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm">
+            <Zap className="h-5 w-5 text-green-600 flex-shrink-0" />
+            <span className="text-sm text-gray-700">90-second daily habit that actually sticks</span>
+          </div>
+          <div className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm">
+            <Shield className="h-5 w-5 text-orange-600 flex-shrink-0" />
             <span className="text-sm text-gray-700">Secure Google Calendar integration</span>
-          </div>
-          <div className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm">
-            <Clock className="h-5 w-5 text-purple-600 flex-shrink-0" />
-            <span className="text-sm text-gray-700">Daily reflection and productivity insights</span>
-          </div>
-          <div className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm">
-            <CheckCircle className="h-5 w-5 text-orange-600 flex-shrink-0" />
-            <span className="text-sm text-gray-700">AI-powered conversation and planning</span>
           </div>
         </div>
 
@@ -121,13 +121,14 @@ const LoginPage = () => {
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
               {error}
+              <button onClick={() => setError(null)} className="ml-2 text-red-800 hover:text-red-900">×</button>
             </div>
           )}
 
           <button
             onClick={handleGoogleLogin}
             disabled={authLoading}
-            className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105"
           >
             <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
               <path
@@ -147,21 +148,40 @@ const LoginPage = () => {
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
               />
             </svg>
-            Continue with Google
+            Connect Calendar & Start Reflecting
           </button>
 
           <div className="text-center">
             <p className="text-xs text-gray-500">
-              By continuing, you agree to connect your Google Calendar and enable AI-powered assistance.
+              By continuing, you agree to connect your Google Calendar for intelligent reflection prompts.
             </p>
+          </div>
+        </div>
+
+        {/* Value Proposition */}
+        <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 border border-purple-100">
+          <h3 className="font-semibold text-purple-900 mb-2">How It Works:</h3>
+          <div className="space-y-2 text-sm text-purple-800">
+            <div className="flex items-start space-x-2">
+              <span className="font-bold text-purple-600">1.</span>
+              <span>Connect your calendar (read-only, secure)</span>
+            </div>
+            <div className="flex items-start space-x-2">
+              <span className="font-bold text-purple-600">2.</span>
+              <span>Get smart daily questions: "You had 5 meetings today - which one energized you most?"</span>
+            </div>
+            <div className="flex items-start space-x-2">
+              <span className="font-bold text-purple-600">3.</span>
+              <span>Discover patterns and build better habits over time</span>
+            </div>
           </div>
         </div>
 
         {/* Security Notice */}
         <div className="text-center text-xs text-gray-500 space-y-1">
           <p>🔒 Your calendar data is encrypted and secure</p>
-          <p>🤖 AI processes data locally and contextually</p>
-          <p>🔄 Sessions auto-expire for enhanced security</p>
+          <p>🤖 AI generates questions locally and contextually</p>
+          <p>📱 Works on all devices with automatic sync</p>
         </div>
       </div>
     </div>

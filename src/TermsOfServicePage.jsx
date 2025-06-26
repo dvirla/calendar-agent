@@ -41,7 +41,7 @@ const TermsOfServicePage = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Agreement to Terms</h2>
               <p className="text-gray-700 leading-relaxed mb-4">
-                Welcome to MemoMind AI ("Service," "we," "our," or "us"). These Terms of Service ("Terms") govern your use of our AI-powered calendar and reflection service operated by MemoMind AI ("Company," "we," "our," or "us").
+                Welcome to MemoMind AI ("Service," "we," "our," or "us"). These Terms of Service ("Terms") govern your use of our AI-powered reflection assistant that generates intelligent daily prompts based on your calendar data, operated by MemoMind AI ("Company," "we," "our," or "us").
               </p>
               <p className="text-gray-700 leading-relaxed">
                 By accessing or using our Service, you agree to be bound by these Terms. If you disagree with any part of these Terms, you may not access the Service.
@@ -51,16 +51,16 @@ const TermsOfServicePage = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">2. Description of Service</h2>
               <p className="text-gray-700 leading-relaxed mb-4">
-                MemoMind AI is an AI-powered productivity service that provides:
+                MemoMind AI is an AI-powered reflection service that provides:
               </p>
               <ul className="list-disc list-inside text-gray-700 space-y-2">
-                <li>Intelligent calendar scheduling and management through Azure OpenAI AI agents</li>
-                <li>Conversational AI interface for natural language calendar interaction</li>
-                <li>Google Calendar integration and synchronization</li>
-                <li>AI-generated scheduling suggestions and optimizations</li>
-                <li>Schedule pattern analysis and productivity insights</li>
-                <li>Pending action management with automatic expiration</li>
-                <li>Persistent conversation history and user session management</li>
+                <li>Intelligent reflection prompts generated through Azure OpenAI based on your calendar data</li>
+                <li>Conversational AI interface for guided self-reflection and personal growth</li>
+                <li>Google Calendar integration to provide context-aware reflection questions</li>
+                <li>AI-generated daily prompts that help you understand your productivity patterns</li>
+                <li>Schedule pattern analysis for personal insights and habit formation</li>
+                <li>Persistent conversation history and personalized reflection guidance</li>
+                <li>Self-awareness tools that connect your calendar to your personal growth</li>
               </ul>
             </section>
 
@@ -99,10 +99,10 @@ const TermsOfServicePage = () => {
               <p className="text-gray-700 leading-relaxed mb-4">We collect and store the following information:</p>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
                 <li><strong>Google Account Information:</strong> Email address, full name, and Google user ID</li>
-                <li><strong>Google Calendar Data:</strong> Calendar events, titles, times, descriptions, and locations</li>
+                <li><strong>Google Calendar Data:</strong> Calendar events, titles, times, descriptions, and locations for generating context-aware reflection prompts</li>
                 <li><strong>OAuth Credentials:</strong> Google access tokens and refresh tokens (encrypted)</li>
-                <li><strong>Conversation History:</strong> Your chat messages with our AI agent and AI responses</li>
-                <li><strong>Pending Actions:</strong> Calendar modifications awaiting your approval</li>
+                <li><strong>Reflection Conversations:</strong> Your chat messages with our AI reflection assistant and AI responses</li>
+                <li><strong>Personal Insights:</strong> Patterns and reflections generated from your interactions</li>
                 <li><strong>Connection Metadata:</strong> Authentication status and last synchronization times</li>
               </ul>
 
@@ -138,10 +138,10 @@ const TermsOfServicePage = () => {
 
               <h3 className="text-xl font-medium text-gray-900 mb-3">5.2 Calendar Data Processing</h3>
               <ul className="list-disc list-inside text-gray-700 space-y-2">
-                <li>We read your calendar events to provide scheduling suggestions</li>
-                <li>Calendar modifications require explicit user approval through our pending action system</li>
-                <li>We analyze scheduling patterns to provide productivity insights</li>
-                <li>All calendar operations are performed in real-time and not cached</li>
+                <li>We read your calendar events to generate intelligent, context-aware reflection prompts</li>
+                <li>Calendar data is analyzed to create personalized daily reflection questions</li>
+                <li>We analyze scheduling patterns to provide insights for personal growth and habit formation</li>
+                <li>All calendar operations are performed in real-time to generate relevant reflection prompts</li>
                 <li>We do not share your calendar data with any third parties</li>
               </ul>
             </section>
@@ -151,10 +151,10 @@ const TermsOfServicePage = () => {
               
               <h3 className="text-xl font-medium text-gray-900 mb-3">6.1 Azure OpenAI Integration</h3>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>Our AI agent is powered by Azure OpenAI's o4-mini model</li>
-                <li>Your conversation data is sent to Azure OpenAI for processing</li>
+                <li>Our AI reflection assistant is powered by Azure OpenAI's language models</li>
+                <li>Your conversation and calendar context data is sent to Azure OpenAI for generating personalized reflection prompts</li>
                 <li>We use Logfire for AI conversation monitoring and debugging</li>
-                <li>Azure OpenAI processes your calendar and conversation data to generate responses</li>
+                <li>Azure OpenAI processes your calendar and conversation data to generate context-aware reflection questions</li>
                 <li>We do not use your data to train AI models</li>
               </ul>
 
@@ -212,11 +212,11 @@ const TermsOfServicePage = () => {
               <h3 className="text-xl font-medium text-gray-900 mb-3">9.1 Permitted Uses</h3>
               <p className="text-gray-700 leading-relaxed mb-4">You may use our Service to:</p>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>Manage your personal or business calendar through AI assistance</li>
-                <li>Engage in natural language conversations about your schedule</li>
-                <li>Receive AI-powered scheduling suggestions and optimizations</li>
-                <li>Analyze your scheduling patterns and productivity</li>
-                <li>Create, modify, and delete calendar events with AI assistance</li>
+                <li>Engage in AI-guided reflection based on your calendar patterns and activities</li>
+                <li>Receive personalized daily prompts that help you understand your productivity and habits</li>
+                <li>Build self-awareness through context-aware reflection questions</li>
+                <li>Analyze your scheduling patterns for personal growth and habit formation</li>
+                <li>Participate in guided conversations about your work-life balance and productivity</li>
               </ul>
 
               <h3 className="text-xl font-medium text-gray-900 mb-3">9.2 Prohibited Uses</h3>
@@ -238,20 +238,20 @@ const TermsOfServicePage = () => {
               
               <h3 className="text-xl font-medium text-gray-900 mb-3">10.1 AI Capabilities and Limitations</h3>
               <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>Our AI provides scheduling suggestions and calendar management assistance</li>
-                <li>All calendar modifications require your explicit approval before execution</li>
-                <li>AI recommendations are suggestions only and not guaranteed to be optimal</li>
-                <li>The AI learns from your usage patterns to improve suggestions</li>
-                <li>You maintain full control over all calendar decisions and modifications</li>
+                <li>Our AI provides personalized reflection prompts and self-awareness guidance based on your calendar data</li>
+                <li>All reflection questions are suggestions to help you build self-awareness and are not therapeutic advice</li>
+                <li>AI recommendations for personal growth are suggestions only and not guaranteed to be optimal for everyone</li>
+                <li>The AI learns from your usage patterns to improve reflection prompts over time</li>
+                <li>You maintain full control over your reflection practice and personal insights</li>
               </ul>
 
               <h3 className="text-xl font-medium text-gray-900 mb-3">10.2 AI Data Processing</h3>
               <ul className="list-disc list-inside text-gray-700 space-y-2">
-                <li>Your conversation and calendar data is processed by Azure OpenAI</li>
-                <li>AI responses are generated based on your specific calendar context</li>
-                <li>We do not train AI models using your personal data</li>
-                <li>AI processing is performed in real-time for each interaction</li>
-                <li>Critical decisions should not rely solely on AI recommendations</li>
+                <li>Your conversation and calendar data is processed by Azure OpenAI to generate context-aware reflection prompts</li>
+                <li>AI responses are generated based on your specific calendar context and reflection patterns</li>
+                <li>We do not train AI models using your personal reflection data</li>
+                <li>AI processing is performed in real-time for each reflection conversation</li>
+                <li>Personal growth decisions should incorporate multiple sources beyond AI recommendations</li>
               </ul>
             </section>
 

@@ -26,3 +26,7 @@ dist-ssr
 # Handle markdown files
 *.md
 !README.md
+
+public/*.html
+
+favicon_io/
