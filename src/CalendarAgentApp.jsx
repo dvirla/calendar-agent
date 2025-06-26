@@ -912,13 +912,6 @@ const CalendarAgentApp = () => {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col lg:min-h-screen">
-        {currentView === 'reflection' && (
-          <ReflectionView 
-            calendarEvents={calendarEvents}
-            formatEventDate={formatEventDate}
-            setCurrentView={setCurrentView}
-          />
-        )}
         {currentView === 'chat' && (
           <ChatView 
             messages={messages}
