@@ -137,6 +137,101 @@ const ChatView = ({
   </div>
 );
 
+const ReflectionChatView = ({ 
+  messages, 
+  inputMessage, 
+  setInputMessage, 
+  loading, 
+  error, 
+  setError, 
+  inputRef, 
+  sendMessage, 
+  formatTime,
+  clearReflectionConversation
+}) => (
+  <div className="flex flex-col h-full">
+    {/* Reflection Chat Header with Clear Button */}
+    <div className="bg-white border-b p-4 lg:p-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg lg:text-xl font-semibold text-gray-900 flex items-center">
+          <User className="mr-2" size={20} />
+          Daily Reflection
+        </h2>
+        <button
+          onClick={clearReflectionConversation}
+          disabled={loading || messages.length <= 1}
+          className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Clear reflection"
+        >
+          <Trash2 size={16} />
+          <span className="hidden sm:inline">Clear</span>
+        </button>
+      </div>
+    </div>
+
+    <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4">
+      {messages.map((message) => (
+        <div
+          key={message.id}
+          className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+        >
+          <div
+            className={`max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-3xl px-4 py-2 rounded-2xl ${
+              message.role === 'user'
+                ? 'bg-purple-500 text-white'
+                : 'bg-purple-50 text-purple-900 border border-purple-200'
+            }`}
+          >
+            <p className="text-sm lg:text-base">{message.content}</p>
+            <p className="text-xs opacity-70 mt-1">
+              {formatTime(message.timestamp)}
+            </p>
+          </div>
+        </div>
+      ))}
+      {loading && (
+        <div className="flex justify-start">
+          <div className="bg-purple-50 text-purple-900 px-4 py-2 rounded-2xl border border-purple-200">
+            <div className="flex items-center space-x-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div>
+              <span className="text-sm">Reflecting...</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+    
+    <div className="p-4 lg:p-6 border-t bg-white">
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+          {error}
+          <button onClick={() => setError(null)} className="ml-2 text-red-800 hover:text-red-900">×</button>
+        </div>
+      )}
+      <div className="flex items-center space-x-2 max-w-4xl mx-auto">
+        <input
+          ref={inputRef}
+          type="text"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+          placeholder="Share your thoughts on the day..."
+          disabled={loading}
+          className="flex-1 px-4 py-2 lg:py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm lg:text-base disabled:opacity-50"
+          autoComplete="off"
+        />
+        <button
+          onClick={sendMessage}
+          disabled={loading || !inputMessage.trim()}
+          className="p-2 lg:p-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Send size={20} />
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
 const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime, formatEventDateTime }) => (
   <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
     <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
@@ -190,129 +285,142 @@ const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime
   </div>
 );
 
-const ReflectionView = ({ calendarEvents, formatEventDate, setCurrentView }) => {
-  const todayEvents = calendarEvents.filter(event => {
-    const eventDate = formatEventDate(event.start_time || event.start);
-    if (!eventDate) return false;
-    const today = new Date();
-    return eventDate.toDateString() === today.toDateString();
-  });
+const ReflectionView = ({ 
+  calendarEvents, 
+  formatEventDate, 
+  isReflectionChatMode,
+  reflectionMessages,
+  reflectionInputMessage,
+  setReflectionInputMessage,
+  reflectionLoading,
+  reflectionError,
+  setReflectionError,
+  reflectionInputRef,
+  sendReflectionMessage,
+  clearReflectionConversation,
+  formatTime,
+  apiRequest,
+  setReflectionMessages,
+  setIsReflectionChatMode,
+  setReflectionLoading
+}) => {
+  if (isReflectionChatMode) {
+    return (
+      <ReflectionChatView 
+        messages={reflectionMessages}
+        inputMessage={reflectionInputMessage}
+        setInputMessage={setReflectionInputMessage}
+        loading={reflectionLoading}
+        error={reflectionError}
+        setError={setReflectionError}
+        inputRef={reflectionInputRef}
+        sendMessage={sendReflectionMessage}
+        formatTime={formatTime}
+        clearReflectionConversation={clearReflectionConversation}
+      />
+    );
+  }
 
-  const recentPastEvents = calendarEvents.filter(event => {
-    const eventDate = formatEventDate(event.start_time || event.start);
-    if (!eventDate) return false;
-    const now = new Date();
-    const yesterday = new Date(now);
-    yesterday.setDate(now.getDate() - 1);
-    return eventDate < now && eventDate >= yesterday;
-  });
+const recentPastEvents = calendarEvents.filter(event => {
+  const eventDate = formatEventDate(event.start_time || event.start);
+  if (!eventDate) return false;
+  const now = new Date();
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  return eventDate < now && eventDate >= yesterday;
+});
 
-  const upcomingEvents = calendarEvents.filter(event => {
-    const eventDate = formatEventDate(event.start_time || event.start);
-    if (!eventDate) return false;
-    const now = new Date();
-    return eventDate > now;
-  });
+const upcomingEvents = calendarEvents.filter(event => {
+  const eventDate = formatEventDate(event.start_time || event.start);
+  if (!eventDate) return false;
+  const now = new Date();
+  return eventDate > now;
+});
 
-  return (
-    <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
-      <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
-        <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6 flex items-center">
-          <Lightbulb className="mr-2 text-purple-600" size={20} />
-          Smart Reflection Prompts
+return (
+  <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
+    <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
+      <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6 flex items-center">
+          <User className="mr-2" size={20} />
+          Daily Reflection
         </h2>
-        
         <div className="space-y-4 lg:space-y-6">
-          {/* Context-aware reflection based on actual calendar data */}
-          {recentPastEvents.length > 0 ? (
-            <div className="p-4 lg:p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-100">
-              <h3 className="font-medium text-purple-900 mb-3 flex items-center lg:text-lg">
-                <TrendingUp className="mr-2" size={18} />
-                Reflect on Recent Activities
-              </h3>
-              <p className="text-sm lg:text-base text-purple-800 mb-3">
-                I noticed you had {recentPastEvents.length} event{recentPastEvents.length > 1 ? 's' : ''} recently. 
-                {recentPastEvents.length >= 3 ? " That was a busy period!" : ""} How did those affect your energy and focus?
-              </p>
-              <div className="space-y-2">
-                {recentPastEvents.slice(0, 2).map((event, index) => (
-                  <div key={index} className="text-xs lg:text-sm text-purple-700 bg-white/50 p-2 rounded">
-                    • {event.summary || event.title}
-                  </div>
-                ))}
+          {calendarEvents.filter(event => {
+            const eventDate = formatEventDate(event.start_time || event.start);
+            return eventDate && eventDate < new Date();
+          }).length > 0 ? (
+            <>
+              <div className="p-4 lg:p-6 bg-blue-50 rounded-lg">
+                <h3 className="font-medium text-blue-900 mb-2 lg:text-lg">How did your meetings go today?</h3>
+                <p className="text-sm lg:text-base text-blue-800">
+                  I see you had some meetings today. How did they go? What were the key outcomes?
+                </p>
               </div>
-            </div>
-          ) : todayEvents.length > 0 ? (
-            <div className="p-4 lg:p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-100">
-              <h3 className="font-medium text-blue-900 mb-3 flex items-center lg:text-lg">
-                <Clock className="mr-2" size={18} />
-                Today's Schedule Analysis
-              </h3>
-              <p className="text-sm lg:text-base text-blue-800 mb-3">
-                You have {todayEvents.length} event{todayEvents.length > 1 ? 's' : ''} today. 
-                {todayEvents.length >= 4 ? " That's quite packed!" : 
-                 todayEvents.length >= 2 ? " A moderately busy day." : " A lighter schedule today."}
-              </p>
-              <p className="text-sm lg:text-base text-blue-700">
-                How are you feeling about today's energy level and productivity rhythm?
-              </p>
-            </div>
-          ) : upcomingEvents.length > 0 ? (
-            <div className="p-4 lg:p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-100">
-              <h3 className="font-medium text-green-900 mb-3 flex items-center lg:text-lg">
-                <Calendar className="mr-2" size={18} />
-                Planning & Intention Setting
-              </h3>
-              <p className="text-sm lg:text-base text-green-800 mb-3">
-                I see you have {upcomingEvents.length} upcoming event{upcomingEvents.length > 1 ? 's' : ''}. 
-                Let's set some intentions for how you want to approach them.
-              </p>
-              <p className="text-sm lg:text-base text-green-700">
-                What would make your upcoming schedule feel more energizing and manageable?
-              </p>
-            </div>
+              
+              <div className="p-4 lg:p-6 bg-green-50 rounded-lg">
+                <h3 className="font-medium text-green-900 mb-2 lg:text-lg">What went well today?</h3>
+                <p className="text-sm lg:text-base text-green-800">
+                  Reflect on your accomplishments and positive moments from today.
+                </p>
+              </div>
+            </>
           ) : (
-            <div className="p-4 lg:p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-100">
-              <h3 className="font-medium text-purple-900 mb-3 flex items-center lg:text-lg">
-                <Brain className="mr-2" size={18} />
-                General Reflection & Planning
-              </h3>
-              <p className="text-sm lg:text-base text-purple-800 mb-3">
-                Your calendar looks pretty open right now. This is a great time for reflection and intentional planning.
-              </p>
-              <p className="text-sm lg:text-base text-purple-700">
-                How are you feeling about your current productivity patterns and work-life balance?
+            <div className="p-4 lg:p-6 bg-purple-50 rounded-lg">
+              <h3 className="font-medium text-purple-900 mb-2 lg:text-lg">How are you planning your day?</h3>
+              <p className="text-sm lg:text-base text-purple-800">
+                Let's plan your schedule and set intentions for a productive day.
               </p>
             </div>
           )}
-
-          {/* Pattern insights if available */}
-          <div className="p-4 lg:p-6 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-100">
-            <h3 className="font-medium text-yellow-900 mb-2 lg:text-lg">💡 Quick Self-Reflection Check</h3>
-            <div className="space-y-2 text-sm lg:text-base text-yellow-800">
-              <p>• When do you typically feel most energized and focused during the day?</p>
-              <p>• Are there any meeting types that consistently drain your energy?</p>
-              <p>• What time patterns have you noticed affect your mood?</p>
+          
+          {reflectionError && (
+            <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+              {reflectionError}
+              <button onClick={() => setReflectionError(null)} className="ml-2 text-red-800 hover:text-red-900">×</button>
             </div>
-          </div>
+          )}
           
           <button 
-            onClick={() => setCurrentView('chat')}
-            className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white py-3 lg:py-4 rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all text-sm lg:text-base font-medium transform hover:scale-[1.02]"
+            onClick={async () => {
+              try {
+                setReflectionLoading(true);
+                setReflectionError(null);
+                
+                const response = await apiRequest('/reflection/prompt', {
+                  method: 'GET',
+                });
+                console.log('Reflection response:', response);
+                
+                // Create initial reflection message from server
+                const reflectionMessage = {
+                  id: Date.now(),
+                  role: 'assistant',
+                  content: response.message || response.prompt || 'Let\'s start your reflection. How did your day go?',
+                  timestamp: new Date().toISOString()
+                };
+                
+                setReflectionMessages([reflectionMessage]);
+                setIsReflectionChatMode(true);
+                
+              } catch (error) {
+                console.error('Error starting reflection:', error);
+                setReflectionError('Failed to start reflection. Please try again.');
+              } finally {
+                setReflectionLoading(false);
+              }
+            }}
+            disabled={reflectionLoading}
+            className="w-full bg-purple-500 text-white py-3 lg:py-4 rounded-lg hover:bg-purple-600 transition-colors text-sm lg:text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
-            Start AI-Guided Reflection Chat
+            {reflectionLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Starting Reflection...
+              </>
+            ) : (
+              'Start Reflection Chat'
+            )}
           </button>
-
-          {/* Helpful tips */}
-          <div className="bg-gray-50 p-4 rounded-lg border">
-            <h4 className="font-medium text-gray-900 mb-2 text-sm lg:text-base">💭 Reflection Tips:</h4>
-            <ul className="text-xs lg:text-sm text-gray-600 space-y-1">
-              <li>• Be honest about what energized vs drained you</li>
-              <li>• Focus on patterns rather than individual events</li>
-              <li>• Ask the AI to help you connect your schedule to your mood</li>
-              <li>• Use insights to make small, sustainable changes</li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
@@ -331,6 +439,14 @@ const CalendarAgentApp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const inputRef = useRef(null);
+  
+  // Reflection chat state
+  const [reflectionMessages, setReflectionMessages] = useState([]);
+  const [reflectionInputMessage, setReflectionInputMessage] = useState('');
+  const [reflectionLoading, setReflectionLoading] = useState(false);
+  const [reflectionError, setReflectionError] = useState(null);
+  const [isReflectionChatMode, setIsReflectionChatMode] = useState(false);
+  const reflectionInputRef = useRef(null);
 
   // Load initial data when authenticated
   useEffect(() => {
@@ -445,6 +561,74 @@ const CalendarAgentApp = () => {
       setError(error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const sendReflectionMessage = async () => {
+    if (!reflectionInputMessage.trim() || reflectionLoading) return;
+
+    const userMessage = {
+      id: Date.now(),
+      role: 'user',
+      content: reflectionInputMessage,
+      timestamp: new Date().toISOString()
+    };
+
+    setReflectionMessages(prev => [...prev, userMessage]);
+    const currentInput = reflectionInputMessage;
+    setReflectionInputMessage('');
+    setReflectionLoading(true);
+
+    try {
+      // Send reflection message to backend
+      const response = await apiRequest('/reflection/chat', {
+        method: 'POST',
+        body: JSON.stringify({ message: currentInput }),
+      });
+
+      const agentMessage = {
+        id: Date.now() + 1,
+        role: 'assistant',
+        content: response.response,
+        timestamp: new Date().toISOString()
+      };
+
+      setReflectionMessages(prev => [...prev, agentMessage]);
+
+    } catch (error) {
+      console.error('Error sending reflection message:', error);
+      const errorMessage = {
+        id: Date.now() + 1,
+        role: 'assistant',
+        content: 'Sorry, I encountered an error during reflection. Please try again.',
+        timestamp: new Date().toISOString()
+      };
+      setReflectionMessages(prev => [...prev, errorMessage]);
+      setReflectionError(error.message);
+    } finally {
+      setReflectionLoading(false);
+    }
+  };
+
+  const clearReflectionConversation = async () => {
+    try {
+      setReflectionLoading(true);
+      
+      // Call backend to clear reflection conversation if exists
+      await apiRequest('/reflection/clear', {
+        method: 'POST'
+      });
+      
+      // Reset to initial reflection view
+      setReflectionMessages([]);
+      setIsReflectionChatMode(false);
+      setReflectionError(null);
+      
+    } catch (error) {
+      console.error('Error clearing reflection conversation:', error);
+      setReflectionError('Failed to clear reflection. Please try again.');
+    } finally {
+      setReflectionLoading(false);
     }
   };
 
@@ -728,13 +912,6 @@ const CalendarAgentApp = () => {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col lg:min-h-screen">
-        {currentView === 'reflection' && (
-          <ReflectionView 
-            calendarEvents={calendarEvents}
-            formatEventDate={formatEventDate}
-            setCurrentView={setCurrentView}
-          />
-        )}
         {currentView === 'chat' && (
           <ChatView 
             messages={messages}
@@ -758,6 +935,27 @@ const CalendarAgentApp = () => {
             getEventStatus={getEventStatus}
             formatEventTime={formatEventTime}
             formatEventDateTime={formatEventDateTime}
+          />
+        )}
+        {currentView === 'reflection' && (
+          <ReflectionView 
+            calendarEvents={calendarEvents}
+            formatEventDate={formatEventDate}
+            isReflectionChatMode={isReflectionChatMode}
+            reflectionMessages={reflectionMessages}
+            reflectionInputMessage={reflectionInputMessage}
+            setReflectionInputMessage={setReflectionInputMessage}
+            reflectionLoading={reflectionLoading}
+            reflectionError={reflectionError}
+            setReflectionError={setReflectionError}
+            reflectionInputRef={reflectionInputRef}
+            sendReflectionMessage={sendReflectionMessage}
+            clearReflectionConversation={clearReflectionConversation}
+            formatTime={formatTime}
+            apiRequest={apiRequest}
+            setReflectionMessages={setReflectionMessages}
+            setIsReflectionChatMode={setIsReflectionChatMode}
+            setReflectionLoading={setReflectionLoading}
           />
         )}
       </main>
