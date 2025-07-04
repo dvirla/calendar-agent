@@ -504,6 +504,9 @@ const CalendarAgentApp = () => {
       const eventsData = await apiRequest('/calendar/events');
       setCalendarEvents(eventsData.events || []);
 
+      // Refresh analytics data after conversation analysis
+      await loadAnalyticsData();
+
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage = {
