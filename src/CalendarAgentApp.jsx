@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, MessageCircle, Plus, Settings, User, Send, Mic, MicOff, LogOut, Trash2, Brain, Lightbulb, TrendingUp, BarChart3, AlertTriangle, Zap, CheckCircle, Smile, ArrowRight } from 'lucide-react';
 import { useAuth } from './AuthContext';
+import MessageFormatter from './components/MessageFormatter';
 
 // Move component definitions outside to prevent recreation on every render
 const ChatView = ({ 
@@ -82,7 +83,14 @@ const ChatView = ({
                 : 'bg-gradient-to-r from-gray-50 to-white text-gray-800 border border-gray-100 shadow-sm'
             }`}
           >
-            <p className="text-sm lg:text-base leading-relaxed">{message.content}</p>
+            {message.role === 'user' ? (
+              <p className="text-sm lg:text-base leading-relaxed">{message.content}</p>
+            ) : (
+              <MessageFormatter 
+                content={message.content} 
+                className="text-sm lg:text-base leading-relaxed"
+              />
+            )}
             <p className="text-xs opacity-70 mt-2">
               {formatTime(message.timestamp)}
             </p>
