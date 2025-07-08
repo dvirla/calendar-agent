@@ -475,6 +475,11 @@ const CalendarAgentApp = () => {
         apiRequest('/actions/pending')
       ]);
 
+      // Start insights fetch (no await - fire and forget)
+      apiRequest('/insights/get_insights').catch(error => {
+        console.log('Insights fetch failed:', error);
+      });
+
       // Handle calendar events
       if (eventsData.status === 'fulfilled') {
         setCalendarEvents(eventsData.value.events || []);
