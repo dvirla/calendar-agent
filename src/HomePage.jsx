@@ -225,7 +225,7 @@ const Homepage = () => {
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
               <a href="#how-different" className="text-gray-600 hover:text-gray-900 transition-colors">What's Different</a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
+              {/* <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a> */}
               <button
                 onClick={handleGetStarted}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105"
@@ -252,7 +252,7 @@ const Homepage = () => {
             <div className="px-4 py-4 space-y-4">
               <a href="#features" className="block text-gray-600 hover:text-gray-900">Features</a>
               <a href="#how-different" className="block text-gray-600 hover:text-gray-900">Why Different</a>
-              <a href="#pricing" className="block text-gray-600 hover:text-gray-900">Pricing</a>
+              {/* <a href="#pricing" className="block text-gray-600 hover:text-gray-900">Pricing</a> */}
               <button
                 onClick={handleGetStarted}
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all"
@@ -321,7 +321,7 @@ const Homepage = () => {
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Born from Personal Frustration</h2>
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 border border-blue-100">
             <p className="text-lg text-gray-700 mb-4 italic">
-              "As a data scientist, I knew reflection was valuable—but traditional journaling felt impossible. 
+              "As a reflective practitioner myself, I knew reflection was valuable—but traditional journaling felt impossible. 
               Blank pages, forced prompts, no insights over time. So I built an AI that knows my schedule 
               and asks smarter questions."
             </p>
@@ -516,7 +516,7 @@ const Homepage = () => {
       </section> */}
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      {/* <section id="pricing" className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -586,7 +586,7 @@ const Homepage = () => {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-white">

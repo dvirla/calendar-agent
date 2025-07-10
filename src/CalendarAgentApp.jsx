@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock, MessageCircle, Plus, Settings, User, Send, Mic, MicOff, LogOut, Trash2, Brain, Lightbulb, TrendingUp } from 'lucide-react';
+import { Calendar, Clock, MessageCircle, Plus, Settings, User, Send, Mic, MicOff, LogOut, Trash2, Brain, Lightbulb, TrendingUp, BarChart3, AlertTriangle, Zap, CheckCircle, Smile, ArrowRight } from 'lucide-react';
 import { useAuth } from './AuthContext';
+import MessageFormatter from './components/MessageFormatter';
 
 // Move component definitions outside to prevent recreation on every render
 const ChatView = ({ 
@@ -24,7 +25,7 @@ const ChatView = ({
       <div className="flex items-center justify-between">
         <h2 className="text-lg lg:text-xl font-semibold text-gray-900 flex items-center">
           <Brain className="mr-2 text-purple-600" size={20} />
-          AI Reflection Assistant
+          Chat with Kai
         </h2>
         <button
           onClick={clearConversation}
@@ -82,7 +83,14 @@ const ChatView = ({
                 : 'bg-gradient-to-r from-gray-50 to-white text-gray-800 border border-gray-100 shadow-sm'
             }`}
           >
-            <p className="text-sm lg:text-base leading-relaxed">{message.content}</p>
+            {message.role === 'user' ? (
+              <p className="text-sm lg:text-base leading-relaxed">{message.content}</p>
+            ) : (
+              <MessageFormatter 
+                content={message.content} 
+                className="text-sm lg:text-base leading-relaxed"
+              />
+            )}
             <p className="text-xs opacity-70 mt-2">
               {formatTime(message.timestamp)}
             </p>
@@ -94,7 +102,7 @@ const ChatView = ({
           <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100 text-gray-800 px-4 py-3 rounded-2xl">
             <div className="flex items-center space-x-2">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div>
-              <span className="text-sm">AI is analyzing your patterns...</span>
+              <span className="text-sm">Kai is thinking...</span>
             </div>
           </div>
         </div>
@@ -115,7 +123,7 @@ const ChatView = ({
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-          placeholder="Ask about your patterns, productivity insights, or share how your day went..."
+          placeholder="Ask Kai about your patterns, share reflections, or get productivity insights..."
           disabled={loading}
           className="flex-1 px-4 py-3 border border-purple-200 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm lg:text-base disabled:opacity-50 bg-white"
           autoComplete="off"
@@ -130,107 +138,13 @@ const ChatView = ({
       </div>
       <div className="text-center mt-3">
         <p className="text-xs text-gray-500">
-          💡 Try: "What patterns do you notice in my schedule?" or "Help me reflect on my energy today"
+          💡 Try: "What patterns do you notice in my schedule?" or "Help me reflect on today" or "How can I improve my productivity?"
         </p>
       </div>
     </div>
   </div>
 );
 
-const ReflectionChatView = ({ 
-  messages, 
-  inputMessage, 
-  setInputMessage, 
-  loading, 
-  error, 
-  setError, 
-  inputRef, 
-  sendMessage, 
-  formatTime,
-  clearReflectionConversation
-}) => (
-  <div className="flex flex-col h-full">
-    {/* Reflection Chat Header with Clear Button */}
-    <div className="bg-white border-b p-4 lg:p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg lg:text-xl font-semibold text-gray-900 flex items-center">
-          <User className="mr-2" size={20} />
-          Daily Reflection
-        </h2>
-        <button
-          onClick={clearReflectionConversation}
-          disabled={loading || messages.length <= 1}
-          className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          title="Clear reflection"
-        >
-          <Trash2 size={16} />
-          <span className="hidden sm:inline">Clear</span>
-        </button>
-      </div>
-    </div>
-
-    <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4">
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-        >
-          <div
-            className={`max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-3xl px-4 py-2 rounded-2xl ${
-              message.role === 'user'
-                ? 'bg-purple-500 text-white'
-                : 'bg-purple-50 text-purple-900 border border-purple-200'
-            }`}
-          >
-            <p className="text-sm lg:text-base">{message.content}</p>
-            <p className="text-xs opacity-70 mt-1">
-              {formatTime(message.timestamp)}
-            </p>
-          </div>
-        </div>
-      ))}
-      {loading && (
-        <div className="flex justify-start">
-          <div className="bg-purple-50 text-purple-900 px-4 py-2 rounded-2xl border border-purple-200">
-            <div className="flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div>
-              <span className="text-sm">Reflecting...</span>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-    
-    <div className="p-4 lg:p-6 border-t bg-white">
-      {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
-          {error}
-          <button onClick={() => setError(null)} className="ml-2 text-red-800 hover:text-red-900">×</button>
-        </div>
-      )}
-      <div className="flex items-center space-x-2 max-w-4xl mx-auto">
-        <input
-          ref={inputRef}
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-          placeholder="Share your thoughts on the day..."
-          disabled={loading}
-          className="flex-1 px-4 py-2 lg:py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm lg:text-base disabled:opacity-50"
-          autoComplete="off"
-        />
-        <button
-          onClick={sendMessage}
-          disabled={loading || !inputMessage.trim()}
-          className="p-2 lg:p-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <Send size={20} />
-        </button>
-      </div>
-    </div>
-  </div>
-);
 
 const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime, formatEventDateTime }) => (
   <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
@@ -285,143 +199,174 @@ const CalendarView = ({ calendarEvents, loading, getEventStatus, formatEventTime
   </div>
 );
 
-const ReflectionView = ({ 
-  calendarEvents, 
-  formatEventDate, 
-  isReflectionChatMode,
-  reflectionMessages,
-  reflectionInputMessage,
-  setReflectionInputMessage,
-  reflectionLoading,
-  reflectionError,
-  setReflectionError,
-  reflectionInputRef,
-  sendReflectionMessage,
-  clearReflectionConversation,
-  formatTime,
-  apiRequest,
-  setReflectionMessages,
-  setIsReflectionChatMode,
-  setReflectionLoading
-}) => {
-  if (isReflectionChatMode) {
+
+const SentimentMeter = ({ label, data, icon: Icon }) => {
+  const percentage = (data.value / data.max) * 100;
+  const trendIcon = data.trend > 0 ? '↗' : data.trend < 0 ? '↘' : '→';
+  const trendColor = data.trend > 0 ? 'text-green-500' : data.trend < 0 ? 'text-red-500' : 'text-gray-500';
+
+  return (
+    <div className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center space-x-3">
+          <div className={`p-2 rounded-lg ${data.bgColor}`}>
+            <Icon className={`h-5 w-5 ${data.color}`} />
+          </div>
+          <span className="font-medium text-gray-900">{label}</span>
+        </div>
+        <span className={`text-sm font-medium ${trendColor}`}>
+          {trendIcon} {Math.abs(data.trend)}
+        </span>
+      </div>
+      
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <span className="text-2xl font-bold text-gray-900">{data.value}</span>
+          <span className="text-sm text-gray-500">/ {data.max}</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div 
+            className={`h-2 rounded-full transition-all duration-300 ${data.color.replace('text-', 'bg-')}`}
+            style={{ width: `${percentage}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AnalyticsView = ({ analyticsData, analyticsLoading, analyticsError, loadAnalyticsData, setCurrentView }) => {
+  if (analyticsLoading) {
     return (
-      <ReflectionChatView 
-        messages={reflectionMessages}
-        inputMessage={reflectionInputMessage}
-        setInputMessage={setReflectionInputMessage}
-        loading={reflectionLoading}
-        error={reflectionError}
-        setError={setReflectionError}
-        inputRef={reflectionInputRef}
-        sendMessage={sendReflectionMessage}
-        formatTime={formatTime}
-        clearReflectionConversation={clearReflectionConversation}
-      />
+      <div className="p-6 space-y-6 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+      </div>
     );
   }
 
-const recentPastEvents = calendarEvents.filter(event => {
-  const eventDate = formatEventDate(event.start_time || event.start);
-  if (!eventDate) return false;
-  const now = new Date();
-  const yesterday = new Date(now);
-  yesterday.setDate(now.getDate() - 1);
-  return eventDate < now && eventDate >= yesterday;
-});
-
-const upcomingEvents = calendarEvents.filter(event => {
-  const eventDate = formatEventDate(event.start_time || event.start);
-  if (!eventDate) return false;
-  const now = new Date();
-  return eventDate > now;
-});
-
-return (
-  <div className="p-4 lg:p-6 space-y-4 lg:space-y-6 max-w-4xl mx-auto w-full">
-    <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
-      <h2 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6 flex items-center">
-          <User className="mr-2" size={20} />
-          Daily Reflection
-        </h2>
-        <div className="space-y-4 lg:space-y-6">
-          {calendarEvents.filter(event => {
-            const eventDate = formatEventDate(event.start_time || event.start);
-            return eventDate && eventDate < new Date();
-          }).length > 0 ? (
-            <>
-              <div className="p-4 lg:p-6 bg-blue-50 rounded-lg">
-                <h3 className="font-medium text-blue-900 mb-2 lg:text-lg">How did your meetings go today?</h3>
-                <p className="text-sm lg:text-base text-blue-800">
-                  I see you had some meetings today. How did they go? What were the key outcomes?
-                </p>
-              </div>
-              
-              <div className="p-4 lg:p-6 bg-green-50 rounded-lg">
-                <h3 className="font-medium text-green-900 mb-2 lg:text-lg">What went well today?</h3>
-                <p className="text-sm lg:text-base text-green-800">
-                  Reflect on your accomplishments and positive moments from today.
-                </p>
-              </div>
-            </>
-          ) : (
-            <div className="p-4 lg:p-6 bg-purple-50 rounded-lg">
-              <h3 className="font-medium text-purple-900 mb-2 lg:text-lg">How are you planning your day?</h3>
-              <p className="text-sm lg:text-base text-purple-800">
-                Let's plan your schedule and set intentions for a productive day.
-              </p>
-            </div>
-          )}
-          
-          {reflectionError && (
-            <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
-              {reflectionError}
-              <button onClick={() => setReflectionError(null)} className="ml-2 text-red-800 hover:text-red-900">×</button>
-            </div>
-          )}
-          
-          <button 
-            onClick={async () => {
-              try {
-                setReflectionLoading(true);
-                setReflectionError(null);
-                
-                const response = await apiRequest('/reflection/prompt', {
-                  method: 'GET',
-                });
-                console.log('Reflection response:', response);
-                
-                // Create initial reflection message from server
-                const reflectionMessage = {
-                  id: Date.now(),
-                  role: 'assistant',
-                  content: response.message || response.prompt || 'Let\'s start your reflection. How did your day go?',
-                  timestamp: new Date().toISOString()
-                };
-                
-                setReflectionMessages([reflectionMessage]);
-                setIsReflectionChatMode(true);
-                
-              } catch (error) {
-                console.error('Error starting reflection:', error);
-                setReflectionError('Failed to start reflection. Please try again.');
-              } finally {
-                setReflectionLoading(false);
-              }
-            }}
-            disabled={reflectionLoading}
-            className="w-full bg-purple-500 text-white py-3 lg:py-4 rounded-lg hover:bg-purple-600 transition-colors text-sm lg:text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-          >
-            {reflectionLoading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Starting Reflection...
-              </>
-            ) : (
-              'Start Reflection Chat'
-            )}
+  if (analyticsError) {
+    return (
+      <div className="p-6 space-y-6 max-w-7xl mx-auto">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          {analyticsError}
+          <button onClick={loadAnalyticsData} className="ml-2 text-red-800 hover:text-red-900 underline">
+            Try Again
           </button>
         </div>
+      </div>
+    );
+  }
+
+  if (!analyticsData) {
+    return (
+      <div className="p-6 space-y-6 max-w-7xl mx-auto">
+        <div className="text-center py-8 text-gray-500">
+          <BarChart3 size={48} className="mx-auto mb-4 opacity-50" />
+          <p className="text-lg font-medium mb-2">No analytics data available</p>
+          <p className="text-sm">Start using the app to see your insights!</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Process analytics data for display
+  const sentimentMetrics = {
+    stress: { 
+      value: analyticsData.stress?.value || 0, 
+      max: analyticsData.stress?.max || 10, 
+      trend: analyticsData.stress?.trend || 0, 
+      color: 'text-orange-500', 
+      bgColor: 'bg-orange-100' 
+    },
+    energy: { 
+      value: analyticsData.energy?.value || 0, 
+      max: analyticsData.energy?.max || 10, 
+      trend: analyticsData.energy?.trend || 0, 
+      color: 'text-green-500', 
+      bgColor: 'bg-green-100' 
+    },
+    satisfaction: { 
+      value: analyticsData.satisfaction?.value || 0, 
+      max: analyticsData.satisfaction?.max || 10, 
+      trend: analyticsData.satisfaction?.trend || 0, 
+      color: 'text-blue-500', 
+      bgColor: 'bg-blue-100' 
+    },
+    happiness: { 
+      value: analyticsData.happiness?.value || 0, 
+      max: analyticsData.happiness?.max || 10, 
+      trend: analyticsData.happiness?.trend || 0, 
+      color: 'text-purple-500', 
+      bgColor: 'bg-purple-100' 
+    }
+  };
+
+  return (
+    <div className="w-full max-w-7xl mx-auto bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="bg-white border-b p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Your Analytics Dashboard</h1>
+            <p className="text-gray-600 mt-1">Insights and patterns based on your data</p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-gray-500">Last updated</p>
+            <p className="text-sm font-medium text-gray-900">Just now</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 space-y-8">
+        {/* Sentiment Metrics */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <BarChart3 className="mr-3 text-blue-600" size={24} />
+            How You're Feeling
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <SentimentMeter label="Stress" data={sentimentMetrics.stress} icon={AlertTriangle} />
+            <SentimentMeter label="Energy" data={sentimentMetrics.energy} icon={Zap} />
+            <SentimentMeter label="Satisfaction" data={sentimentMetrics.satisfaction} icon={CheckCircle} />
+            <SentimentMeter label="Happiness" data={sentimentMetrics.happiness} icon={Smile} />
+          </div>
+        </section>
+
+        {/* Quick Actions */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <Zap className="mr-3 text-orange-600" size={24} />
+            Quick Actions
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <button 
+              onClick={() => setCurrentView('chat')}
+              className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all text-left group"
+            >
+              <div className="flex items-center space-x-3 mb-3">
+                <Brain className="h-6 w-6 text-blue-600" />
+                <span className="font-semibold text-gray-900">Chat with Kai</span>
+              </div>
+              <p className="text-gray-600 text-sm">Ask questions, share reflections, and get personalized insights</p>
+              <ArrowRight className="h-4 w-4 text-gray-400 mt-3 group-hover:text-blue-600 transition-colors" />
+            </button>
+            
+            <button 
+              onClick={() => setCurrentView('calendar')}
+              className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all text-left group"
+            >
+              <div className="flex items-center space-x-3 mb-3">
+                <Calendar className="h-6 w-6 text-green-600" />
+                <span className="font-semibold text-gray-900">View Calendar</span>
+              </div>
+              <p className="text-gray-600 text-sm">Review your schedule and upcoming events</p>
+              <ArrowRight className="h-4 w-4 text-gray-400 mt-3 group-hover:text-green-600 transition-colors" />
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   );
@@ -430,7 +375,7 @@ return (
 const CalendarAgentApp = () => {
   const navigate = useNavigate();
   const { user, logout, apiRequest, isAuthenticated } = useAuth();
-  const [currentView, setCurrentView] = useState('reflection'); // Start with reflection view
+  const [currentView, setCurrentView] = useState('analytics'); // Start with analytics view
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isListening, setIsListening] = useState(false);
@@ -440,13 +385,10 @@ const CalendarAgentApp = () => {
   const [error, setError] = useState(null);
   const inputRef = useRef(null);
   
-  // Reflection chat state
-  const [reflectionMessages, setReflectionMessages] = useState([]);
-  const [reflectionInputMessage, setReflectionInputMessage] = useState('');
-  const [reflectionLoading, setReflectionLoading] = useState(false);
-  const [reflectionError, setReflectionError] = useState(null);
-  const [isReflectionChatMode, setIsReflectionChatMode] = useState(false);
-  const reflectionInputRef = useRef(null);
+  // Analytics state
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const [analyticsError, setAnalyticsError] = useState(null);
 
   // Load initial data when authenticated
   useEffect(() => {
@@ -463,16 +405,32 @@ const CalendarAgentApp = () => {
     }
   }, [isAuthenticated]);
 
+  const loadAnalyticsData = async () => {
+    try {
+      setAnalyticsLoading(true);
+      setAnalyticsError(null);
+      
+      const response = await apiRequest('/dashboard/analytics?days=30');
+      setAnalyticsData(response);
+    } catch (error) {
+      console.error('Error loading analytics data:', error);
+      setAnalyticsError('Failed to load analytics data. Please try refreshing the page.');
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
+
   const loadInitialData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      // Load calendar events and conversations in parallel
-      const [eventsData, conversationsData, pendingActionsData] = await Promise.allSettled([
+      // Load calendar events, conversations, pending actions, and analytics in parallel
+      const [eventsData, conversationsData, pendingActionsData, analyticsData] = await Promise.allSettled([
         apiRequest('/calendar/events'),
         apiRequest('/user/conversations'),
-        apiRequest('/actions/pending')
+        apiRequest('/actions/pending'),
+        apiRequest('/dashboard/analytics?days=30')
       ]);
 
       // Start insights fetch (no await - fire and forget)
@@ -495,7 +453,7 @@ const CalendarAgentApp = () => {
         setMessages([{
           id: 1,
           role: 'assistant',
-          content: `Hi ${user?.full_name || 'there'}! 👋 I'm your AI reflection assistant. I analyze your calendar patterns and ask smart questions to help you understand what makes you productive. Ready to discover insights about your habits and energy patterns?`,
+          content: `Hi ${user?.full_name || 'there'}! 👋 I'm Kai, your AI assistant. I analyze your patterns and help with productivity insights, daily reflections, and schedule optimization. What would you like to explore today?`,
           timestamp: new Date().toISOString()
         }]);
       }
@@ -503,6 +461,11 @@ const CalendarAgentApp = () => {
       // Handle pending actions
       if (pendingActionsData.status === 'fulfilled') {
         setPendingActions(pendingActionsData.value.pending_actions || []);
+      }
+
+      // Handle analytics data
+      if (analyticsData.status === 'fulfilled') {
+        setAnalyticsData(analyticsData.value);
       }
 
     } catch (error) {
@@ -554,6 +517,9 @@ const CalendarAgentApp = () => {
       const eventsData = await apiRequest('/calendar/events');
       setCalendarEvents(eventsData.events || []);
 
+      // Refresh analytics data after conversation analysis
+      await loadAnalyticsData();
+
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage = {
@@ -569,74 +535,8 @@ const CalendarAgentApp = () => {
     }
   };
 
-  const sendReflectionMessage = async () => {
-    if (!reflectionInputMessage.trim() || reflectionLoading) return;
 
-    const userMessage = {
-      id: Date.now(),
-      role: 'user',
-      content: reflectionInputMessage,
-      timestamp: new Date().toISOString()
-    };
-
-    setReflectionMessages(prev => [...prev, userMessage]);
-    const currentInput = reflectionInputMessage;
-    setReflectionInputMessage('');
-    setReflectionLoading(true);
-
-    try {
-      // Send reflection message to backend
-      const response = await apiRequest('/reflection/chat', {
-        method: 'POST',
-        body: JSON.stringify({ message: currentInput }),
-      });
-
-      const agentMessage = {
-        id: Date.now() + 1,
-        role: 'assistant',
-        content: response.response,
-        timestamp: new Date().toISOString()
-      };
-
-      setReflectionMessages(prev => [...prev, agentMessage]);
-
-    } catch (error) {
-      console.error('Error sending reflection message:', error);
-      const errorMessage = {
-        id: Date.now() + 1,
-        role: 'assistant',
-        content: 'Sorry, I encountered an error during reflection. Please try again.',
-        timestamp: new Date().toISOString()
-      };
-      setReflectionMessages(prev => [...prev, errorMessage]);
-      setReflectionError(error.message);
-    } finally {
-      setReflectionLoading(false);
-    }
-  };
-
-  const clearReflectionConversation = async () => {
-    try {
-      setReflectionLoading(true);
-      
-      // Call backend to clear reflection conversation if exists
-      await apiRequest('/reflection/clear', {
-        method: 'POST'
-      });
-      
-      // Reset to initial reflection view
-      setReflectionMessages([]);
-      setIsReflectionChatMode(false);
-      setReflectionError(null);
-      
-    } catch (error) {
-      console.error('Error clearing reflection conversation:', error);
-      setReflectionError('Failed to clear reflection. Please try again.');
-    } finally {
-      setReflectionLoading(false);
-    }
-  };
-
+  
   const handleActionApproval = async (actionId, approve) => {
     try {
       const endpoint = approve ? `/actions/approve/${actionId}` : `/actions/reject/${actionId}`;
@@ -824,7 +724,7 @@ const CalendarAgentApp = () => {
       setMessages([{
         id: Date.now(),
         role: 'assistant',
-        content: `Fresh start! 🌟 I'm ready to help you reflect on your patterns and understand what makes you productive. What would you like to explore about your schedule or habits?`,
+        content: `Fresh start! 🌟 I'm Kai, ready to help with productivity insights, reflections, and pattern analysis. What would you like to explore?`,
         timestamp: new Date().toISOString()
       }]);
       
@@ -870,28 +770,28 @@ const CalendarAgentApp = () => {
       <nav className="hidden lg:flex lg:flex-col lg:w-64 bg-white border-r">
         <div className="p-6">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">MemoMind AI</h1>
-          <p className="text-xs text-gray-500 mt-1">AI-Powered Reflection</p>
+          <p className="text-xs text-gray-500 mt-1">Powered by Kai</p>
         </div>
         
         <div className="flex-1 px-4 space-y-2">
           <button
-            onClick={() => setCurrentView('reflection')}
+            onClick={() => setCurrentView('analytics')}
             className={`w-full flex items-center px-4 py-3 rounded-lg text-left ${
-              currentView === 'reflection' ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700' : 'text-gray-600 hover:bg-gray-100'
+              currentView === 'analytics' ? 'bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            <Lightbulb size={20} className="mr-3" />
-            <span>Smart Reflection</span>
+            <BarChart3 size={20} className="mr-3" />
+            <span>Analytics Dashboard</span>
           </button>
           
           <button
             onClick={() => setCurrentView('chat')}
             className={`w-full flex items-center px-4 py-3 rounded-lg text-left relative ${
-              currentView === 'chat' ? 'bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+              currentView === 'chat' ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             <Brain size={20} className="mr-3" />
-            <span>AI Chat</span>
+            <span>Chat with Kai</span>
             {pendingActions.length > 0 && (
               <span className="absolute right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {pendingActions.length}
@@ -902,7 +802,7 @@ const CalendarAgentApp = () => {
           <button
             onClick={() => setCurrentView('calendar')}
             className={`w-full flex items-center px-4 py-3 rounded-lg text-left ${
-              currentView === 'calendar' ? 'bg-gradient-to-r from-green-100 to-blue-100 text-green-700' : 'text-gray-600 hover:bg-gray-100'
+              currentView === 'calendar' ? 'bg-gradient-to-r from-gray-100 to-blue-100 text-gray-700' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             <Calendar size={20} className="mr-3" />
@@ -917,6 +817,15 @@ const CalendarAgentApp = () => {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col lg:min-h-screen">
+        {currentView === 'analytics' && (
+          <AnalyticsView 
+            analyticsData={analyticsData}
+            analyticsLoading={analyticsLoading}
+            analyticsError={analyticsError}
+            loadAnalyticsData={loadAnalyticsData}
+            setCurrentView={setCurrentView}
+          />
+        )}
         {currentView === 'chat' && (
           <ChatView 
             messages={messages}
@@ -942,50 +851,29 @@ const CalendarAgentApp = () => {
             formatEventDateTime={formatEventDateTime}
           />
         )}
-        {currentView === 'reflection' && (
-          <ReflectionView 
-            calendarEvents={calendarEvents}
-            formatEventDate={formatEventDate}
-            isReflectionChatMode={isReflectionChatMode}
-            reflectionMessages={reflectionMessages}
-            reflectionInputMessage={reflectionInputMessage}
-            setReflectionInputMessage={setReflectionInputMessage}
-            reflectionLoading={reflectionLoading}
-            reflectionError={reflectionError}
-            setReflectionError={setReflectionError}
-            reflectionInputRef={reflectionInputRef}
-            sendReflectionMessage={sendReflectionMessage}
-            clearReflectionConversation={clearReflectionConversation}
-            formatTime={formatTime}
-            apiRequest={apiRequest}
-            setReflectionMessages={setReflectionMessages}
-            setIsReflectionChatMode={setIsReflectionChatMode}
-            setReflectionLoading={setReflectionLoading}
-          />
-        )}
       </main>
 
       {/* Bottom Navigation - only visible on mobile */}
       <nav className="lg:hidden bg-white border-t p-2">
         <div className="flex justify-around">
           <button
-            onClick={() => setCurrentView('reflection')}
+            onClick={() => setCurrentView('analytics')}
             className={`flex flex-col items-center p-2 rounded-lg ${
-              currentView === 'reflection' ? 'bg-purple-100 text-purple-600' : 'text-gray-600'
+              currentView === 'analytics' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'
             }`}
           >
-            <Lightbulb size={20} />
-            <span className="text-xs mt-1">Reflect</span>
+            <BarChart3 size={20} />
+            <span className="text-xs mt-1">Analytics</span>
           </button>
           
           <button
             onClick={() => setCurrentView('chat')}
             className={`flex flex-col items-center p-2 rounded-lg relative ${
-              currentView === 'chat' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'
+              currentView === 'chat' ? 'bg-purple-100 text-purple-600' : 'text-gray-600'
             }`}
           >
             <Brain size={20} />
-            <span className="text-xs mt-1">AI Chat</span>
+            <span className="text-xs mt-1">Kai</span>
             {pendingActions.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                 {pendingActions.length}
@@ -996,7 +884,7 @@ const CalendarAgentApp = () => {
           <button
             onClick={() => setCurrentView('calendar')}
             className={`flex flex-col items-center p-2 rounded-lg ${
-              currentView === 'calendar' ? 'bg-green-100 text-green-600' : 'text-gray-600'
+              currentView === 'calendar' ? 'bg-gray-100 text-gray-600' : 'text-gray-600'
             }`}
           >
             <Calendar size={20} />
