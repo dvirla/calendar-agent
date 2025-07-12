@@ -5,6 +5,39 @@ import { useAuth } from './AuthContext';
 import MessageFormatter from './components/MessageFormatter';
 
 // Move component definitions outside to prevent recreation on every render
+const InsightBubble = ({ title, content, icon: Icon, bgColor, iconColor }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Handle both string and object content
+  const displayContent = typeof content === 'object' 
+    ? (isExpanded ? content.full_content : content.summary)
+    : content;
+  
+  const hasExpandableContent = typeof content === 'object' && content.summary && content.full_content;
+  
+  return (
+    <div className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center space-x-3">
+          <div className={`p-2 rounded-lg ${bgColor}`}>
+            <Icon className={`h-5 w-5 ${iconColor}`} />
+          </div>
+          <span className="font-medium text-gray-900">{title}</span>
+        </div>
+        {hasExpandableContent && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors"
+          >
+            {isExpanded ? 'Show Less' : 'Show More'}
+          </button>
+        )}
+      </div>
+      <p className="text-sm text-gray-600 leading-relaxed">{displayContent}</p>
+    </div>
+  );
+};
+
 const ChatView = ({ 
   messages, 
   inputMessage, 
@@ -235,7 +268,7 @@ const SentimentMeter = ({ label, data, icon: Icon }) => {
   );
 };
 
-const AnalyticsView = ({ analyticsData, analyticsLoading, analyticsError, loadAnalyticsData, setCurrentView }) => {
+const AnalyticsView = ({ analyticsData, analyticsLoading, analyticsError, loadAnalyticsData, insightsData, insightsLoading, insightsError, loadInsightsData, setCurrentView }) => {
   if (analyticsLoading) {
     return (
       <div className="p-6 space-y-6 max-w-7xl mx-auto">
@@ -334,6 +367,97 @@ const AnalyticsView = ({ analyticsData, analyticsLoading, analyticsError, loadAn
           </div>
         </section>
 
+        {/* Recent Insights */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <Lightbulb className="mr-3 text-yellow-600" size={24} />
+            Recent Insights
+          </h2>
+          
+          <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+            {insightsLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              </div>
+            ) : insightsError ? (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                {insightsError}
+                <button onClick={loadInsightsData} className="ml-2 text-red-800 hover:text-red-900 underline">
+                  Try Again
+                </button>
+              </div>
+            ) : (() => {
+              const insights = insightsData?.insights || (Array.isArray(insightsData) ? insightsData : insightsData ? [insightsData] : []);
+              return insights.length > 0;
+            })() ? (
+              <div className="space-y-4">
+                {(() => {
+                  const insights = insightsData?.insights || (Array.isArray(insightsData) ? insightsData : insightsData ? [insightsData] : []);
+                  return insights.slice(0, 3).map((insight, index) => (
+                    <div key={index} className="w-full">
+                      {/* Handle new structured content */}
+                      {insight.content && typeof insight.content === 'object' ? (
+                        <div className="space-y-4">
+                          {insight.content.goal_alignment && (
+                            <InsightBubble 
+                              title="Goal Alignment"
+                              content={insight.content.goal_alignment}
+                              icon={CheckCircle}
+                              bgColor="bg-blue-100"
+                              iconColor="text-blue-600"
+                            />
+                          )}
+                          
+                          {insight.content.energy_management && (
+                            <InsightBubble 
+                              title="Energy Management"
+                              content={insight.content.energy_management}
+                              icon={Zap}
+                              bgColor="bg-green-100"
+                              iconColor="text-green-600"
+                            />
+                          )}
+                          
+                          {insight.content.time_allocation && (
+                            <InsightBubble 
+                              title="Time Allocation"
+                              content={insight.content.time_allocation}
+                              icon={Clock}
+                              bgColor="bg-purple-100"
+                              iconColor="text-purple-600"
+                            />
+                          )}
+                          
+                          {insight.content.behavioral_trends && (
+                            <InsightBubble 
+                              title="Behavioral Trends"
+                              content={insight.content.behavioral_trends}
+                              icon={BarChart3}
+                              bgColor="bg-orange-100"
+                              iconColor="text-orange-600"
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        /* Fallback for string content */
+                        <div className="bg-white rounded-xl p-6 border border-gray-100">
+                          <p className="text-sm text-gray-600 leading-relaxed">{insight.content || insight.description || insight}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))
+                })()}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Lightbulb size={48} className="mx-auto mb-4 opacity-50" />
+                <p className="text-lg font-medium mb-2">No insights yet</p>
+                <p className="text-sm">Keep using the app to generate personalized insights!</p>
+              </div>
+            )}
+          </div>
+        </section>
+
         {/* Quick Actions */}
         <section>
           <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
@@ -389,6 +513,11 @@ const CalendarAgentApp = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
   const [analyticsError, setAnalyticsError] = useState(null);
+  
+  // Insights state
+  const [insightsData, setInsightsData] = useState(null);
+  const [insightsLoading, setInsightsLoading] = useState(false);
+  const [insightsError, setInsightsError] = useState(null);
 
   // Load initial data when authenticated
   useEffect(() => {
@@ -420,18 +549,37 @@ const CalendarAgentApp = () => {
     }
   };
 
+  const loadInsightsData = async () => {
+    try {
+      setInsightsLoading(true);
+      setInsightsError(null);
+      
+      const response = await apiRequest('/insights/get_insights');
+      console.log('Received insights:', response);
+      setInsightsData(response);
+    } catch (error) {
+      console.error('Error loading insights data:', error);
+      setInsightsError('Failed to load insights data. Please try refreshing the page.');
+    } finally {
+      setInsightsLoading(false);
+    }
+  };
+
   const loadInitialData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      // Load calendar events, conversations, pending actions, and analytics in parallel
+      // Load calendar events, conversations, pending actions, and analytics (not waiting for insights)
       const [eventsData, conversationsData, pendingActionsData, analyticsData] = await Promise.allSettled([
         apiRequest('/calendar/events'),
         apiRequest('/user/conversations'),
         apiRequest('/actions/pending'),
         apiRequest('/dashboard/analytics?days=30')
       ]);
+
+      // Start insights fetch separately (non-blocking)
+      loadInsightsData();
 
       // Handle calendar events
       if (eventsData.status === 'fulfilled') {
@@ -512,8 +660,8 @@ const CalendarAgentApp = () => {
       const eventsData = await apiRequest('/calendar/events');
       setCalendarEvents(eventsData.events || []);
 
-      // Refresh analytics data after conversation analysis
-      await loadAnalyticsData();
+      // Refresh analytics and insights data after conversation analysis
+      await Promise.allSettled([loadAnalyticsData(), loadInsightsData()]);
 
     } catch (error) {
       console.error('Error sending message:', error);
@@ -818,6 +966,10 @@ const CalendarAgentApp = () => {
             analyticsLoading={analyticsLoading}
             analyticsError={analyticsError}
             loadAnalyticsData={loadAnalyticsData}
+            insightsData={insightsData}
+            insightsLoading={insightsLoading}
+            insightsError={insightsError}
+            loadInsightsData={loadInsightsData}
             setCurrentView={setCurrentView}
           />
         )}
