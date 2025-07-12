@@ -5,6 +5,39 @@ import { useAuth } from './AuthContext';
 import MessageFormatter from './components/MessageFormatter';
 
 // Move component definitions outside to prevent recreation on every render
+const InsightBubble = ({ title, content, icon: Icon, bgColor, iconColor }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Handle both string and object content
+  const displayContent = typeof content === 'object' 
+    ? (isExpanded ? content.full_content : content.summary)
+    : content;
+  
+  const hasExpandableContent = typeof content === 'object' && content.summary && content.full_content;
+  
+  return (
+    <div className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center space-x-3">
+          <div className={`p-2 rounded-lg ${bgColor}`}>
+            <Icon className={`h-5 w-5 ${iconColor}`} />
+          </div>
+          <span className="font-medium text-gray-900">{title}</span>
+        </div>
+        {hasExpandableContent && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors"
+          >
+            {isExpanded ? 'Show Less' : 'Show More'}
+          </button>
+        )}
+      </div>
+      <p className="text-sm text-gray-600 leading-relaxed">{displayContent}</p>
+    </div>
+  );
+};
+
 const ChatView = ({ 
   messages, 
   inputMessage, 
@@ -366,51 +399,43 @@ const AnalyticsView = ({ analyticsData, analyticsLoading, analyticsError, loadAn
                       {insight.content && typeof insight.content === 'object' ? (
                         <div className="space-y-4">
                           {insight.content.goal_alignment && (
-                            <div className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all">
-                              <div className="flex items-center space-x-3 mb-3">
-                                <div className="p-2 rounded-lg bg-blue-100">
-                                  <CheckCircle className="h-5 w-5 text-blue-600" />
-                                </div>
-                                <span className="font-medium text-gray-900">Goal Alignment</span>
-                              </div>
-                              <p className="text-sm text-gray-600 leading-relaxed">{insight.content.goal_alignment}</p>
-                            </div>
+                            <InsightBubble 
+                              title="Goal Alignment"
+                              content={insight.content.goal_alignment}
+                              icon={CheckCircle}
+                              bgColor="bg-blue-100"
+                              iconColor="text-blue-600"
+                            />
                           )}
                           
                           {insight.content.energy_management && (
-                            <div className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all">
-                              <div className="flex items-center space-x-3 mb-3">
-                                <div className="p-2 rounded-lg bg-green-100">
-                                  <Zap className="h-5 w-5 text-green-600" />
-                                </div>
-                                <span className="font-medium text-gray-900">Energy Management</span>
-                              </div>
-                              <p className="text-sm text-gray-600 leading-relaxed">{insight.content.energy_management}</p>
-                            </div>
+                            <InsightBubble 
+                              title="Energy Management"
+                              content={insight.content.energy_management}
+                              icon={Zap}
+                              bgColor="bg-green-100"
+                              iconColor="text-green-600"
+                            />
                           )}
                           
                           {insight.content.time_allocation && (
-                            <div className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all">
-                              <div className="flex items-center space-x-3 mb-3">
-                                <div className="p-2 rounded-lg bg-purple-100">
-                                  <Clock className="h-5 w-5 text-purple-600" />
-                                </div>
-                                <span className="font-medium text-gray-900">Time Allocation</span>
-                              </div>
-                              <p className="text-sm text-gray-600 leading-relaxed">{insight.content.time_allocation}</p>
-                            </div>
+                            <InsightBubble 
+                              title="Time Allocation"
+                              content={insight.content.time_allocation}
+                              icon={Clock}
+                              bgColor="bg-purple-100"
+                              iconColor="text-purple-600"
+                            />
                           )}
                           
                           {insight.content.behavioral_trends && (
-                            <div className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all">
-                              <div className="flex items-center space-x-3 mb-3">
-                                <div className="p-2 rounded-lg bg-orange-100">
-                                  <BarChart3 className="h-5 w-5 text-orange-600" />
-                                </div>
-                                <span className="font-medium text-gray-900">Behavioral Trends</span>
-                              </div>
-                              <p className="text-sm text-gray-600 leading-relaxed">{insight.content.behavioral_trends}</p>
-                            </div>
+                            <InsightBubble 
+                              title="Behavioral Trends"
+                              content={insight.content.behavioral_trends}
+                              icon={BarChart3}
+                              bgColor="bg-orange-100"
+                              iconColor="text-orange-600"
+                            />
                           )}
                         </div>
                       ) : (
