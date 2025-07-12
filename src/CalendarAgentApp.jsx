@@ -570,19 +570,16 @@ const CalendarAgentApp = () => {
       setLoading(true);
       setError(null);
       
-      // Load calendar events, conversations, pending actions, analytics, and insights in parallel
-      const [eventsData, conversationsData, pendingActionsData, analyticsData, insightsData] = await Promise.allSettled([
+      // Load calendar events, conversations, pending actions, and analytics (not waiting for insights)
+      const [eventsData, conversationsData, pendingActionsData, analyticsData] = await Promise.allSettled([
         apiRequest('/calendar/events'),
         apiRequest('/user/conversations'),
         apiRequest('/actions/pending'),
-        apiRequest('/dashboard/analytics?days=30'),
-        apiRequest('/insights/get_insights') //TODO: should not be on promise.allSettled
+        apiRequest('/dashboard/analytics?days=30')
       ]);
 
-      // Start insights fetch (no await - fire and forget)
-      apiRequest('/insights/get_insights').catch(error => {
-        console.log('Insights fetch failed:', error);
-      });
+      // Start insights fetch separately (non-blocking)
+      loadInsightsData();
 
       // Handle calendar events
       if (eventsData.status === 'fulfilled') {
@@ -612,11 +609,6 @@ const CalendarAgentApp = () => {
       // Handle analytics data
       if (analyticsData.status === 'fulfilled') {
         setAnalyticsData(analyticsData.value);
-      }
-
-      // Handle insights data
-      if (insightsData.status === 'fulfilled') {
-        setInsightsData(insightsData.value);
       }
 
     } catch (error) {
