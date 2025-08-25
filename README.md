@@ -1,6 +1,10 @@
 # Calendar Agent Frontend
 
-A modern, responsive React application that provides an intelligent calendar assistant interface with AI-powered conversation capabilities, secure authentication, and real backend integration.
+🤖 A modern, AI-powered calendar management application with intelligent scheduling, natural language processing, and real-time Google Calendar integration.
+
+![Calendar Agent](public/main_logo.png)
+
+> **Note**: This is a frontend application that requires a compatible backend service. Demo screenshots and live demo coming soon!
 
 ## 🚀 Features
 
@@ -50,15 +54,16 @@ A modern, responsive React application that provides an intelligent calendar ass
 ## 📦 Installation & Setup
 
 ### Prerequisites
-- Node.js 16+ and npm/yarn
+- Node.js 16+ and npm
 - Modern web browser
-- **Backend Service**: Calendar Agent FastAPI backend running on `http://localhost:8000`
-- **Google OAuth**: Configured Google Cloud project with Calendar API enabled
+- **Backend Service**: Calendar Agent FastAPI backend (see backend setup below)
+- **Google OAuth**: Google Cloud project with Calendar API enabled
 
 ### Quick Start
 
-1. **Clone and navigate to the project**:
+1. **Clone the repository**:
    ```bash
+   git clone https://github.com/your-username/calendar-agent.git
    cd calendar-agent
    ```
 
@@ -67,19 +72,40 @@ A modern, responsive React application that provides an intelligent calendar ass
    npm install
    ```
 
-3. **Ensure backend is running**:
+3. **Set up environment variables**:
    ```bash
-   # The frontend expects the backend to be running at http://localhost:8000
-   # See backend_README.md for backend setup instructions
+   cp .env.example .env.local
+   # Edit .env.local with your backend URL
    ```
 
-4. **Start development server**:
+4. **Configure your environment**:
+   ```bash
+   # .env.local
+   VITE_API_BASE_URL=http://localhost:8000  # Your backend URL
+   ```
+
+5. **Start development server**:
    ```bash
    npm run dev
    ```
 
-5. **Open in browser**:
+6. **Open in browser**:
    Navigate to `http://localhost:5173`
+
+### Backend Setup Required
+
+This frontend requires a compatible backend API. See `backend_README.md` for detailed backend setup instructions, or set up your own backend that provides these endpoints:
+
+```
+POST /auth/google          # OAuth initiation
+GET  /auth/callback        # OAuth callback
+GET  /user/profile         # User profile
+POST /chat                 # AI chat
+GET  /calendar/events      # Calendar data
+GET  /actions/pending      # Pending actions
+POST /actions/approve/:id  # Approve actions
+POST /actions/reject/:id   # Reject actions
+```
 
 ### Available Scripts
 
@@ -339,12 +365,27 @@ The frontend automatically connects to the backend at `http://localhost:8000`. E
 
 ## 🤝 Contributing
 
+We welcome contributions from the community! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
+
+- Development setup and workflow
+- Code style and conventions
+- Testing requirements
+- Pull request process
+
+### Quick Contributing Steps
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes and test thoroughly
+4. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+5. Push to your branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
 ### Development Guidelines
-1. **Authentication First**: Always test with real authentication flow
-2. **Backend Integration**: Ensure all features work with live backend data
-3. **Error Handling**: Implement comprehensive error handling for API failures
-4. **Security Testing**: Test authentication edge cases and token expiry
-5. **Mobile Testing**: Verify authentication flow works on mobile devices
+- **Authentication First**: Always test with real authentication flow
+- **Backend Integration**: Ensure all features work with live backend data
+- **Error Handling**: Implement comprehensive error handling for API failures
+- **Security Testing**: Test authentication edge cases and token expiry
+- **Mobile Testing**: Verify authentication flow works on mobile devices
 
 ### Testing Checklist
 - [ ] Google OAuth login flow works end-to-end
@@ -354,9 +395,15 @@ The frontend automatically connects to the backend at `http://localhost:8000`. E
 - [ ] Mobile authentication experience is smooth
 - [ ] Backend integration works across all features
 
+## 🐛 Issues & Support
+
+- **Bug Reports**: Use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.md)
+- **Feature Requests**: Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md)
+- **Questions**: Use the [question template](.github/ISSUE_TEMPLATE/question.md)
+
 ## 📄 License
 
-This project is licensed under the ISC License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙋‍♂️ Support
 
@@ -364,7 +411,26 @@ For questions, issues, or contributions:
 - **Frontend Issues**: Check browser console for authentication errors
 - **Backend Integration**: Refer to `backend_README.md` for API documentation
 - **Authentication Issues**: Verify Google OAuth configuration in backend
+- **General Questions**: Open an issue using our question template
+
+## 🌟 Star History
+
+If you find this project useful, please consider giving it a star! ⭐
+
+## 🚀 Deployment
+
+### Frontend Deployment
+- **Vercel**: Connect your GitHub repo for automatic deployments
+- **Netlify**: Drag and drop your `dist` folder after running `npm run build`
+- **GitHub Pages**: Use GitHub Actions for automated deployment
+
+### Environment Variables for Production
+```bash
+VITE_API_BASE_URL=https://your-backend-domain.com
+```
 
 ---
 
 **Calendar Agent Frontend** - Secure, intelligent calendar management through conversational AI with real Google Calendar integration
+
+Built with ❤️ using React, Tailwind CSS, and modern web technologies.
