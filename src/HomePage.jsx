@@ -191,7 +191,7 @@ const Homepage = () => {
   ];
 
   const handleGetStarted = () => {
-    navigate('/early-access');
+    navigate('/login');
   };
 
   const handleAcceptCookies = () => {
@@ -230,7 +230,7 @@ const Homepage = () => {
                 onClick={handleGetStarted}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105"
               >
-                Join 127+ Professionals
+                Get Started
               </button>
             </div>
 
@@ -257,7 +257,7 @@ const Homepage = () => {
                 onClick={handleGetStarted}
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all"
               >
-                Join 127+ Professionals
+                Get Started
               </button>
             </div>
           </div>
@@ -290,10 +290,10 @@ const Homepage = () => {
                 onClick={handleGetStarted}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 flex items-center space-x-2"
               >
-                <span>Join 127+ Professionals</span>
+                <span>Get Started</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <p className="text-sm text-gray-500">Be among the first • Launching Q4 2025</p>
+              <p className="text-sm text-gray-500">Connect your calendar and start reflecting today</p>
             </div>
 
             {/* Value Props */}
@@ -619,18 +619,18 @@ const Homepage = () => {
             Ready to Make Reflection Effortless?
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join 127+ professionals using context-aware reflection to build self-awareness without blank page paralysis.
+            Start your journey with context-aware reflection to build self-awareness without blank page paralysis.
           </p>
           
           <button
             onClick={handleGetStarted}
             className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 inline-flex items-center space-x-2"
           >
-            <span>Join 127+ Professionals</span>
+            <span>Get Started</span>
             <ArrowRight className="h-5 w-5" />
           </button>
           
-          <p className="text-blue-100 mt-4 text-sm">Be among the first 1,000 users • Launching Q4 2025</p>
+          <p className="text-blue-100 mt-4 text-sm">Connect your calendar and start reflecting today</p>
         </div>
       </section>
 
