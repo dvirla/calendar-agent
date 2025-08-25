@@ -1,8 +1,35 @@
 {
   "name": "calendar-agent",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "1.0.0",
   "type": "module",
+  "description": "A modern, AI-powered calendar management application with intelligent scheduling, natural language processing, and real-time Google Calendar integration",
+  "keywords": [
+    "calendar",
+    "ai",
+    "scheduling",
+    "react",
+    "google-calendar",
+    "productivity",
+    "assistant",
+    "oauth",
+    "frontend",
+    "typescript"
+  ],
+  "author": "Calendar Agent Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/calendar-agent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/calendar-agent/issues"
+  },
+  "homepage": "https://github.com/your-username/calendar-agent#readme",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -22,10 +49,5 @@
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.6.2"
-  },
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }
